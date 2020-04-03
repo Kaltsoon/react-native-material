@@ -23,6 +23,11 @@
   - https://docs.expo.io/versions/v37.0.0/workflow/android-studio-emulator/
   - https://docs.expo.io/versions/v37.0.0/workflow/ios-simulator/
 
+## Structure of the project
+
+- What are the relevant files and folders within the generated project
+- What is the recommended structure for the new code
+
 ## Eslint
 
 ## Debugging with Expo

@@ -8,6 +8,7 @@
 
 ## GraphQL and Apollo client
 
+- Reference: https://fullstackopen.com/osa8/react_ja_graph_ql
 - Setting up the Apollo client in the application
 
 ## Exercises
@@ -20,7 +21,7 @@
 
 ## Exercises
 
-- `APOLLO_URI` from environment variable and configuration module
+- `APOLLO_URI` from environment variable
 
 ## Storing data in user's device
 
