@@ -4,9 +4,10 @@
 
 - General info
 - Benefits of React Native
+  - https://blog.coinbase.com/onboarding-thousands-of-users-with-react-native-361219066df4
 - What are the other similar options and how they compare to React Native
   - https://www.electronjs.org/
-  - https://flutter.dev/
+  - https://cordova.apache.org/
 
 ##  About this part
 
@@ -18,6 +19,7 @@
 ## Setting up the development environment
 
 - https://docs.expo.io/versions/latest/
+- Metro, bundler for react native (similar to webpack): https://facebook.github.io/metro/
 - Development with Expo mobile application
 - Android or iOS emulator
   - https://docs.expo.io/versions/v37.0.0/workflow/android-studio-emulator/
