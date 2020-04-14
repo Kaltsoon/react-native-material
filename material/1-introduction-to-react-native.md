@@ -46,7 +46,7 @@ After running this command Expo will ask you choose a template for the project. 
 
 Now that our application has been initialized, open the created _rate-repository-app_ directory with an editor such as [Visual Studio Code](https://code.visualstudio.com/). The structure should be more or less the following:
 
-![Project structure](material/images/1.png)
+![Project structure](images/1.png)
 
 We might spot some familiar files and directories such as _package.json_ and _node\_modules_. On top of those the most relevant files are _app.json_ file which contains Expo related configuration and _App.js_ which is the root component of our application. _Do not_ rename or move the _App.js_ file because by default Expo imports it to [register the root component](https://docs.expo.io/versions/latest/sdk/register-root-component/).
 
@@ -68,7 +68,7 @@ Let's have look at _scripts_ section of the _package.json_ file which has the fo
 
 Running the script `npm start` starts the [Metro bundler](https://facebook.github.io/metro/) which is a JavaScript bundler for React Native. It can be described as the [Webpack](https://webpack.js.org/) of the React Native ecosystem. In addition to the Metro bundler, _Expo DevTools_ should be open within a browser window at [http://localhost:19002]. Expo DevTools is a useful tool for viewing the application logs and starting the application in an emulator or in Expo's mobile application. We will get to emulators and Expo's mobile application soon, but first let's start our application within a web browser by clicking the _Run in web browser_ link:
 
-![Expo DevTools](material/images/2.png)
+![Expo DevTools](images/2.png)
 
 After clicking the link we should soon see the text defined in the _App.js_ file within a browser window. Open the _App.js_ file with an editor and make a small change into the text within the _Text_ component. After saving the file you should be able to see that the changes you have made into the code are visible within the browser window.
  
@@ -132,7 +132,7 @@ And finally, let's add a `lint` script to the _package.json_ file to check the l
 
 Now we can check that the linting rules are obeyd in JavaScript files within the _src_ directory and in the _App.js_ file by running `npm run lint`. We will be adding our future code into the _src_ directory but because we haven't added any files there yet, we need the `no-error-on-unmatched-pattern` flag. Also if possible integrate eslint with your editor. If you are using Visual Studio Code you can do that by, going to the extensions section and checking that the Eslint extension is installed and enabled:
 
-![Visual Studio Code Eslint extensions](material/images/3.png)
+![Visual Studio Code Eslint extensions](images/3.png)
 
 The provided eslint configuration contains only the basis for the configuration. Feel free to improve the configuration and add new plugins if you feel like it. 
 
