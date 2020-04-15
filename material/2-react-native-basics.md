@@ -360,7 +360,27 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
 export default Text;
 ```
 
-Now we have implemented our own text component with consistent color, font size and font weight variants which we can use anywhere in our application. Feel free to extend or modify this component if you feel like it. Also keep on extending and modifying the theme configuration as your application progresses.
+Now we have implemented our own text component with consistent color, font size and font weight variants which we can use anywhere in our application. We can get different text variations using different props like this:
+
+```javascript
+import React from 'react';
+
+import Text from './Text';
+
+const Main = () => {
+  return (
+    <>
+      <Text>Simple text</FancyText>
+      <Text fontWeight="bold" fontSize="subheading">Bold subheading</Text>
+      <Text color="textSecondary">Text with secondary color</Text>
+    </>
+  );
+};
+
+export default Main;
+```
+
+Feel free to extend or modify this component if you feel like it. It might also be a good idea to create reusable text components such as _Subheading_ which use the _Text_ component. Also keep on extending and modifying the theme configuration as your application progresses.
 
 ## Using flebox for layout
 
@@ -389,7 +409,7 @@ const FlexboxExample = () => {
 
 Perhaps the most important properties of a flex container are the following:
 
-- [flexDirection](https://css-tricks.com/almanac/properties/f/flex-direction/) property controls the direction in which the flex items are laid out within the container. Possible values for this property are `row` (default value), `row-reverse`, `column` and `column-reverse`. Flex direction `row` will lay out the flex items from left to right, whereas `column` from top to bottom. `*-reverse` directions will just reverse the order of the flex items.
+- [flexDirection](https://css-tricks.com/almanac/properties/f/flex-direction/) property controls the direction in which the flex items are laid out within the container. Possible values for this property are `row`, `row-reverse`, `column` (default value) and `column-reverse`. Flex direction `row` will lay out the flex items from left to right, whereas `column` from top to bottom. `*-reverse` directions will just reverse the order of the flex items.
 - [justifyContent](https://css-tricks.com/almanac/properties/j/justify-content/) property controls the aligment of flex items along the main axis (defined by the `flexDirection` property). Possible values for this property are `flex-start` (default value), `flex-end`, `center`, `space-between`, `space-around` and `space-evenly`.
 - [alignItems](https://css-tricks.com/almanac/properties/a/align-items/) property does the same as `justifyContent` but for the opposite axis. Possible values for this property are `flex-start`, `flex-end`, `center`, `baseline` and `stretch` (default value).
 
@@ -435,7 +455,7 @@ One of the most commonly used properties of flex item is the [flexGrow](https://
 
 <!-- TODO: Snack -->
 
-Next, read the article [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) which has comprehensive visual examples of flexbox. It is also a good idea to play around with the flexbox properties in the [Flexbox Playground](https://demos.scotch.io/visual-guide-to-css3-flexbox-flexbox-playground/demos/). Remember that in React Native the properties are the same as the ones in CSS with the exception of the _camelCase_ naming.
+Next, read the article [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) which has comprehensive visual examples of flexbox. It is also a good idea to play around with the flexbox properties in the [Flexbox Playground](https://demos.scotch.io/visual-guide-to-css3-flexbox-flexbox-playground/demos/). Remember that in React Native the property names are the same as the ones in CSS with the exception of the _camelCase_ naming. However, the _property values_ such as `flex-start` and `space-between` are exactly the same.
 
 ## Exercises
 
