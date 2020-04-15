@@ -16,9 +16,7 @@ During this part we will learn how to build an actual React Native application f
 
 We will be building an application for rating [GitHub](https://github.com/) repositories. Our application will have features such as, sorting and filttering rated repositories, registering an user, logging in and creating a rating for a repository. The back end for the application will be provided for us so that we can solely focus on the React Native development.
 
-<!--
-TODO: application gif
--->
+![Application preview](images/4.png)
 
 All the exercises in this part need to submitted into _a single GitHub repository_ which will eventually contain the entire source code of your application. There will model solutions available for each section of this part which you can use to fill in incomplete submissions. This part is structured based on the idea that you develop your application as you progress in the material. So _do not_ wait until the exercises to start the development. Instead develop your application in the same pace as the material progresses.
 

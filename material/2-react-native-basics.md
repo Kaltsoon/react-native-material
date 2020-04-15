@@ -12,7 +12,7 @@ import React from 'react';
 const HelloWorld = props => {
   return (
     <div>Hello world!</div>
-  )
+  );
 };
 ```
 
@@ -110,11 +110,17 @@ export default App;
 
 ## Exercise 10.3.
 
-In this exercise we will implement the first version of rated repositories list. The list should contain the repository's full name, description, language, number of open issues, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components _RepositoryList_ and _RepositoryItem_ into the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. _RepositoryList_ component should render the _FlatList_ component and _RepositoryItem_ a single item on the list (hint: use the FlatList component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
+In this exercise we will implement the first version of rated repositories list. The list should contain the repository's full name, description, language, number of forks, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components _RepositoryList_ and _RepositoryItem_ into the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. _RepositoryList_ component should render the _FlatList_ component and _RepositoryItem_ a single item on the list (hint: use the FlatList component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
 
 ```javascript
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  separator: {
+    height: 10,
+  },
+});
 
 const repositories = [
   {
@@ -122,7 +128,7 @@ const repositories = [
     fullName: 'jaredpalmer/formik',
     description: 'Build forms in React, without the tears',
     language: 'TypeScript',
-    openIssuesCount: 565,
+    forksCount: 1589,
     stargazersCount: 21553,
     ratingAverage: 88,
     reviewCount: 4,
@@ -133,7 +139,7 @@ const repositories = [
     fullName: 'rails/rails',
     description: 'Ruby on Rails',
     language: 'Ruby',
-    openIssuesCount: 598,
+    forksCount: 18349,
     stargazersCount: 45377,
     ratingAverage: 100,
     reviewCount: 2,
@@ -144,7 +150,7 @@ const repositories = [
     fullName: 'django/django',
     description: 'The Web framework for perfectionists with deadlines.',
     language: 'Python',
-    openIssuesCount: 220,
+    forksCount: 21015,
     stargazersCount: 48496,
     ratingAverage: 73,
     reviewCount: 5,
@@ -155,7 +161,7 @@ const repositories = [
     fullName: 'reduxjs/redux',
     description: 'Predictable state container for JavaScript apps',
     language: 'TypeScript',
-    openIssuesCount: 41,
+    forksCount: 13902,
     stargazersCount: 52869,
     ratingAverage: 0,
     reviewCount: 0,
@@ -163,10 +169,13 @@ const repositories = [
   },
 ];
 
+const ItemSeparator = () => <View style={styles.separator} />;
+
 const RepositoryList = () => {
   return (
     <FlatList
       data={repositories}
+      ItemSeparatorComponent={ItemSeparator}
       // other props
     />
   );
@@ -288,7 +297,7 @@ Let's stick with the concept of styling but with a bit wider perspective. Most o
 
 Users of popular user interface libraries such as [Bootstrap](https://getbootstrap.com/docs/4.4/getting-started/theming/) and [Material UI](https://material-ui.com/customization/theming/) might already be quite familiar with theming. Eventhough the theming implementations differ the main idea is always to use variables such as `colors.primary` instead of ["magic numbers"](https://en.wikipedia.org/wiki/Magic_number_(programming)) such as `#0366d6` when defining styles. This leads to increased consistency and flexibility.
 
-Let's have a concreate example in our application. We will be using a lot text with different variations, such as different font sizes and color. Because React Native does not support global styles we should create our own _Text_ component to keep the textual content consistent. Let's  get started by adding the following theme configuration object in the `theme.js` file in the `src` directory:
+Let's see how theming could work in practice in our application. We will be using a lot text with different variations, such as different font sizes and color. Because React Native does not support global styles we should create our own _Text_ component to keep the textual content consistent. Let's  get started by adding the following theme configuration object in the `theme.js` file in the `src` directory:
 
 ```javascript
 const theme = {
@@ -370,7 +379,7 @@ import Text from './Text';
 const Main = () => {
   return (
     <>
-      <Text>Simple text</FancyText>
+      <Text>Simple text</Text>
       <Text fontWeight="bold" fontSize="subheading">Bold subheading</Text>
       <Text color="textSecondary">Text with secondary color</Text>
     </>
