@@ -14,7 +14,7 @@ The speed of development and gentle learning curve for developers familiar with 
 
 During this part we will learn how to build an actual React Native application from bottom up. We will learn concepts such what are React Native's core components, how to create beautiful user interfaces, how to communicate with a server and how to test a React Native application.
 
-We will be building an application for rating [GitHub](https://github.com/) repositories. Our application will have features such as, sorting and filttering rated repositories, registering an user, logging in and creating a rating for a repository. The back end for the application will be provided for us so that we can solely focus on the React Native development.
+We will be building an application for rating [GitHub](https://github.com/) repositories. Our application will have features such as, sorting and filttering rated repositories, registering an user, logging in and creating a rating for a repository. The back end for the application will be provided for us so that we can solely focus on the React Native development. The final version of our application will look something like this:
 
 ![Application preview](images/4.png)
 
