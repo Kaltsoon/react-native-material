@@ -587,7 +587,7 @@ export default SignIn;
 
 Set up a route for this _SignIn_ component in the _Main_ component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
 
-## Form's state management
+## Form state management
 
 Now that we have a placeholder for the sign in view the next step would be to implement the sign form. Before we get to that let's talk about forms in a more wider perspective.
 
@@ -664,7 +664,13 @@ Here is an interactive version of our previous example:
 <script async src="https://snack.expo.io/embed.js"></script>
 -->
 
-In the previous example using the _useField_ hook with the _TextInput_ component causes repetitive code. Let's extract this repetitive code into a _FormikTextInput_ component and create a custom _TextInput_ component to make text inputs a bit more visually pleasing. First, create a file _TextInput.jsx_ into the _components_ directory with the following content:
+In the previous example using the _useField_ hook with the _TextInput_ component causes repetitive code. Let's extract this repetitive code into a _FormikTextInput_ component and create a custom _TextInput_ component to make text inputs a bit more visually pleasing. First, let's install Formik:
+
+```shell
+npm install formik
+```
+
+Next, create a file _TextInput.jsx_ in the _components_ directory with the following content:
 
 ```javascript
 import React from 'react';
@@ -681,7 +687,7 @@ const TextInput = ({ style, error, ...props }) => {
 export default TextInput;
 ```
 
-Next, let's move on to the _FormikTextInput_ component. Create a file _FormikTextInput.jsx_ into the _components_ directory with the following content:
+Let's move on to the _FormikTextInput_ component that adds the Formik's state bindings to the _TextInput_ component. Create a file _FormikTextInput.jsx_ in the _components_ directory with the following content:
 
 ```javascript
 import React from 'react';
@@ -718,7 +724,7 @@ const FormikTextInput = ({ name, ...props }) => {
 export default FormikTextInput;
 ```
 
-By using the _FormikTextInput_ component we can refactor the _BodyMassIndexForm_ component in the previous example like this:
+By using the _FormikTextInput_ component we could refactor the _BodyMassIndexForm_ component in the previous example like this:
 
 ```javascript
 const BodyMassIndexForm = ({ onSubmit }) => {
@@ -809,8 +815,19 @@ const FormikTextInput = ({ name, ...props }) => {
 
 ## Exercise 10.7.
 
-<!-- TODO -->
-Sign in form
+Implement a sign in form to the _SignIn_ component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. Validate the sign in form so that both username and password fields are required. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted. You can use this simple function as the `onSubmit` callback function:
+
+```javascript
+const onSubmit = values => {
+  console.log(values);
+};
+```
+
+Note that the callback _should not be called_ if the form validation fails. The sign in form should look something like this:
+
+![Application preview](images/8.png)
+
+Remember to utilize the _FormikTextInput_ component we implemented earlier. You will need to add a red border to the _TextInput_ component when the `error` prop is `true`. Also use same the red color in the _FormikTextInput_ component's error message. The red color used in the image is `#d73a4a`. You can use the [secureTextEntry](https://reactnative.dev/docs/textinput#securetextentry) prop in the _TextInput_ component to obscure the password input.
 
 ## Platform specific code
 
@@ -847,18 +864,18 @@ const styles = StyleSheet.create({
 });
 ```
 
-We can even use the `Platform.select` to require a platform specific component:
+We can even use the `Platform.select` method to require a platform specific component:
 
 ```javascript
 const MyComponent = Platform.select({
-  ios: () => require('MyIOSComponent'),
-  android: () => require('MyAndroidComponent'),
+  ios: () => require('./MyIOSComponent'),
+  android: () => require('./MyAndroidComponent'),
 })();
 
 <MyComponent />
 ```
 
-A more sophisticated method for implementing and importing platform specific components (or any other piece of code) is to use the _.io.jsx_ and _.android.jsx_ file extensions. Note that the _.jsx_ extension can as well be any extensions recognized by the bundler, such as _.js_. We can for example have files _Button.ios.jsx_ and _Button.android.jsx_ which we can import like this:
+However, a more sophisticated method for implementing and importing platform specific components (or any other piece of code) is to use the _.io.jsx_ and _.android.jsx_ file extensions. Note that the _.jsx_ extension can as well be any extensions recognized by the bundler, such as _.js_. We can for example have files _Button.ios.jsx_ and _Button.android.jsx_ which we can import like this:
 
 ```javascript
 import React from 'react';

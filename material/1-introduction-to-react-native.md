@@ -10,11 +10,11 @@ The speed of development and gentle learning curve for developers familiar with 
 
 > If we were to reduce the benefits of React Native to a single word, it would be “velocity”. On average, our team was able to onboard engineers in less time, share more code (which we expect will lead to future productivity boosts), and ultimately deliver features faster than if we had taken a purely native approach.
 
-##  About this part
+## About this part
 
 During this part, we will learn how to build an actual React Native application from bottom up. We will learn concepts such what are React Native's core components, how to create beautiful user interfaces, how to communicate with a server and how to test a React Native application.
 
-We will be building an application for rating [GitHub](https://github.com/) repositories. Our application will have features such as, sorting and filtering rated repositories, registering a user, logging in and creating a rating for a repository. The back end for the application will be provided for us so that we can solely focus on the React Native development. The final version of our application will look something like this:
+We will be developing an application for rating [GitHub](https://github.com/) repositories. Our application will have features such as, sorting and filtering rated repositories, registering a user, logging in and creating a rating for a repository. The back end for the application will be provided for us so that we can solely focus on the React Native development. The final version of our application will look something like this:
 
 ![Application preview](images/4.png)
 
@@ -40,13 +40,13 @@ Next, we can initialize our project in a _rate-repository-app_ directory by runn
 expo init rate-repository-app
 ```
 
-After running this command Expo will ask you to choose a template for the project. Within the _Managed workflow_ section, choose the _blank_ option (the one with the description "a minimal app as clean as an empty canvas"). 
+After running this command Expo will ask you to choose a template for the project. Within the _Managed workflow_ section, choose the _blank_ option (the one with the description "a minimal app as clean as an empty canvas").
 
 Now that our application has been initialized, open the created _rate-repository-app_ directory with an editor such as [Visual Studio Code](https://code.visualstudio.com/). The structure should be more or less the following:
 
 ![Project structure](images/1.png)
 
-We might spot some familiar files and directories such as _package.json_ and _node\_modules_. On top of those, the most relevant files are _app.json_ file which contains Expo related configuration and _App.js_ which is the root component of our application. _Do not_ rename or move the _App.js_ file because by default Expo imports it to [register the root component](https://docs.expo.io/versions/latest/sdk/register-root-component/).
+We might spot some familiar files and directories such as _package.json_ and _node_modules_. On top of those, the most relevant files are _app.json_ file which contains Expo related configuration and _App.js_ which is the root component of our application. _Do not_ rename or move the _App.js_ file because by default Expo imports it to [register the root component](https://docs.expo.io/versions/latest/sdk/register-root-component/).
 
 Let's have look at _scripts_ section of the _package.json_ file which has the following scripts:
 
@@ -69,7 +69,7 @@ Running the script `npm start` starts the [Metro bundler](https://facebook.githu
 ![Expo DevTools](images/2.png)
 
 After clicking the link we should soon see the text defined in the _App.js_ file in a browser window. Open the _App.js_ file with an editor and make a small change to the text in the _Text_ component. After saving the file you should be able to see that the changes you have made into the code are visible in the browser window.
- 
+
 ## Setting up the development environment
 
 We have had the first glance of our application using the Expo's browser view. Although the browser view is quite usable, it is still a quite poor simulation of the native environment. Let's have a look at the alternatives we have regarding the development environment.
@@ -132,13 +132,18 @@ Now we can check that the linting rules are obeyed in JavaScript files in the _s
 
 ![Visual Studio Code Eslint extensions](images/3.png)
 
-The provided Eslint configuration contains only the basis for the configuration. Feel free to improve the configuration and add new plugins if you feel like it. 
+The provided Eslint configuration contains only the basis for the configuration. Feel free to improve the configuration and add new plugins if you feel like it.
 
 ## Exercise 10.2.
 
 Set up Eslint in your project so that you can perform linter checks by running `npm run lint`. To get most of linting it is also recommended to integrate Eslint with your editor.
 
-## Debugging with Expo
+## Viewing logs
 
-<!-- TODO -->
-https://docs.expo.io/versions/v37.0.0/workflow/debugging/
+Expo development tools can be used to display the log messages of the running application. Error and warning level messages are also visible in the emulator and the mobile app interface. For debugging purposes, we can use the familiar `console.log` method to write debugging messages to the log.
+
+Let's try this in practice. Start the Expo development tools by running `npm start` and open the application with either emulator or the mobile app. When the application is running you should be able to a device under the "Metro Bundler" in the top left corner of the developments tools:
+
+![Expo development tools](images/9.png)
+
+Click on the device to open its logs. Next, open the _App.js_ file and a `console.log` message to the _App_ component. You should be able to see your message in the logs.
