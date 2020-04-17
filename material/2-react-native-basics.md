@@ -1,10 +1,10 @@
 # React Native basics
 
-Now that we have set up our development environment we can get into to React Native bascis and get started with the development of our application.
+Now that we have set up our development environment we can get into to React Native basics and get started with the development of our application.
 
 ## Core components
 
-In the previous parts we have learned that we can use React to define components as functions which receive props as an argument and returns a tree of React elements. This tree is usually represented with JSX syntax. In the browser environment we have used the [ReactDOM](https://reactjs.org/docs/react-dom.html) library to turn these components into a DOM tree that can be rendered by a browser. Here is a concrete example of a very simple component:
+In the previous parts, we have learned that we can use React to define components as functions which receive props as an argument and returns a tree of React elements. This tree is usually represented with JSX syntax. In the browser environment, we have used the [ReactDOM](https://reactjs.org/docs/react-dom.html) library to turn these components into a DOM tree that can be rendered by a browser. Here is a concrete example of a very simple component:
 
 ```javascript
 import React from 'react';
@@ -14,7 +14,7 @@ const HelloWorld = (props) => {
 };
 ```
 
-The _HelloWorld_ component returns a single _div_ element which is created using the JSX syntax. We might remember that this JSX syntax is actually compiled into `React.createElement` method calls, such as this:
+The _HelloWorld_ component returns a single _div_ element which is created using the JSX syntax. We might remember that this JSX syntax is compiled into `React.createElement` method calls, such as this:
 
 ```javascript
 React.createElement('div', null, 'Hello world!');
@@ -22,9 +22,9 @@ React.createElement('div', null, 'Hello world!');
 
 This line of code creates a _div_ element without any props and with a single child element which is a string _"Hello world"_. When we render this component into a root DOM element using the `ReactDOM.render` method the _div_ element will be rendered as the corresponding DOM element.
 
-As we can see, React is not bound to a certain environment, such as browser environment. Instead there are libraries such as ReactDOM that can render _a set of predefined components_, such as DOM elements, in a specific environment. In React Native these predefined components are called _core components_.
+As we can see, React is not bound to a certain environment, such as the browser environment. Instead, there are libraries such as ReactDOM that can render _a set of predefined components_, such as DOM elements, in a specific environment. In React Native these predefined components are called _core components_.
 
-[Core components](https://reactnative.dev/docs/intro-react-native-components) are a set of components provided by React Native which behind the scenes utilize platforms native components. Let's implement the previous example using React Native:
+[Core components](https://reactnative.dev/docs/intro-react-native-components) are a set of components provided by React Native which behind the scenes utilize the platform's native components. Let's implement the previous example using React Native:
 
 <!-- TODO: highlight changed parts -->
 
@@ -37,16 +37,16 @@ const HelloWorld = (props) => {
 };
 ```
 
-So we import the [Text](https://reactnative.dev/docs/text) component from React Native and replaced the _div_ element with _Text_ element. Many familiar DOM elements have their React Native "counterparts". Here are some examples picked from the React Native's [Core Components documentation](https://reactnative.dev/docs/components-and-apis):
+So we import the [Text](https://reactnative.dev/docs/text) component from React Native and replace the _div_ element with a _Text_ element. Many familiar DOM elements have their React Native "counterparts". Here are some examples picked from the React Native's [Core Components documentation](https://reactnative.dev/docs/components-and-apis):
 
 - [Text](https://reactnative.dev/docs/text) component is _the only_ React Native component that can have textual children. It is similar to for example the `<strong>` and the `<h1>` elements.
-- [View](https://reactnative.dev/docs/view) component is the basic building block similar to the `<div>` element.
+- [View](https://reactnative.dev/docs/view) component is the basic user interface building block similar to the `<div>` element.
 - [TextInput](https://reactnative.dev/docs/textinput) component is a text field component similar to the `<input>` element.
 - [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component (and other _Touchable\*_ components) component is for capturing different press events. It is similar to for example the `<button>` element.
 
-There are a few notable differences between core components and DOM elements. The first difference is that the _Text_ component is _the only_ React Native component that can have textual children. This means that you can't for example replace the _Text_ component with the _View_ component in the previous example.
+There are a few notable differences between core components and DOM elements. The first difference is that the _Text_ component is _the only_ React Native component that can have textual children. This means that you can't, for example, replace the _Text_ component with the _View_ component in the previous example.
 
-The second notable difference is related to the event handlers. While working with the HTML elements we are used to adding event handlers such as `onClick` to basically any element such as `<div>` and `<button>`. In React Native we have to carefully read the [API documentation](https://reactnative.dev/docs/components-and-apis) to know what event handlers (as well as other props) a component accepts. For example the family of ["Touchable" components](https://reactnative.dev/docs/handling-touches#touchables) provide the capability to capture tapping gestures, and can display feedback when a gesture is recognized. One of these components is the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component, which accepts the `onPress` prop:
+The second notable difference is related to the event handlers. While working with the DOM elements we are used to adding event handlers such as `onClick` to basically any element such as `<div>` and `<button>`. In React Native we have to carefully read the [API documentation](https://reactnative.dev/docs/components-and-apis) to know what event handlers (as well as other props) a component accepts. For example, the family of ["Touchable" components](https://reactnative.dev/docs/handling-touches#touchables) provides the capability to capture tapping gestures and can display feedback when a gesture is recognized. One of these components is the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component, which accepts the `onPress` prop:
 
 ```javascript
 import React from 'react';
@@ -63,7 +63,7 @@ const TouchableText = (props) => {
 };
 ```
 
-Now that we have a basic understanding of the core components, let's start to give our project some structure. Create a _src_ directory into the root directory of your project and into the _src_ directory create a _components_ directory. Into the _components_ directory create a file _Main.jsx_ with the following content:
+Now that we have a basic understanding of the core components, let's start to give our project some structure. Create a _src_ directory in the root directory of your project and in the _src_ directory create a _components_ directory. In the _components_ directory create a file _Main.jsx_ with the following content:
 
 ```javascript
 import React from 'react';
@@ -103,7 +103,7 @@ export default App;
 
 ## Exercise 10.3.
 
-In this exercise we will implement the first version of rated repositories list. The list should contain the repository's full name, description, language, number of forks, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components _RepositoryList_ and _RepositoryItem_ into the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. _RepositoryList_ component should render the _FlatList_ component and _RepositoryItem_ a single item on the list (hint: use the FlatList component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
+In this exercise, we will implement the first version of the rated repositories list. The list should contain the repository's full name, description, language, number of forks, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components _RepositoryList_ and _RepositoryItem_ in the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. _RepositoryList_ component should render the _FlatList_ component and _RepositoryItem_ a single item on the list (hint: use the FlatList component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
 
 ```javascript
 import React from 'react';
@@ -177,15 +177,15 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-_Do not_ alter the contents of the `repositories` variable, it should contain everything you need to complete this exercise. Render the _RepositoryList_ component in the _Main_ component which we previously added into the _Main.jsx_ file in the _components_ directory. The rated repository list should roughly look something like this:
+_Do not_ alter the contents of the `repositories` variable, it should contain everything you need to complete this exercise. Render the _RepositoryList_ component in the _Main_ component which we previously added to the _Main.jsx_ file. The rated repository list should roughly look something like this:
 
 ![Application preview](images/5.png)
 
 ## Style
 
-Now that we have a basic understanding how core components work and we can use them to build a simple user interface it is time to add some style. In [part 2](/en/part2/adding_styles_to_react_app) we learned that in the browser environment we can define React component's style properties using CSS. We had an option to either define these styles inline using the `style` prop or in a CSS file with a suitable selector.
+Now that we have a basic understanding of how core components work and we can use them to build a simple user interface it is time to add some style. In [part 2](/en/part2/adding_styles_to_react_app) we learned that in the browser environment we can define React component's style properties using CSS. We had an option to either define these styles inline using the `style` prop or in a CSS file with a suitable selector.
 
-There are many similarties in the way style properties are attached to React Native's core components and CSS. In React Native most of the core components accept a prop called `style`. The `style` prop accepts an object with style attributes and their values. These style properties are in most cases the same as in CSS, however property names are in _camelCase_. This means that CSS properties such as `padding-top` and `font-size` written as `paddingTop` and `fontSize`. Here is a simple example of how to use the `style` prop:
+There are many similarities in the way style properties are attached to React Native's core components and the way they are attached to DOM elements. In React Native most of the core components accept a prop called `style`. The `style` prop accepts an object with style properties and their values. These style properties are in most cases the same as in CSS, however, property names are in _camelCase_. This means that CSS properties such as `padding-top` and `font-size` are written as `paddingTop` and `fontSize`. Here is a simple example of how to use the `style` prop:
 
 ```javascript
 import React from 'react';
@@ -202,11 +202,9 @@ const BigBlueText = () => {
 };
 ```
 
-On top of the property names, you might have noticed another difference in the example. In CSS numerical property values commonly have a unit such as _px_, _em_ or _rem_. In React Native all dimension related property values such as `width`, `height`, `padding`, and `margin` as well as font sizes are _unitless_. These unitless numeric values represent _density-independent pixels_. In case you are wondering what are the available style properties for certain core component, check the [React Native Styling Cheat Sheet](https://github.com/vhpoet/react-native-styling-cheat-sheet).
+On top of the property names, you might have noticed another difference in the example. In CSS numerical property values commonly have a unit such as _px_, _%_, _em_ or _rem_. In React Native all dimension related property values such as `width`, `height`, `padding`, and `margin` as well as font sizes are _unitless_. These unitless numeric values represent _density-independent pixels_. In case you are wondering what are the available style properties for certain core component, check the [React Native Styling Cheat Sheet](https://github.com/vhpoet/react-native-styling-cheat-sheet).
 
-<!-- TODO: avaa tarkemmin density-independent pixels -->
-
-In general defining styles directly in the `style` prop is not consired such a great idea, because it makes components bloated and unclear. Instead we should define styles outside the component's render function using the [StyleSheet.create](https://reactnative.dev/docs/0.53/stylesheet#create) method. The `StyleSheet.create` method accepts a single argument which is an object consisting of named style objects and creates a StyleSheet style reference from the given object. Here is an example of how refactor the previous example using `StyleSheet.create`:
+In general, defining styles directly in the `style` prop is not considered such a great idea, because it makes components bloated and unclear. Instead, we should define styles outside the component's render function using the [StyleSheet.create](https://reactnative.dev/docs/0.53/stylesheet#create) method. The `StyleSheet.create` method accepts a single argument which is an object consisting of named style objects and it creates a StyleSheet style reference from the given object. Here is an example of how to refactor the previous example using the `StyleSheet.create` method:
 
 ```javascript
 import React from 'react';
@@ -234,10 +232,10 @@ const BigBlueText = () => {
 };
 ```
 
-We create two named style objects, _container_ and _text_. Inside the component we can
+We create two named style objects, _container_ and _text_. Inside the component, we can
 we can access specific style object the same way we would access any key in a plain object.
 
-In addition to an object, the `style` prop also accepts an array of objects. In case of an array, the objects are merged from left to right so that latter style properties takes presence. This works recursively, so we can have for example an array containing an array of styles and so forth. If an array contains values that evaluate to false, such as `null` or `undefined`, these values are ignored. This makes it easy to define _conditional styles_ for example based on a value of prop. Here is an example of conditional styles:
+In addition to an object, the `style` prop also accepts an array of objects. In the case of an array, the objects are merged from left to right so that latter style properties takes presence. This works recursively, so we can have for example an array containing an array of styles and so forth. If an array contains values that evaluate to false, such as `null` or `undefined`, these values are ignored. This makes it easy to define _conditional styles_ for example, based on the value of a prop. Here is an example of conditional styles:
 
 ```javascript
 import React from 'react';
@@ -285,11 +283,11 @@ In the example we use the `&&` operator with statement `condition && exprIfTrue`
 
 ## Consistent user interface with theming
 
-Let's stick with the concept of styling but with a bit wider perspective. Most of us have a used a multitude of differenct applications and might agree that one trait that makes a good user interface is _consistency_. This means that the appearance of user interface components such as their font size, font family and color follow a consistent pattern. To achieve this we have somehow _parametrize_ values of different style properties. This method is commonly known as _theming_.
+Let's stick with the concept of styling but with a bit wider perspective. Most of us have used a multitude of different applications and might agree that one trait that makes a good user interface is _consistency_. This means that the appearance of user interface components such as their font size, font family and color follow a consistent pattern. To achieve this we have somehow _parametrize_ the values of different style properties. This method is commonly known as _theming_.
 
-Users of popular user interface libraries such as [Bootstrap](https://getbootstrap.com/docs/4.4/getting-started/theming/) and [Material UI](https://material-ui.com/customization/theming/) might already be quite familiar with theming. Eventhough the theming implementations differ the main idea is always to use variables such as `colors.primary` instead of ["magic numbers"](<https://en.wikipedia.org/wiki/Magic_number_(programming)>) such as `#0366d6` when defining styles. This leads to increased consistency and flexibility.
+Users of popular user interface libraries such as [Bootstrap](https://getbootstrap.com/docs/4.4/getting-started/theming/) and [Material UI](https://material-ui.com/customization/theming/) might already be quite familiar with theming. Even though the theming implementations differ the main idea is always to use variables such as `colors.primary` instead of ["magic numbers"](<https://en.wikipedia.org/wiki/Magic_number_(programming)>) such as `#0366d6` when defining styles. This leads to increased consistency and flexibility.
 
-Let's see how theming could work in practice in our application. We will be using a lot text with different variations, such as different font sizes and color. Because React Native does not support global styles we should create our own _Text_ component to keep the textual content consistent. Let's get started by adding the following theme configuration object in the _theme.js_ file in the _src_ directory:
+Let's see how theming could work in practice in our application. We will be using a lot of text with different variations, such as different font sizes and colors. Because React Native does not support global styles we should create our own _Text_ component to keep the textual content consistent. Let's get started by adding the following theme configuration object in a _theme.js_ file in the _src_ directory:
 
 ```javascript
 const theme = {
@@ -314,7 +312,7 @@ const theme = {
 export default theme;
 ```
 
-Next we should create the actual _Text_ component which uses this theme configuration. Create a _Text.jsx_ file into the _components_ directory where we already have our other components with the following content:
+Next, we should create the actual _Text_ component which uses this theme configuration. Create a _Text.jsx_ file in the _components_ directory where we already have our other components. Add the following content to the _Text.jsx_ file:
 
 ```javascript
 import React from 'react';
@@ -382,13 +380,13 @@ const Main = () => {
 export default Main;
 ```
 
-Feel free to extend or modify this component if you feel like it. It might also be a good idea to create reusable text components such as _Subheading_ which use the _Text_ component. Also keep on extending and modifying the theme configuration as your application progresses.
+Feel free to extend or modify this component if you feel like it. It might also be a good idea to create reusable text components such as _Subheading_ which use the _Text_ component. Also, keep on extending and modifying the theme configuration as your application progresses.
 
-## Using flebox for layout
+## Using flexbox for layout
 
-The last concept we will cover related to styling is implementing layouts with [flexbox](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox). Those who are familiar with CSS know that flexbox is not only related to React Native instead it has many use cases in web development as well. In fact those who know how flexbox works in web development won't probably learn that much from this section. Nevertheless, let's learn or revise the basics of flexbox.
+The last concept we will cover related to styling is implementing layouts with [flexbox](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox). Those who are familiar with CSS know that flexbox is not only related to React Native instead it has many use cases in web development as well. In fact, those who know how flexbox works in web development won't probably learn that much from this section. Nevertheless, let's learn or revise the basics of flexbox.
 
-Flexbox is a layout entity consisting of two separete components: a _flex container_ and inside it a set of _flex items_. Flex container has a set of properties which control the flow of its items. To make a component a flex container it must have the style property `display` set as `flex` which is actually the default value for the `display` property. Here is an example of a flex container:
+Flexbox is a layout entity consisting of two separate components: a _flex container_ and inside it a set of _flex items_. Flex container has a set of properties that control the flow of its items. To make a component a flex container it must have the style property `display` set as `flex` which is the default value for the `display` property. Here is an example of a flex container:
 
 ```javascript
 import React from 'react';
@@ -411,7 +409,7 @@ Perhaps the most important properties of a flex container are the following:
 - [justifyContent](https://css-tricks.com/almanac/properties/j/justify-content/) property controls the aligment of flex items along the main axis (defined by the `flexDirection` property). Possible values for this property are `flex-start` (default value), `flex-end`, `center`, `space-between`, `space-around` and `space-evenly`.
 - [alignItems](https://css-tricks.com/almanac/properties/a/align-items/) property does the same as `justifyContent` but for the opposite axis. Possible values for this property are `flex-start`, `flex-end`, `center`, `baseline` and `stretch` (default value).
 
-Let's move on to flex items. As mentioned, a flex container can contain one or many flex items. Flex items have properties which control how they behave in respect of other flex items in the same flex container. To make a component a flex item all you have to do is to set it as a immediate child of a flex container:
+Let's move on to flex items. As mentioned, a flex container can contain one or many flex items. Flex items have properties that control how they behave in respect of other flex items in the same flex container. To make a component a flex item all you have to do is to set it as an immediate child of a flex container:
 
 ```javascript
 import React from 'react';
@@ -449,20 +447,19 @@ One of the most commonly used properties of flex item is the [flexGrow](https://
 
 Here is a more interactive and concreate example of how to use flexbox to implement a simple card component with header, body and footer:
 
-<!--
-TODO: embedded snack
+<!-- TODO: embedded snack
 
 <div data-snack-id="@kalleilv/flexbox-example" data-snack-platform="web" data-snack-preview="true" data-snack-theme="light" style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:505px;width:100%"></div>
 <script async src="https://snack.expo.io/embed.js"></script>
 -->
 
-Next, read the article [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) which has comprehensive visual examples of flexbox. It is also a good idea to play around with the flexbox properties in the [Flexbox Playground](https://demos.scotch.io/visual-guide-to-css3-flexbox-flexbox-playground/demos/) to see how different flexbox properties affect the layout. Remember that in React Native the property names are the same as the ones in CSS with the exception of the _camelCase_ naming. However, the _property values_ such as `flex-start` and `space-between` are exactly the same.
+Next, read the article [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) which has comprehensive visual examples of flexbox. It is also a good idea to play around with the flexbox properties in the [Flexbox Playground](https://demos.scotch.io/visual-guide-to-css3-flexbox-flexbox-playground/demos/) to see how different flexbox properties affect the layout. Remember that in React Native the property names are the same as the ones in CSS except for the _camelCase_ naming. However, the _property values_ such as `flex-start` and `space-between` are exactly the same.
 
 ## Exercises 10.4. - 10.5.
 
 ### Exercise 10.4.
 
-We will soon need to navigate between different views in our application. That is why need an [app bar](https://material.io/components/app-bars-top/) to display tabs for switching between different views. Create a file _AppBar.jsx_ into the _components_ folder with the following content:
+We will soon need to navigate between different views in our application. That is why need an [app bar](https://material.io/components/app-bars-top/) to display tabs for switching between different views. Create a file _AppBar.jsx_ in the _components_ folder with the following content:
 
 ```javascript
 import React from 'react';
@@ -500,7 +497,7 @@ The current version of the rated repositories list looks quite grim. Modify the 
 
 ![Application preview](images/7.png)
 
-In the image, the _Main_ component's background color is set to `#e1e4e8` whereas _RepositoryListItem_ component's background color is set to `white`. Remember to exploit the _Text_ component we implemented earlier. Also when needed, split the _RepositoryListItem_ component into smaller components.
+In the image, the _Main_ component's background color is set to `#e1e4e8` whereas _RepositoryListItem_ component's background color is set to `white`. The language tag's background color is `#0366d6` which is the value of the `colors.primary` variable in the theme configuration. Remember to exploit the _Text_ component we implemented earlier. Also when needed, split the _RepositoryListItem_ component into smaller components.
 
 ## Routing
 
@@ -514,7 +511,7 @@ With React Native we can use the entire React router's core, including the hooks
 npm install react-router-native
 ```
 
-Next, open the _App.js_ file and add the _NativeRouter_ component into the _App_ component:
+Next, open the _App.js_ file and add the _NativeRouter_ component to the _App_ component:
 
 <!-- TODO: highlight -->
 
@@ -535,7 +532,7 @@ const App = () => {
 export default App;
 ```
 
-Now that the router is in place, let's add our first route into the _Main_ componenent in the _Main.jsx_ file:
+Now that the router is in place, let's add our first route to the _Main_ componenent in the _Main.jsx_ file:
 
 <!-- TODO: highlight -->
 
@@ -551,6 +548,7 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.mainBackground,
+    flexGrow: 1,
   },
 });
 
@@ -573,7 +571,7 @@ export default Main;
 
 ## Exercise 10.6.
 
-Create the file _SignIn.jsx_ into the _components_ directory with the following content:
+Create a file _SignIn.jsx_ in the _components_ directory with the following content:
 
 ```javascript
 import React from 'react';
@@ -589,25 +587,19 @@ export default SignIn;
 
 Set up a route for this _SignIn_ component in the _Main_ component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
 
-## Forms
+## Form's state management
 
-Now that we have a placeholder sign in view the next step would be to implement the sign form. Before we get to that let's talk about forms in a more wider perspective.
+Now that we have a placeholder for the sign in view the next step would be to implement the sign form. Before we get to that let's talk about forms in a more wider perspective.
 
-Implementation of forms relies heavily on the state management. Using the React's _useState_ hook for the state management might get the job done for smaller forms, however it will quickly make the state management quite tedious with more complex forms. Luckily there are many good libraries in the React ecosystem that eases the state management of forms. One of these libraries is [Formik](https://jaredpalmer.com/formik/).
+Implementation of forms relies heavily on the state management. Using the React's _useState_ hook for the state management might get the job done for smaller forms. However, it will quickly make the state management quite tedious with more complex forms. Luckily there are many good libraries in the React ecosystem that eases the state management of forms. One of these libraries is [Formik](https://jaredpalmer.com/formik/).
 
-The main concepts of Formik are the _Formik context_ and a _field_. The Formik context is provided by the [Formik](https://jaredpalmer.com/formik/docs/api/formik) component that it contains and mantains the form's state. The state consists of information of form's fields. This information includes for example the value and validation errors of each field. State's fields can be referenced by their name using the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook or the [Field](https://jaredpalmer.com/formik/docs/api/field) component.
+The main concepts of Formik are the _context_ and a _field_. The Formik's context is provided by the [Formik](https://jaredpalmer.com/formik/docs/api/formik) component that it contains the form's state. The state consists of information of form's fields. This information includes for example the value and validation errors of each field. State's fields can be referenced by their name using the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook or the [Field](https://jaredpalmer.com/formik/docs/api/field) component.
 
 Let's see how this actually works by creating a form for calculation the [body mass index](https://en.wikipedia.org/wiki/Body_mass_index):
 
 ```javascript
 import React from 'react';
-import {
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  Alert,
-  View,
-} from 'react-native';
+import { Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { Formik, useField } from 'formik';
 
 const initialValues = {
@@ -644,8 +636,6 @@ const BodyMassIndexForm = ({ onSubmit }) => {
 
 const BodyMassIndexCalculator = () => {
   const onSubmit = (values) => {
-    console.log(values);
-
     const mass = parseFloat(values.mass);
     const height = parseFloat(values.height);
 
@@ -664,7 +654,7 @@ const BodyMassIndexCalculator = () => {
 
 We define the _Formik_ context in the _BodyMassIndexCalculator_ and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errros. Children of the _Formik_ component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
 
-The _BodyMassIndexForm_ component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a posibble error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function.
+The _BodyMassIndexForm_ component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a posibble error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function. Note that the component that uses the _useField_ hook has to be _within the Formik's context_. This means that the component has to be a descendant of the _Formik_ component.
 
 Here is an interactive version of our previous example:
 
@@ -685,7 +675,7 @@ const styles = StyleSheet.create({});
 const TextInput = ({ style, error, ...props }) => {
   const textInputStyle = [style];
 
-  return <TextInput style={textInputStyle} {...props} />;
+  return <NativeTextInput style={textInputStyle} {...props} />;
 };
 
 export default TextInput;
@@ -715,6 +705,7 @@ const FormikTextInput = ({ name, ...props }) => {
     <>
       <TextInput
         onChangeText={(value) => helpers.setValue(value)}
+        onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
         {...props}
@@ -723,19 +714,164 @@ const FormikTextInput = ({ name, ...props }) => {
     </>
   );
 };
+
 export default FormikTextInput;
 ```
 
-## Exercises
+By using the _FormikTextInput_ component we can refactor the _BodyMassIndexForm_ component in the previous example like this:
 
-- Sign in form
+```javascript
+const BodyMassIndexForm = ({ onSubmit }) => {
+  return (
+    <View>
+      <FormikTextInput name="mass" placeholder="Weight (kg)" />
+      <FormikTextInput name="height" placeholder="Height (m)" />
+      <TouchableWithoutFeedback onPress={onSubmit}>
+        <Text>Calculate</Text>
+      </TouchableWithoutFeedback>
+    </View>
+  );
+};
+```
+
+## Form validation
+
+Formik offers two approaches to the form validation: a validation function or a validation schema. Validation function is a function provided for the _Formik_ component as the value of the [validate](https://jaredpalmer.com/formik/docs/guides/validation#validate) prop. It receives the from's values as an argument and returns an object containing possible field specific error messages.
+
+The second approach is the validation schema which is provided for the _Formik_ component as the value of the [validationSchema](https://jaredpalmer.com/formik/docs/guides/validation#validationschema) prop. This validation schema can be created with a validation library called [Yup](https://github.com/jquense/yup). Let's get started by installing Yup:
+
+```shell
+npm install yup
+```
+
+Next, as an example, let's create validation schema for the body mass index form we implemented earlier. We wan't to validate that both _mass_ and _height_ fields are present and they are numeric. Also the value of _mass_ should be greater or equal to 1 and the value of _height_ should be greater or equal to 0.5. Here is how we define the schema:
+
+<!-- TODO: highlight  -->
+
+```javascript
+import React from 'react';
+import * as yup from 'yup';
+
+// ...
+
+const validationSchema = yup.object().shape({
+  mass: yup
+    .number()
+    .min(1, 'Weight must be greater or equal to 1')
+    .required('Weight is required'),
+  height: yup
+    .number()
+    .min(0.5, 'Height must be greater or equal to 0.5')
+    .required('Height is required'),
+});
+
+const BodyMassIndexCalculator = () => {
+  // ...
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit }) => <BodyMassIndexForm onSubmit={handleSubmit} />}
+    </Formik>
+  );
+};
+```
+
+The validation is performed by default every time a field's value changes and when the `handleSubmit` function is called. If the validation fails, the function provided for the `onSubmit` prop of the _Formik_ component is not called.
+
+The _FormikTextInput_ component we previously implemented displayes field's error message if it is present and the field is "touched", meaning that the field has received and lost focus:
+
+```javascript
+const FormikTextInput = ({ name, ...props }) => {
+  const [field, meta, helpers] = useField(name);
+
+  // Check if the field is touched and the error message is present
+  const showError = meta.touched && meta.error;
+
+  return (
+    <>
+      <TextInput
+        onChangeText={(value) => helpers.setValue(value)}
+        onBlur={() => helpers.setTouched(true)}
+        value={field.value}
+        error={showError}
+        {...props}
+      />
+      {/* Show the error message if the value of showError variable is true  */}
+      {showError && <Text style={styles.errorText}>{meta.error}</Text>}
+    </>
+  );
+};
+```
+
+## Exercise 10.7.
+
+<!-- TODO -->
+Sign in form
 
 ## Platform specific code
 
-- `Platform.OS`
-- `Platform.select`
-- Platform specific imports (`.ios.js` & `.android.js`)
+A big benefit of React Native is that we don't need to worry about whether the application is run on a Android or iOS device. However, there might be cases where we need to execute _platform specific code_. Such case could be for example using a different implementation of a component on a different platform.
 
-## Exericses
+We can access the user's platform through the `Platform.OS` constant:
 
-- Use platform specific sans-serif font in the theme configuration (iOS Arial, Android Ubuntu)
+```javascript
+import { React } from 'react';
+import { Platform, Text, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  text: {
+    color: Platform.OS === 'android' ? 'green' : 'blue',
+  },
+});
+
+const WhatIsMyPlatform = () => {
+  return <Text style={styles.text}>Your platform is: {Platform.OS}</Text>;
+};
+```
+
+Possible values for the `Platform.OS` constant are `android` and `ios`. Another useful way to define platform specific code branches is to use the `Platform.select` method. Given an object where keys are one of `ios`, `android`, `native` and `default`, the `Platform.select` method returns the most fitting value for the platform the user is currently running on. We can rewrite the `styles` variable in the previous example using the `Platform.select` method like this:
+
+```javascript
+const styles = StyleSheet.create({
+  text: {
+    color: Platform.select({
+      android: 'green',
+      ios: 'blue',
+      default: 'black',
+    }),
+  },
+});
+```
+
+We can even use the `Platform.select` to require a platform specific component:
+
+```javascript
+const MyComponent = Platform.select({
+  ios: () => require('MyIOSComponent'),
+  android: () => require('MyAndroidComponent'),
+})();
+
+<MyComponent />
+```
+
+A more sophisticated method for implementing and importing platform specific components (or any other piece of code) is to use the _.io.jsx_ and _.android.jsx_ file extensions. Note that the _.jsx_ extension can as well be any extensions recognized by the bundler, such as _.js_. We can for example have files _Button.ios.jsx_ and _Button.android.jsx_ which we can import like this:
+
+```javascript
+import React from 'react';
+
+import Button from './Button';
+
+const PlatformSpecificButton = () => {
+  return <Button />
+};
+```
+
+Now, the Android bundle of the application will have the component defined in the _Button.android.jsx_ whereas the iOS bundle the one defined in the _Button.ios.jsx_ file.
+
+## Exericse 10.8.
+
+Currently the font family of our application is set to _System_ in the theme configuration located in the _theme.js_ file. Instead of the _System_ font, use a platform specific [Sans-serif](https://en.wikipedia.org/wiki/Sans-serif) font. In the Android platform use the _Ubuntu_ font and in the iOS platform use the _Arial_ font. The default font can be _System_.
