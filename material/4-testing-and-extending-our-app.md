@@ -18,9 +18,9 @@
 
 ## Exercises
 
-- Sign up form
 - Single repository view
 - Review form
+- Sign up form
 - Repository list sorting (optional)
 - Repository list filtering (optional)
 
