@@ -85,7 +85,7 @@ In addition to emulators, there is one extremely useful way to develop React Nat
 
 When the Expo mobile app is finished installing, open it up. Next, if the Expo development tools is not already running, start it by running `npm start`. In the bottom left corner of the development tools, you should be able to see a QR code. Within the Expo mobile app, press _Scan QR Code_ and scan the QR code displayed in the development tools. The Expo mobile app should start building the JavaScript bundle and after it is finished you should be able to see your application. Now, every time you want to reopen your application in the Expo mobile app, you should be able to access the application without scanning the QR code by pressing it in the _Recently opened_ list in the _Projects_ view.
 
-## Exercise 10.1.
+## Exercise
 
 Initialize your application with Expo command-line interface and set up the development environment either using an emulator or Expo's mobile app. It is recommended to try both and find out which development environment is the most suitable for you. The name of the application is not that relevant, you can, for example, go with _rate-repository-app_.
 
@@ -134,7 +134,7 @@ Now we can check that the linting rules are obeyed in JavaScript files in the _s
 
 The provided Eslint configuration contains only the basis for the configuration. Feel free to improve the configuration and add new plugins if you feel like it.
 
-## Exercise 10.2.
+## Exercise
 
 Set up Eslint in your project so that you can perform linter checks by running `npm run lint`. To get most of linting it is also recommended to integrate Eslint with your editor.
 
@@ -147,3 +147,5 @@ Let's try this in practice. Start the Expo development tools by running `npm sta
 ![Expo development tools](images/9.png)
 
 Click on the device to open its logs. Next, open the _App.js_ file and a `console.log` message to the _App_ component. You should be able to see your message in the logs.
+
+<!-- TODO: pitäiskö käsitellä https://github.com/jhen0409/react-native-debugger -->
