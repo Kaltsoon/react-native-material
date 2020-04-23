@@ -1,20 +1,20 @@
 # Communicating with server
 
-So far we have implemented features to our application without any actual server communication. For example the rated repositories list we have implemented uses mock data and the sign in form doesn't send the user's credentials to any authorization end point.
+So far we have implemented features to our application without any actual server communication. For example, the rated repositories list we have implemented uses mock data and the sign-in form doesn't send the user's credentials to any authorization endpoint.
 
 <!-- TODO: fullstack/rate-repository-api repo -->
 
-Soon we we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose we have a completed server implementation in the [https://github.com/Kaltsoon/rate-repository-api](rate-repository-api) repository. The _rate-repository-api_ server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any set up and provides a Apollo GraphQL API along with a few REST API end points.
+Soon we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose, we have a completed server implementation in the [https://github.com/Kaltsoon/rate-repository-api](rate-repository-api) repository. The _rate-repository-api_ server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any setup and provides an Apollo GraphQL API along with a few REST API endpoints.
 
-Before heading further into the material, set up the _rate-repository-api_ server by following the set up instructions in the repository's [README](https://github.com/Kaltsoon/rate-repository-api/blob/master/README.md). Note that if you are using an emulator for development it is recommended to run the server and the emulator _on the same computer_. This eases network requests considerably.
+Before heading further into the material, set up the _rate-repository-api_ server by following the setup instructions in the repository's [README](https://github.com/Kaltsoon/rate-repository-api/blob/master/README.md). Note that if you are using an emulator for development it is recommended to run the server and the emulator _on the same computer_. This eases network requests considerably.
 
 ## HTTP requests
 
-React Native provides [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for making HTTP requests in our applications. In addition React Native also supports the good old [XMLHttpRequest API](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) which makes it possible to use third party libraries such as [Axios](https://github.com/axios/axios). These APIs are exactly the same as the ones in the browser environment and they are globally available without need of an import.
+React Native provides [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for making HTTP requests in our applications. React Native also supports the good old [XMLHttpRequest API](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) which makes it possible to use third-party libraries such as [Axios](https://github.com/axios/axios). These APIs are the same as the ones in the browser environment and they are globally available without the need for an import.
 
-Users who have used both Fetch API and XMLHttpRequest API most likely agree that the Fetch API is easier to use and more modern. However, this doesn't mean that XMLHttpRequest API doesn't have its uses. For the sake simplicity, we will be only using the Fetch API in our examples.
+Users who have used both Fetch API and XMLHttpRequest API most likely agree that the Fetch API is easier to use and more modern. However, this doesn't mean that XMLHttpRequest API doesn't have its uses. For the sake of simplicity, we will be only using the Fetch API in our examples.
 
-Sending a HTTP requests using the Fetch API can be done using the `fetch` function. The first argument of the function is the URL of the resource:
+Sending HTTP requests using the Fetch API can be done using the `fetch` function. The first argument of the function is the URL of the resource:
 
 ```javascript
 fetch('https://my-api.com/get-end-point');
@@ -36,7 +36,7 @@ fetch('https://my-api.com/post-end-point', {
 });
 ```
 
-Note that these URLs are made up and won't (most likely) send a response to your requests. In comparison to Axios, the Fetch API operates on a bit lower level. For example there isn't any request or response body serialization and parsing. This means that you have to for example set the _Content-Type_ header by yourself and use `JSON.stringify` method to serialize the request body.
+Note that these URLs are made up and won't (most likely) send a response to your requests. In comparison to Axios, the Fetch API operates on a bit lower level. For example, there isn't any request or response body serialization and parsing. This means that you have to for example set the _Content-Type_ header by yourself and use `JSON.stringify` method to serialize the request body.
 
 The `fetch` function returns a promise which resolves a [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object. Note that error status codes such as 400 and 500 _are not rejected_ like for example in Axios. In case of a JSON formatted response we can parse the response body using the `Response.json` method:
 
@@ -51,15 +51,15 @@ const fetchMovies = async () => {
 
 For a more detailed introduction to the Fetch API, read the [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) article in the MDN web docs.
 
-Next, let's try the Fetch API in practice. The _rate-repository-api_ server provides an end point for returning a paginated list of rated repositories. Once the server is running, you should be able to access the end point at [http://localhost:5000/api/repositories](http://localhost:5000/api/repositories). The data is paginated in a common [cursor based pagination format](https://graphql.org/learn/pagination/). The actual repository data is behind the _node_ key in the _edges_ array.
+Next, let's try the Fetch API in practice. The _rate-repository-api_ server provides an endpoint for returning a paginated list of rated repositories. Once the server is running, you should be able to access the endpoint at [http://localhost:5000/api/repositories](http://localhost:5000/api/repositories). The data is paginated in a common [cursor based pagination format](https://graphql.org/learn/pagination/). The actual repository data is behind the _node_ key in the _edges_ array.
 
-Unfortunately we can't access the server directly in our application by using the _http://localhost:5000/api/repositories_ URL. To make a request to this end point in our application we need to access the access the server using its IP address in its local network. To find out what it is, open the Expo development tools by running `npm start`. In the development tools you should be able to see an url starting with _exp://_ above the QR code:
+Unfortunately, we can't access the server directly in our application by using the _http://localhost:5000/api/repositories_ URL. To make a request to this endpoint in our application we need to access the server using its IP address in its local network. To find out what it is, open the Expo development tools by running `npm start`. In the development tools you should be able to see an URL starting with _exp://_ above the QR code:
 
 ![Development tools](images/10.png)
 
 Copy the IP address between the _exp://_ and _:_, which is in this example _192.168.100.16_. Construct an URL in format _http://<IP_ADDRESS>:5000/api/repositories_ and open it in the browser. You should see the same response as you did with the _localhost_ URL.
 
-Now that we know the end point's URL let's use actual server provided data in our rated repositories list. We are currently using mock data stored in the `repositories` variable. Remove the `repositories` variable and replace the usage of the mock data with this piece of code in the _RepositoryList.jsx_ file in the _components_ directory:
+Now that we know the end point's URL let's use the actual server-provided data in our rated repositories list. We are currently using mock data stored in the `repositories` variable. Remove the `repositories` variable and replace the usage of the mock data with this piece of code in the _RepositoryList.jsx_ file in the _components_ directory:
 
 ```javascript
 import React, { useState, useEffect } from 'react';
@@ -100,9 +100,9 @@ export default RepositoryList;
 
 <!-- TODO: Viewiling logs linkki -->
 
-We are using the React's `useState` hook to maintain the repository list state and the `useEffect` hook to to call the `fetchRepositories` function when the `RepositoryList` component is mounted. We extract the actual repositories into the `repositoryNodes` variable and replace the previously used `repositories` variable in the `FlatList` component's `data` prop with it. Now you should be able to see actual server provided data in the rated repositories list.
+We are using the React's `useState` hook to maintain the repository list state and the `useEffect` hook to call the `fetchRepositories` function when the `RepositoryList` component is mounted. We extract the actual repositories into the `repositoryNodes` variable and replace the previously used `repositories` variable in the `FlatList` component's `data` prop with it. Now you should be able to see actual server-provided data in the rated repositories list.
 
-It is usually a good idea to log the server's response to be able to inspect it as we did in the `fetchRepositories` function. You should be to see this log message in the Expo development tools if you navigate to your device's logs as we learned in the [Viewing logs]() section. If you are using the Expo's mobile app for development and the network request is failing make sure that the computer you are using to run the server and your phone iare _connected to the same Wi-Fi network_. If that's not possible either use an emulator in the same computer as the server is running in or set up a tunnel to the localhost for example using [Ngrok](https://ngrok.com/).
+It is usually a good idea to log the server's response to be able to inspect it as we did in the `fetchRepositories` function. You should be to see this log message in the Expo development tools if you navigate to your device's logs as we learned in the [Viewing logs]() section. If you are using the Expo's mobile app for development and the network request is failing, make sure that the computer you are using to run the server and your phone are _connected to the same Wi-Fi network_. If that's not possible either use an emulator in the same computer as the server is running in or set up a tunnel to the localhost, for example, using [Ngrok](https://ngrok.com/).
 
 The current data fetching code in the `RepositoryList` component could do some refactoring. For instance, the component is aware of the network request's details such as the end point's URL. In addition, the data fetching code has lots of reuse potential. Let's refactor the component's code by extract the data fetching code into its own hook. Create a directory _hooks_ in the _src_ directory and in that _hooks_ directory create a file _useRepositories.js_ with the following content:
 
@@ -161,23 +161,23 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-That's it, now the `RepositoryList` component is no longer aware of the way the repositories are acquired. Maybe in the future we will acquire them through a GraphQL API instead of a REST API. We will see what happens.
+That's it, now the `RepositoryList` component is no longer aware of the way the repositories are acquired. Maybe in the future, we will acquire them through a GraphQL API instead of a REST API. We will see what happens.
 
 ## GraphQL and Apollo client
 
-In [part 8](https://fullstackopen.com/en/part8) we learned about GraphQL and how to send GraphQL queries to a Apollo Server using the [Apollo Client](https://www.apollographql.com/docs/react/) in React applications. Good news is that, we can use the Apollo Client in a React Native application exactly as we would with a React web application.
+In [part 8](https://fullstackopen.com/en/part8) we learned about GraphQL and how to send GraphQL queries to an Apollo Server using the [Apollo Client](https://www.apollographql.com/docs/react/) in React applications. The good news is that we can use the Apollo Client in a React Native application exactly as we would with a React web application.
 
 As mentioned earlier, the _rate-repository-api_ server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to send a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _DOCS_ tab to open the documentation:
 
 ![GraphQL Playground](images/11.png)
 
-In our React Native application, we will be using the [Apollo Boost](https://www.npmjs.com/package/apollo-boost) library wich is a zero-config way to start using Apollo Client. As a React integration, we will be using the [@apollo/react-hooks](https://www.apollographql.com/docs/react/api/react-hooks/) library, which provides hooks such as [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) and [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) for using the Apollo Client. Let's get started by installing the dependencies:
+In our React Native application, we will be using the [Apollo Boost](https://www.npmjs.com/package/apollo-boost) library which is a zero-config way to start using Apollo Client. As a React integration, we will be using the [@apollo/react-hooks](https://www.apollographql.com/docs/react/api/react-hooks/) library, which provides hooks such as [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) and [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) for using the Apollo Client. Let's get started by installing the dependencies:
 
 ```shell
 npm install apollo-boost @apollo/react-hooks graphql
 ```
 
-Next, let's create a utility for creating the Apollo Client with the required configuration. Create a _utils_ directory in the _src_ directory and in that _utils_ directory create a file _apolloClient.js_. In that file configure the Apollo Client to connect to the Apollo Server:
+Next, let's create a utility function for creating the Apollo Client with the required configuration. Create a _utils_ directory in the _src_ directory and in that _utils_ directory create a file _apolloClient.js_. In that file configure the Apollo Client to connect to the Apollo Server:
 
 ```javascript
 import ApolloClient from 'apollo-boost';
@@ -217,7 +217,7 @@ const App = () => {
 export default App;
 ```
 
-It is up to you how to organize the GraphQL related code. It is recommended to define queries, mutations and fragments, and possible other entities in their owns files. Here is an example of a structure you can use to get started:
+It is up to you how to organize the GraphQL related code. It is recommended to define queries, mutations, fragments, and possibly other entities in their own files. Here is an example of a structure you can use to get started:
 
 ![GraphQL structure](images/12.png)
 
@@ -233,9 +233,9 @@ const GET_REPOSITORIES = gql`
 
 ## Evolving the structure
 
-Once our application grows larger there might times when certain files grow too large to manage. For example we have component `A` which renders components `B` and `C`. All these components are defined in a file _A.jsx_ in a _components_ directory. We would like to extract components `B` and `C` in to their own files _B.jsx_ and _C.jsx_ without major refactors. We have two options:
+Once our application grows larger there might times when certain files grow too large to manage. For example, we have component `A` which renders the components `B` and `C`. All these components are defined in a file _A.jsx_ in a _components_ directory. We would like to extract components `B` and `C` into their own files _B.jsx_ and _C.jsx_ without major refactors. We have two options:
 
-1. Create files _B.jsx_ and _C.jsx_ in the _components_ directory. This results to the following structure:
+1. Create files _B.jsx_ and _C.jsx_ in the _components_ directory. This results in the following structure:
 
 ```
 components/
@@ -245,7 +245,7 @@ components/
   ...
 ```
 
-2. Create a directory `A` in the _components_ directory and create files _B.jsx_ and _C.jsx_ there. To avoid breaking components that import the _A.jsx_ file, move the _A.jsx_ file to the _A_ directory and rename it to _index.jsx_. This results to the following structure:
+2. Create a directory _A_ in the _components_ directory and create files _B.jsx_ and _C.jsx_ there. To avoid breaking components that import the _A.jsx_ file, move the _A.jsx_ file to the _A_ directory and rename it to _index.jsx_. This results in the following structure:
 
 ```
 components/
@@ -256,13 +256,13 @@ components/
   ...
 ```
 
-The first option is fairly decent, however if components `B` and `C` are not reusable outside the component `A`, it is useless to bloat the _components_ directory by adding them as separate files. The second option is quite modular and doesn't break any imports because importing path such as _./A_ will match both _A.jsx_ and _A/index.jsx_.
+The first option is fairly decent, however, if components `B` and `C` are not reusable outside the component `A`, it is useless to bloat the _components_ directory by adding them as separate files. The second option is quite modular and doesn't break any imports because importing a path such as _./A_ will match both _A.jsx_ and _A/index.jsx_.
 
 ## Exercises
 
-We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _DOCS_ tab. Look up the _repositories_ query. The query has some arguments, however all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
+We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _DOCS_ tab. Look up the _repositories_ query. The query has some arguments, however, all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
 
-Once the query is working in the GraphQL Playground, use it to replace the Fetch API implementation in the `useRepositories` hook. This can be achieved using the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. The `gql` template literal tag can be imported from the Apollo Boost as instructed earlier. Consider using the structure recommended ealier for the GraphQL related code. To avoid future caching issues, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the _useQuery_ hook like this:
+Once the query is working in the GraphQL Playground, use it to replace the Fetch API implementation in the `useRepositories` hook. This can be achieved using the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. The `gql` template literal tag can be imported from the Apollo Boost as instructed earlier. Consider using the structure recommended earlier for the GraphQL related code. To avoid future caching issues, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the _useQuery_ hook like this:
 
 ```javascript
 useQuery(MY_QUERY, {
@@ -275,9 +275,9 @@ The changes in the `useRepositories` hook should not affect the `RepositoryList`
 
 ## Environment variables
 
-Every application will most likely run in more than one environment. Two obvious candidates for these environments are the development environment and the production environment. Out of these two, the development envinroment is the one we are running the application right now. Different environments usually have different depencies, for example server we are developing locally might use a local database where as server that is deployed to the production environment uses the production database. To make the code environment independant we need to parametrize these dependencies. At the moment we are using one very environment dependant hard coded value in our application: the url of the server.
+Every application will most likely run in more than one environment. Two obvious candidates for these environments are the development environment and the production environment. Out of these two, the development environment is the one we are running the application right now. Different environments usually have different dependencies, for example, the server we are developing locally might use a local database whereas the server that is deployed to the production environment uses the production database. To make the code environment independent we need to parametrize these dependencies. At the moment we are using one very environment dependant hardcoded value in our application: the URL of the server.
 
-We have previously learned that we can provided running programmes with environment variables. These variables can be defined in the command line or using environment configuration files such as _.env_ files and third party libraries such as Dotenv. Unfortunately, React Native doesn't have direct support for environment variables. However, we can use the [Babel](https://babeljs.io/) compiler to inject desired environment variables _at build time_. These variables can be defined in environment specific _.env_ files.
+We have previously learned that we can provide running programs with environment variables. These variables can be defined in the command line or using environment configuration files such as _.env_ files and third-party libraries such as Dotenv. Unfortunately, React Native doesn't have direct support for environment variables. However, we can use the [Babel](https://babeljs.io/) compiler to inject desired environment variables _at build time_. These variables can be defined in environment-specific _.env_ files.
 
 Babel preset [react-native-dotenv](https://github.com/zetachang/react-native-dotenv) lets you import environment variables from a _.env_ file in React Native without any native code integration. Start by installing the dependency:
 
@@ -296,7 +296,7 @@ module.exports = function (api) {
 };
 ```
 
-The way the preset works is that the environment variables are defined in _.env_ files. The _.env_ file contains development enviroment related variables and _.env.production_ production environment related variables. Add a file _.env_ in the root directory of your project with the following content:
+The way the preset works is that the environment variables are defined in _.env_ files. The _.env_ file contains development environment-related variables and _.env.production_ production environment-related variables. Add a file _.env_ in the root directory of your project with the following content:
 
 ```
 ENV=development
@@ -308,7 +308,7 @@ Similarly, create a file _.env.production_ with the following content:
 ENV=production
 ```
 
-These variables can be accessed in the code by importing them from the _react-native-dotenv_ module. Let's try this by logging the value of the _ENV_ variable in the `App` component:
+These variables can be accessed in the code by importing them from the _react-native-dotenv_ module. Let's try this by logging the value of the `ENV` variable in the `App` component:
 
 ```javascript
 import React from 'react';
@@ -340,11 +340,11 @@ You should see the value of the _ENV_ variable in the logs. You can remove the l
 
 ## Exercise
 
-Instead of the hard coded Apollo Server's URL, use an environment variable when initializing the Apollo Client. You can name the variable for example to _APOLLO_URI_. For now, it is enough that you only define the variable in the _development environment_, because we aren't aware of the production URL of the Apollo Server.
+Instead of the hardcoded Apollo Server's URL, use an environment variable when initializing the Apollo Client. You can name the variable for example `APOLLO_URI`. For now, it is enough that you only define the variable in the _development environment_, because we aren't aware of the production URL of the Apollo Server.
 
-## Storing data in user's device
+## Storing data in the user's device
 
-There are times when we need to store some persisted piece of data in user's device. One such common scenario is storing user's authentication token so that we can retrieve it even if user closes and reopens our application. In the web development we have used the browser's `localStorage` object to achieve such functionality. React Native provides similar persistent storage, the [AsyncStorage](https://docs.expo.io/versions/latest/react-native/asyncstorage/).
+There are times when we need to store some persisted pieces of data in the user's device. One such common scenario is storing the user's authentication token so that we can retrieve it even if the user closes and reopens our application. In web development, we have used the browser's `localStorage` object to achieve such functionality. React Native provides similar persistent storage, the [AsyncStorage](https://docs.expo.io/versions/latest/react-native/asyncstorage/).
 
 The API of the `AsyncStorage` is in many ways same as the `localStorage` API. They are both key-value storages with similar methods. The biggest difference between the two is that, as the name implies, the operations of `AsyncStorage` are _asynchronous_. 
 
@@ -402,13 +402,15 @@ const doShopping = async () => {
 doShopping();
 ```
 
-Because `AsyncStorage` keys are global, it is usually a good idea to add some namespace to the keys. In this example the namespace can be defined as the constructor's argument and we are using the `namespace:key` format for the keys. We can add an item to the storage using the [AsyncStorage.setItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#setItem) method. The first argument of the method is the item's key and the second argument its value. The value _must be a string_, so we need to serialize non string values, like we did with the `JSON.stringify` method. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#getitem) method can be used to get an item from the storage. The argument of the method is the item's key, of which value will be resolved. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#removeitem) method can be used to remove the item with the provided key from the storage.
+Because `AsyncStorage` keys are global, it is usually a good idea to add a _namespace_ for the keys. In this context, the namespace is just a prefix we provide for the storage abstraction's keys. Using the namespace prevents the storage's keys from colliding with other `AsyncStorage` keys. In this example, the namespace is defined as the constructor's argument and we are using the `namespace:key` format for the keys.
+
+We can add an item to the storage using the [AsyncStorage.setItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#setItem) method. The first argument of the method is the item's key and the second argument its value. The value _must be a string_, so we need to serialize non-string values as we did with the `JSON.stringify` method. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#getitem) method can be used to get an item from the storage. The argument of the method is the item's key, of which value will be resolved. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#removeitem) method can be used to remove the item with the provided key from the storage.
 
 ## Exercises
 
 ### Exercise
 
-The current implementation of the sign in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/Kaltsoon/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/Kaltsoon/rate-repository-api#-getting-started) section of the README.
+The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/Kaltsoon/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/Kaltsoon/rate-repository-api#-getting-started) section of the README.
 
 Once you know how the authorization queries are supposed to work, create a file _useSignIn.js_ file in the _hooks_ directory. In that file implement a `useSignIn` hook that sends the _authorize_ mutation using the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook. The return value of the hook should be a tuple `[signIn, result]` where `result` is the mutations result as it is returned by the `useMutation` hook and `signIn` a function that runs the mutation with a `{ username, password }` object argument. Hint: don't pass the mutation function to the return value directly. Instead, return a function that calls the mutation function like this:
 
@@ -445,7 +447,7 @@ const SignIn = () => {
 };
 ```
 
-This exercise is completed once you can log the user's _authorize_ mutations result after the sign in form has been submitted. The mutation result should contain the user's access token.
+This exercise is completed once you can log the user's _authorize_ mutations result after the sign-in form has been submitted. The mutation result should contain the user's access token.
 
 ### Exercise
 
@@ -477,9 +479,9 @@ export default AuthStorage;
 
 Next, implement the methods `AuthStorage.getAccessToken`, `AuthStorage.setAccessToken` and `AuthStorage.removeAccessToken`. Use the `namespace` variable to give your keys a namespace like we did in the previous example.
 
-## Enchancing Apollo Client's requests
+## Enhancing Apollo Client's requests
 
-Now that we have implemented a storage for storing the user's access token, it is time to start using it. Initialize the storage in the `App` component:
+Now that we have implemented storage for storing the user's access token, it is time to start using it. Initialize the storage in the `App` component:
 
 ```javascript
 import React from 'react';
@@ -506,7 +508,7 @@ const App = () => {
 export default App;
 ```
 
-We also provided the storage instance for the `createApolloClient` function as an argument. This is because next we will send the access token to Apollo Server in each request. The Apollo Server will expect that the access token is present in the _Authorization_ header in the format _Bearer <ACCESS_TOKEN>_. We can enhance the Apollo Client's operation by using the [request](https://www.apollographql.com/docs/react/get-started/#configuration-options) option. Let's send the access token to the Apollo Server in our Apollo Client by modifing the `createApolloClient` function in the _apolloClient.js_ file:
+We also provided the storage instance for the `createApolloClient` function as an argument. This is because next, we will send the access token to Apollo Server in each request. The Apollo Server will expect that the access token is present in the _Authorization_ header in the format _Bearer <ACCESS_TOKEN>_. We can enhance the Apollo Client's operation by using the [request](https://www.apollographql.com/docs/react/get-started/#configuration-options) option. Let's send the access token to the Apollo Server in our Apollo Client by modifying the `createApolloClient` function in the _apolloClient.js_ file:
 
 ```javascript
 const createApolloClient = (authStorage) => {
@@ -531,7 +533,7 @@ const createApolloClient = (authStorage) => {
 
 ## Using React Context for dependency injection
 
-Last piece of the puzzle is to integrate the storage to the `useSignIn` hook. To achieve this the hook must be able to access toke storage instance we have initialized in the `App` component. React [Context](https://reactjs.org/docs/context.html) is just the tool we need for the job. Create a directory _contexts_ in the _src_ directory. In that directory create a file _AuthStorageContext.js_ with the following content:
+The last piece of the sing-in puzzle is to integrate the storage to the `useSignIn` hook. To achieve this the hook must be able to access token storage instance we have initialized in the `App` component. React [Context](https://reactjs.org/docs/context.html) is just the tool we need for the job. Create a directory _contexts_ in the _src_ directory. In that directory create a file _AuthStorageContext.js_ with the following content:
 
 ```javascript
 import React from 'react';
@@ -585,11 +587,13 @@ const useSignIn = () => {
 };
 ```
 
+Note that accessing a context's value using the `useContext` hook only works if the `useContext` hook is used in a component that is a _descendant_ of the [Context.Provider](https://reactjs.org/docs/context.html#contextprovider) component.
+
 ## Exercises
 
 ### Exercise
 
-Improve the `useSignIn` hook so that it stores the user's access token retrieved from the _authorize_ mutation. The return value of the hook should not change. The only change you should make to the `SignIn` component is that you should redirect user to the rated repository list view after a succesful sign in. You can achieve this by using the [https://reacttraining.com/react-router/native/api/Hooks/usehistory] hook and the history's [push](https://reacttraining.com/react-router/native/api/history) method.
+Improve the `useSignIn` hook so that it stores the user's access token retrieved from the _authorize_ mutation. The return value of the hook should not change. The only change you should make to the `SignIn` component is that you should redirect the user to the rated repository list view after a successful sign in. You can achieve this by using the [https://reacttraining.com/react-router/native/api/Hooks/usehistory] hook and the history's [push](https://reacttraining.com/react-router/native/api/history) method.
 
 After the _authorize_ mutation has been executed and you have stored the user's access token to the storage, you should reset the Apollo Client's store. This will clear the Apollo Client's cache and re-execute all active queries. You can do this by using the Apollo Client's [resetStore](https://www.apollographql.com/docs/react/v2.5/api/apollo-client/#ApolloClient.resetStore) method. You can access the Apollo Client in the `useSignIn` hook using the [useApolloClient](https://www.apollographql.com/docs/react/api/react-hooks/#useapolloclient) hook. Note that the order of the execution is crucial and should be the following:
 
@@ -601,7 +605,7 @@ apolloClient.resetStore();
 
 ### Exercise
 
-The final step to the sign in feature is to implement a sign out feature. The _authorizedUser_ query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground an run the following query:
+The final step in completing the sign-in feature is to implement a sign out feature. The _authorizedUser_ query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground and run the following query:
 
 ```javascript
 {
@@ -614,4 +618,4 @@ The final step to the sign in feature is to implement a sign out feature. The _a
 
 You will probably end up with the `null` result. This is because the GraphQL Playground is not authorized. Revise the [authorization documentation](https://github.com/Kaltsoon/rate-repository-api#-authorization) and retrieve an access token using the _authorize_ mutation. Use this access token in the _Authorization_ header as instructed in the documentation. Now, run the _authorizedUser_ query again and you should be able to see the authorized user's information.
 
-Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the _authorizedUser_ query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. In addition, pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store. Reseting the Apollo Client's store should also re-execute all active queries which means that the _authorizedUser_ query should be re-executed.
+Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if the user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the _authorizedUser_ query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. In addition, pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store. Resetting the Apollo Client's store should also re-execute all active queries which means that the _authorizedUser_ query should be re-executed.
