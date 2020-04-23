@@ -68,7 +68,7 @@ Running the script `npm start` starts the [Metro bundler](https://facebook.githu
 
 ![Expo DevTools](images/2.png)
 
-After clicking the link we should soon see the text defined in the _App.js_ file in a browser window. Open the _App.js_ file with an editor and make a small change to the text in the _Text_ component. After saving the file you should be able to see that the changes you have made into the code are visible in the browser window.
+After clicking the link we should soon see the text defined in the _App.js_ file in a browser window. Open the _App.js_ file with an editor and make a small change to the text in the `Text` component. After saving the file you should be able to see that the changes you have made into the code are visible in the browser window.
 
 ## Setting up the development environment
 
@@ -146,6 +146,6 @@ Let's try this in practice. Start the Expo development tools by running `npm sta
 
 ![Expo development tools](images/9.png)
 
-Click on the device to open its logs. Next, open the _App.js_ file and a `console.log` message to the _App_ component. You should be able to see your message in the logs.
+Click on the device to open its logs. Next, open the _App.js_ file and a `console.log` message to the `App` component. You should be able to see your message in the logs.
 
 <!-- TODO: pitäiskö käsitellä https://github.com/jhen0409/react-native-debugger -->

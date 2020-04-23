@@ -14,7 +14,7 @@ const HelloWorld = (props) => {
 };
 ```
 
-The _HelloWorld_ component returns a single _div_ element which is created using the JSX syntax. We might remember that this JSX syntax is compiled into `React.createElement` method calls, such as this:
+The `HelloWorld` component returns a single _div_ element which is created using the JSX syntax. We might remember that this JSX syntax is compiled into `React.createElement` method calls, such as this:
 
 ```javascript
 React.createElement('div', null, 'Hello world!');
@@ -44,7 +44,7 @@ So we import the [Text](https://reactnative.dev/docs/text) component from React 
 - [TextInput](https://reactnative.dev/docs/textinput) component is a text field component similar to the `<input>` element.
 - [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component (and other _Touchable\*_ components) component is for capturing different press events. It is similar to for example the `<button>` element.
 
-There are a few notable differences between core components and DOM elements. The first difference is that the _Text_ component is _the only_ React Native component that can have textual children. This means that you can't, for example, replace the _Text_ component with the _View_ component in the previous example.
+There are a few notable differences between core components and DOM elements. The first difference is that the `Text` component is _the only_ React Native component that can have textual children. This means that you can't, for example, replace the `Text` component with the `View` component in the previous example.
 
 The second notable difference is related to the event handlers. While working with the DOM elements we are used to adding event handlers such as `onClick` to basically any element such as `<div>` and `<button>`. In React Native we have to carefully read the [API documentation](https://reactnative.dev/docs/components-and-apis) to know what event handlers (as well as other props) a component accepts. For example, the family of ["Touchable" components](https://reactnative.dev/docs/handling-touches#touchables) provides the capability to capture tapping gestures and can display feedback when a gesture is recognized. One of these components is the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component, which accepts the `onPress` prop:
 
@@ -89,7 +89,7 @@ const Main = () => {
 export default Main;
 ```
 
-Next, let's use the _Main_ component in the _App_ component in the _App.js_ file which is located in our project's root directory. Replace the current content of the file with this:
+Next, let's use the `Main` component in the `App` component in the _App.js_ file which is located in our project's root directory. Replace the current content of the file with this:
 
 ```javascript
 import React from 'react';
@@ -105,7 +105,7 @@ export default App;
 
 ## Exercise
 
-In this exercise, we will implement the first version of the rated repositories list. The list should contain the repository's full name, description, language, number of forks, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components _RepositoryList_ and _RepositoryItem_ in the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. _RepositoryList_ component should render the _FlatList_ component and _RepositoryItem_ a single item on the list (hint: use the FlatList component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
+In this exercise, we will implement the first version of the rated repositories list. The list should contain the repository's full name, description, language, number of forks, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components `RepositoryList` and `RepositoryItem` in the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. The `RepositoryList` component should render the `FlatList` component and `RepositoryItem` a single item on the list (hint: use the `FlatList` component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
 
 ```javascript
 import React from 'react';
@@ -179,7 +179,7 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-_Do not_ alter the contents of the `repositories` variable, it should contain everything you need to complete this exercise. Render the _RepositoryList_ component in the _Main_ component which we previously added to the _Main.jsx_ file. The rated repository list should roughly look something like this:
+_Do not_ alter the contents of the `repositories` variable, it should contain everything you need to complete this exercise. Render the `RepositoryList` component in the `Main` component which we previously added to the _Main.jsx_ file. The rated repository list should roughly look something like this:
 
 ![Application preview](images/5.png)
 
@@ -234,7 +234,7 @@ const BigBlueText = () => {
 };
 ```
 
-We create two named style objects, _container_ and _text_. Inside the component, we can
+We create two named style objects, `styles.container` and `styles.text`. Inside the component, we can
 we can access specific style object the same way we would access any key in a plain object.
 
 In addition to an object, the `style` prop also accepts an array of objects. In the case of an array, the objects are merged from left to right so that latter style properties takes presence. This works recursively, so we can have for example an array containing an array of styles and so forth. If an array contains values that evaluate to false, such as `null` or `undefined`, these values are ignored. This makes it easy to define _conditional styles_ for example, based on the value of a prop. Here is an example of conditional styles:
@@ -289,7 +289,7 @@ Let's stick with the concept of styling but with a bit wider perspective. Most o
 
 Users of popular user interface libraries such as [Bootstrap](https://getbootstrap.com/docs/4.4/getting-started/theming/) and [Material UI](https://material-ui.com/customization/theming/) might already be quite familiar with theming. Even though the theming implementations differ the main idea is always to use variables such as `colors.primary` instead of ["magic numbers"](<https://en.wikipedia.org/wiki/Magic_number_(programming)>) such as `#0366d6` when defining styles. This leads to increased consistency and flexibility.
 
-Let's see how theming could work in practice in our application. We will be using a lot of text with different variations, such as different font sizes and colors. Because React Native does not support global styles we should create our own _Text_ component to keep the textual content consistent. Let's get started by adding the following theme configuration object in a _theme.js_ file in the _src_ directory:
+Let's see how theming could work in practice in our application. We will be using a lot of text with different variations, such as different font sizes and colors. Because React Native does not support global styles we should create our own `Text` component to keep the textual content consistent. Let's get started by adding the following theme configuration object in a _theme.js_ file in the _src_ directory:
 
 ```javascript
 const theme = {
@@ -314,7 +314,7 @@ const theme = {
 export default theme;
 ```
 
-Next, we should create the actual _Text_ component which uses this theme configuration. Create a _Text.jsx_ file in the _components_ directory where we already have our other components. Add the following content to the _Text.jsx_ file:
+Next, we should create the actual `Text` component which uses this theme configuration. Create a _Text.jsx_ file in the _components_ directory where we already have our other components. Add the following content to the _Text.jsx_ file:
 
 ```javascript
 import React from 'react';
@@ -382,7 +382,7 @@ const Main = () => {
 export default Main;
 ```
 
-Feel free to extend or modify this component if you feel like it. It might also be a good idea to create reusable text components such as _Subheading_ which use the _Text_ component. Also, keep on extending and modifying the theme configuration as your application progresses.
+Feel free to extend or modify this component if you feel like it. It might also be a good idea to create reusable text components such as `Subheading` which use the `Text` component. Also, keep on extending and modifying the theme configuration as your application progresses.
 
 ## Using flexbox for layout
 
@@ -487,11 +487,11 @@ const AppBar = () => {
 export default AppBar;
 ```
 
-The [ScrollView](https://reactnative.dev/docs/scrollview) component enables horizontal scrolling when there is too much content to fit the screen. Now that the _AppBar_ component will prevent the status bar from overlapping the content, you can remove the `marginTop` style we added for the _Main_ component earlier in the _Main.jsx_ file. The _AppBar_ component should currently contain a tab with text "Repositories". Make the tab touchable by using the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component but you don't have to handle the `onPress` event in any way. Add the _AppBar_ component to the _Main_ component so that it is the uppermost component in the screen. The _AppBar_ component should look something like this:
+The [ScrollView](https://reactnative.dev/docs/scrollview) component enables horizontal scrolling when there is too much content to fit the screen. Now that the `AppBar` component will prevent the status bar from overlapping the content, you can remove the `marginTop` style we added for the `Main` component earlier in the _Main.jsx_ file. The `AppBar` component should currently contain a tab with text "Repositories". Make the tab touchable by using the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component but you don't have to handle the `onPress` event in any way. Add the `AppBar` component to the `Main` component so that it is the uppermost component in the screen. The `AppBar` component should look something like this:
 
 ![Application preview](images/6.png)
 
-The background color of the app bar in the image is `#24292e` but you can use any other color as well. It might be a good idea to add the app bar's background color into the theme configuration so that it is easy to change it if needed. Another good idea might be to separate the app bar's tab into its own component such as _AppBarTab_ so that it is easy to add new tabs in the future.
+The background color of the app bar in the image is `#24292e` but you can use any other color as well. It might be a good idea to add the app bar's background color into the theme configuration so that it is easy to change it if needed. Another good idea might be to separate the app bar's tab into its own component such as `AppBarTab` so that it is easy to add new tabs in the future.
 
 ### Exercise
 
@@ -499,7 +499,7 @@ The current version of the rated repositories list looks quite grim. Modify the 
 
 ![Application preview](images/7.png)
 
-In the image, the _Main_ component's background color is set to `#e1e4e8` whereas _RepositoryListItem_ component's background color is set to `white`. The language tag's background color is `#0366d6` which is the value of the `colors.primary` variable in the theme configuration. Remember to exploit the _Text_ component we implemented earlier. Also when needed, split the _RepositoryListItem_ component into smaller components.
+In the image, the `Main` component's background color is set to `#e1e4e8` whereas `RepositoryListItem` component's background color is set to `white`. The language tag's background color is `#0366d6` which is the value of the `colors.primary` variable in the theme configuration. Remember to exploit the `Text` component we implemented earlier. Also when needed, split the `RepositoryListItem` component into smaller components.
 
 ## Routing
 
@@ -513,7 +513,7 @@ With React Native we can use the entire React router's core, including the hooks
 npm install react-router-native
 ```
 
-Next, open the _App.js_ file and add the _NativeRouter_ component to the _App_ component:
+Next, open the _App.js_ file and add the `NativeRouter` component to the `App` component:
 
 <!-- TODO: highlight -->
 
@@ -534,7 +534,7 @@ const App = () => {
 export default App;
 ```
 
-Now that the router is in place, let's add our first route to the _Main_ componenent in the _Main.jsx_ file:
+Now that the router is in place, let's add our first route to the `Main` componenent in the _Main.jsx_ file:
 
 <!-- TODO: highlight -->
 
@@ -588,13 +588,13 @@ const SignIn = () => {
 export default SignIn;
 ```
 
-Set up a route for this _SignIn_ component in the _Main_ component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
+Set up a route for this `SignIn` component in the `Main` component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
 
 ## Form state management
 
 Now that we have a placeholder for the sign in view the next step would be to implement the sign form. Before we get to that let's talk about forms in a more wider perspective.
 
-Implementation of forms relies heavily on the state management. Using the React's _useState_ hook for the state management might get the job done for smaller forms. However, it will quickly make the state management quite tedious with more complex forms. Luckily there are many good libraries in the React ecosystem that eases the state management of forms. One of these libraries is [Formik](https://jaredpalmer.com/formik/).
+Implementation of forms relies heavily on the state management. Using the React's `useState` hook for the state management might get the job done for smaller forms. However, it will quickly make the state management quite tedious with more complex forms. Luckily there are many good libraries in the React ecosystem that eases the state management of forms. One of these libraries is [Formik](https://jaredpalmer.com/formik/).
 
 The main concepts of Formik are the _context_ and a _field_. The Formik's context is provided by the [Formik](https://jaredpalmer.com/formik/docs/api/formik) component that it contains the form's state. The state consists of information of form's fields. This information includes for example the value and validation errors of each field. State's fields can be referenced by their name using the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook or the [Field](https://jaredpalmer.com/formik/docs/api/field) component.
 
@@ -655,9 +655,9 @@ const BodyMassIndexCalculator = () => {
 };
 ```
 
-We define the _Formik_ context in the _BodyMassIndexCalculator_ and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errros. Children of the _Formik_ component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
+We define the `Formik` context in the `BodyMassIndexCalculator` component and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errros. Children of the `Formik` component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
 
-The _BodyMassIndexForm_ component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a posibble error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function. Note that the component that uses the _useField_ hook has to be _within the Formik's context_. This means that the component has to be a descendant of the _Formik_ component.
+The `BodyMassIndexForm` component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a posibble error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function. Note that the component that uses the `useField` hook has to be _within the Formik's context_. This means that the component has to be a descendant of the `Formik` component.
 
 Here is an interactive version of our previous example:
 
@@ -667,7 +667,7 @@ Here is an interactive version of our previous example:
 <script async src="https://snack.expo.io/embed.js"></script>
 -->
 
-In the previous example using the _useField_ hook with the _TextInput_ component causes repetitive code. Let's extract this repetitive code into a _FormikTextInput_ component and create a custom _TextInput_ component to make text inputs a bit more visually pleasing. First, let's install Formik:
+In the previous example using the `useField` hook with the `TextInput` component causes repetitive code. Let's extract this repetitive code into a `FormikTextInput` component and create a custom `TextInput` component to make text inputs a bit more visually pleasing. First, let's install Formik:
 
 ```shell
 npm install formik
@@ -690,7 +690,7 @@ const TextInput = ({ style, error, ...props }) => {
 export default TextInput;
 ```
 
-Let's move on to the _FormikTextInput_ component that adds the Formik's state bindings to the _TextInput_ component. Create a file _FormikTextInput.jsx_ in the _components_ directory with the following content:
+Let's move on to the `FormikTextInput` component that adds the Formik's state bindings to the `TextInput` component. Create a file _FormikTextInput.jsx_ in the _components_ directory with the following content:
 
 ```javascript
 import React from 'react';
@@ -727,7 +727,7 @@ const FormikTextInput = ({ name, ...props }) => {
 export default FormikTextInput;
 ```
 
-By using the _FormikTextInput_ component we could refactor the _BodyMassIndexForm_ component in the previous example like this:
+By using the `FormikTextInput` component we could refactor the `BodyMassIndexForm` component in the previous example like this:
 
 ```javascript
 const BodyMassIndexForm = ({ onSubmit }) => {
@@ -745,9 +745,9 @@ const BodyMassIndexForm = ({ onSubmit }) => {
 
 ## Form validation
 
-Formik offers two approaches to the form validation: a validation function or a validation schema. Validation function is a function provided for the _Formik_ component as the value of the [validate](https://jaredpalmer.com/formik/docs/guides/validation#validate) prop. It receives the from's values as an argument and returns an object containing possible field specific error messages.
+Formik offers two approaches to the form validation: a validation function or a validation schema. Validation function is a function provided for the `Formik` component as the value of the [validate](https://jaredpalmer.com/formik/docs/guides/validation#validate) prop. It receives the from's values as an argument and returns an object containing possible field specific error messages.
 
-The second approach is the validation schema which is provided for the _Formik_ component as the value of the [validationSchema](https://jaredpalmer.com/formik/docs/guides/validation#validationschema) prop. This validation schema can be created with a validation library called [Yup](https://github.com/jquense/yup). Let's get started by installing Yup:
+The second approach is the validation schema which is provided for the `Formik` component as the value of the [validationSchema](https://jaredpalmer.com/formik/docs/guides/validation#validationschema) prop. This validation schema can be created with a validation library called [Yup](https://github.com/jquense/yup). Let's get started by installing Yup:
 
 ```shell
 npm install yup
@@ -789,9 +789,9 @@ const BodyMassIndexCalculator = () => {
 };
 ```
 
-The validation is performed by default every time a field's value changes and when the `handleSubmit` function is called. If the validation fails, the function provided for the `onSubmit` prop of the _Formik_ component is not called.
+The validation is performed by default every time a field's value changes and when the `handleSubmit` function is called. If the validation fails, the function provided for the `onSubmit` prop of the `Formik` component is not called.
 
-The _FormikTextInput_ component we previously implemented displayes field's error message if it is present and the field is "touched", meaning that the field has received and lost focus:
+The `FormikTextInput` component we previously implemented displayes field's error message if it is present and the field is "touched", meaning that the field has received and lost focus:
 
 ```javascript
 const FormikTextInput = ({ name, ...props }) => {
@@ -818,7 +818,7 @@ const FormikTextInput = ({ name, ...props }) => {
 
 ## Exercise
 
-Implement a sign in form to the _SignIn_ component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. Validate the sign in form so that both username and password fields are required. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted. You can use this simple function as the `onSubmit` callback function:
+Implement a sign in form to the `SignIn` component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. Validate the sign in form so that both username and password fields are required. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted. You can use this simple function as the `onSubmit` callback function:
 
 ```javascript
 const onSubmit = values => {
@@ -830,7 +830,7 @@ Note that the callback _should not be called_ if the form validation fails. The 
 
 ![Application preview](images/8.png)
 
-Remember to utilize the _FormikTextInput_ component we implemented earlier. You will need to add a red border to the _TextInput_ component when the `error` prop is `true`. Also use same the red color in the _FormikTextInput_ component's error message. The red color used in the image is `#d73a4a`. You can use the [secureTextEntry](https://reactnative.dev/docs/textinput#securetextentry) prop in the _TextInput_ component to obscure the password input.
+Remember to utilize the `FormikTextInput` component we implemented earlier. You will need to add a red border to the `TextInput` component when the `error` prop is `true`. Also use same the red color in the `FormikTextInput` component's error message. The red color used in the image is `#d73a4a`. You can use the [secureTextEntry](https://reactnative.dev/docs/textinput#securetextentry) prop in the `TextInput` component to obscure the password input.
 
 ## Platform specific code
 
