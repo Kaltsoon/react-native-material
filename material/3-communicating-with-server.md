@@ -166,9 +166,9 @@ That's it, now the _RepositoryList_ component is no longer aware of the way the 
 
 ## GraphQL and Apollo client
 
-In [part 8](https://fullstackopen.com/en/part8) we learned about GraphQL and how to make GraphQL queries to a Apollo Server using the [Apollo Client](https://www.apollographql.com/docs/react/) in React applications. Good news is that, we can use the Apollo Client in a React Native application exactly as we would with a React web application.
+In [part 8](https://fullstackopen.com/en/part8) we learned about GraphQL and how to send GraphQL queries to a Apollo Server using the [Apollo Client](https://www.apollographql.com/docs/react/) in React applications. Good news is that, we can use the Apollo Client in a React Native application exactly as we would with a React web application.
 
-As mentioned earlier, the _rate-repository-api_ server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to make a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _DOCS_ tab to open the documentation:
+As mentioned earlier, the _rate-repository-api_ server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to send a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _DOCS_ tab to open the documentation:
 
 ![GraphQL Playground](images/11.png)
 
@@ -272,7 +272,7 @@ useQuery(MY_QUERY, {
 });
 ```
 
-This change in the _useRepositories_ hook should not affect the _RepositoryList_ component in any way.
+The changes in the _useRepositories_ hook should not affect the _RepositoryList_ component in any way.
 
 ## Environment variables
 
@@ -289,7 +289,7 @@ npm install react-native-dotenv --save-dev
 Once installed, we can use the preset in the Babel compiler by including it in the configuration in the _babel.config.js_ file which is located in the root directory of your project:
 
 ```javascript
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(true);
   return {
     presets: ['babel-preset-expo', 'module:react-native-dotenv'],
@@ -309,7 +309,7 @@ Similarly, create a file _.env.production_ with the following content:
 ENV=production
 ```
 
-These variables can be accessed in the code by importing them from the _react-native-dotenv_ module. Let's try this by logging the _ENV_ variable in the _App_ component:
+These variables can be accessed in the code by importing them from the _react-native-dotenv_ module. Let's try this by logging the value of the _ENV_ variable in the _App_ component:
 
 ```javascript
 import React from 'react';
@@ -337,18 +337,273 @@ const App = () => {
 export default App;
 ```
 
-You should see the value of the _ENV_ variable in the logs. You can remove the log message and the import, once you have succesfully logged the variable's value. Note that it is _never_ a good idea to put sensitive data into the React Native environment variables. The reason for this is that once a user has downloaded your application, they can at least theoretically reverse engineer your application and figure out the sensitive data you have stored into the code.
+You should see the value of the _ENV_ variable in the logs. You can remove the log message and the import, once you have succesfully logged the variable's value. Note that it is _never_ a good idea to put sensitive data into the React Native's environment variables. The reason for this is that once a user has downloaded your application, they can, at least in theory, reverse engineer your application and figure out the sensitive data you have stored into the code.
 
 ## Exercise
 
-Instead of the hard coded Apollo Server's URL, use an environment variable when initializing the Apollo Client. You can name the variable for example to _APOLLO\_URI_. For now, it is enough that you only define the variable in the _development environment_, because we aren't aware of the production URL of the Apollo Server.
+Instead of the hard coded Apollo Server's URL, use an environment variable when initializing the Apollo Client. You can name the variable for example to _APOLLO_URI_. For now, it is enough that you only define the variable in the _development environment_, because we aren't aware of the production URL of the Apollo Server.
 
 ## Storing data in user's device
 
-- AsyncStorage, https://github.com/react-native-community/async-storage
+There are times when we need to store some persisted piece of data in user's device. One such common scenario is storing user's authentication token so that we can retrieve it even if user closes and reopens our application. In the web development we have used the browser's `localStorage` object to achieve such functionality. React Native provides similar persistent storage, the [AsyncStorage](https://github.com/react-native-community/async-storage).
+
+The API of the _AsyncStorage_ is in many ways same as the _localStorage_ API. They are both key-value storages with similar methods. The biggest difference between the two is that, as the name implies, the operations of _AsyncStorage_ are _asynchronous_. To get started, install the _@react-native-community/async-storage_ package:
+
+```shell
+npm install @react-native-community/async-storage
+```
+
+Because _AsyncStorage_ operates with string keys in a global namespace it is a good idea to create a simple abstraction for its operations. This abstraction can be implemented for example using a [class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes). As an example, we could implement a shopping cart storage for storing the products user wants to buy:
+
+```javascript
+import AsyncStorage from '@react-native-community/async-storage';
+
+class ShoppingCartStorage {
+  constructor(namespace = 'shoppingCart') {
+    this.namespace = namespace;
+  }
+
+  async getProducts() {
+    const rawProducts = await AsyncStorage.getItem(
+      `${this.namespace}:products`,
+    );
+
+    return rawProducts ? JSON.parse(rawProducts) : [];
+  }
+
+  async addProduct(productId) {
+    const currentProducts = await this.getProducts();
+    const newProducts = [...currentProducts, productId];
+
+    await AsyncStorage.setItem(
+      `${this.namespace}:products`,
+      JSON.stringify(newProducts),
+    );
+  }
+
+  async clearProducts() {
+    await AsyncStorage.removeItem(`${this.namespace}:products`);
+  }
+}
+
+const doShopping = async () => {
+  const shoppinCartA = new ShoppingCartStorage('shoppingCartA');
+  const shoppinCartB = new ShoppingCartStorage('shoppingCartB');
+
+  await shoppingCartA.addProduct('chips');
+  await shoppingCartA.addProduct('soda');
+
+  await shoppingCartB.addProduct('milk');
+
+  const productsA = await shoppingCartA.getProducts();
+  const productsB = await shoppingCartB.getProducts();
+
+  console.log(productsA, productsB);
+
+  await shoppingCartA.clearProducts();
+  await shoppingCartB.clearProducts();
+};
+
+doShopping();
+```
+
+Because _AsyncStorage_ keys are global, it is usually a good idea to add some namespace to the keys. In this example the namespace can be defined as the constructor's argument and we are using the _namespace:key_ format for the keys. We can add an item to the storage using the [AsyncStorage.setItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#setItem) method. The first argument of the method is the item's key and the second argument its value. The value _must be a string_, so we need to serialize non string values, like we did with the `JSON.stringify` method. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#getitem) method can be used to get an item from the storage. The argument of the method is the item's key, of which value will be resolved. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#removeitem) method can be used to remove the item with the provided key from the storage.
 
 ## Exercises
 
-- `AuthStorage` service for storing access token
-- Sign in mutation
+### Exercise
+
+The current implementation of the sign in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/Kaltsoon/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/Kaltsoon/rate-repository-api#-getting-started) section of the README.
+
+Once you know how the authorization queries are supposed to work, create a file _useSignIn.js_ file in the _hooks_ directory. In that file implement a _useSignIn_ hook that sends the _authorize_ mutation using the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook. The return value of the hook should be a tuple `[signIn, result]` where `result` is the mutations result as it is returned by the _useMutation_ hook and `signIn` a function that runs the mutation with a `{ username, password }` object argument. Hint: don't pass the mutation function to the return value directly. Instead, return a function that calls the mutation function like this:
+
+```javascript
+const useSignIn = () => {
+  const [mutate, result] = useMutation(/* mutation arguments */);
+
+  const signIn = async ({ username, password }) => {
+    // call the mutate function here with the right arguments
+  };
+
+  return [signIn, result];
+};
+```
+
+Once the hook is implemented, use it in the _SignIn_ component's `onSubmit` callback for example like this:
+
+```javascript
+const SignIn = () => {
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // ...
+};
+```
+
+This exercise is completed once you can log the user's _authorize_ mutations payload after the sign in form has been submitted. The mutation payload should contain the user's access token.
+
+### Exercise
+
+Now that we can obtain the access token we need to store it. Create a file _authStorage.js_ in the _utils_ directory with the following content:
+
+```javascript
+import AsyncStorage from '@react-native-community/async-storage';
+
+class AuthStorage {
+  constructor(namespace = 'auth') {
+    this.namespace = namespace;
+  }
+
+  getAccessToken() {
+    // Get the access token for the storage
+  }
+
+  setAccessToken(accessToken) {
+    // Add the access token to the storage
+  }
+
+  removeAccessToken() {
+    // Remove the access token from the storage
+  }
+}
+
+export default AuthStorage;
+```
+
+Next, implement the methods `AuthStorage.getAccessToken`, `AuthStorage.setAccessToken` and `AuthStorage.removeAccessToken`. Use the `namespace` variable to give your keys a namespace like we did in the previous example.
+
+## Enchancing Apollo Client's requests
+
+Now that we have implemented a storage for storing the user's access token, it is time to start using it. Initialize the storage in the _App_ component:
+
+```javascript
+import React from 'react';
+import { NativeRouter } from 'react-router-native';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+import Main from './src/components/Main';
+import createApolloClient from './src/utils/apolloClient';
+import AuthStorage from './src/utils/authStorage';
+
+const authStorage = new AuthStorage();
+const apolloClient = createApolloClient(authStorage);
+
+const App = () => {
+  return (
+    <NativeRouter>
+      <ApolloProvider client={apolloClient}>
+        <Main />
+      </ApolloProvider>
+    </NativeRouter>
+  );
+};
+
+export default App;
+```
+
+We also provided the storage instance for the `createApolloClient` function as an argument. This is because next we will send the access token to Apollo Server in each request. The Apollo Server will expect that the access token is present in the _Authorization_ header in the format _Bearer <ACCESS_TOKEN>_. We can enhance the Apollo Client's operation by using the [request](https://www.apollographql.com/docs/react/get-started/#configuration-options) option. Let's send the access token to the Apollo Server in our Apollo Client by modifing the `createApolloClient` function in the _apolloClient.js_ file:
+
+```javascript
+const createApolloClient = (authStorage) => {
+  return new ApolloClient({
+    request: async (operation) => {
+      try {
+        const accessToken = await authStorage.getAccessToken();
+
+        operation.setContext({
+          headers: {
+            authorization: accessToken ? `Bearer ${accessToken}` : '',
+          },
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // uri and other options...
+  });
+};
+```
+
+## Using React Context for dependency injection
+
+Last piece of the puzzle is to integrate the storage to the _useSignIn_ hook. To achieve this the hook must be able to access toke storage instance we have initialized in the _App_ component. React [Context](https://reactjs.org/docs/context.html) is just the tool we need for the job. Create a directory _contexts_ in the _src_ directory. In that directory create a file _AuthStorageContext.js_ with the following content:
+
+```javascript
+import React from 'react';
+
+const AuthStorageContext = React.createContext();
+
+export default AuthStorageContext;
+```
+
+Now we can use the _AuthStorageContext.Provider_ to provide the storage instance to the descendants of the context. Let's add it to the _App_ component:
+
+```javascript
+import React from 'react';
+import { NativeRouter } from 'react-router-native';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+import Main from './src/components/Main';
+import createApolloClient from './src/utils/apolloClient';
+import AuthStorage from './src/utils/authStorage';
+import AuthStorageContext from './src/contexts/AuthStorageContext';
+
+const authStorage = new AuthStorage();
+const apolloClient = createApolloClient(authStorage);
+
+const App = () => {
+  return (
+    <NativeRouter>
+      <ApolloProvider client={apolloClient}>
+        <AuthStorageContext.Provider value={authStorage}>
+          <Main />
+        </AuthStorageContext.Provider>
+      </ApolloProvider>
+    </NativeRouter>
+  );
+};
+
+export default App;
+```
+
+Accessing the storage instance in the _useSignIn_ hook is now possible using the React's [useContext](https://reactjs.org/docs/hooks-reference.html#usecontext) hook like this:
+
+```javascript
+import { useContext } from 'React';
+// ...
+
+import AuthStorageContext from '../contexts/AuthStorageContext';
+
+const useSignIn = () => {
+  const authStorage = useContext(AuthStorageContext);
+  // ...
+};
+```
+
+## Exercises
+
+### Exercise
+
+Improve the _useSignIn_ hook so that it stores the user's access token retrieved from the _authorize_ mutation. The return value of the hook should not change. The only change you should make to the _SignIn_ component is that you should redirect user to the rated repository list view after a succesful sign in. You can achieve this by using the [https://reacttraining.com/react-router/native/api/Hooks/usehistory] hook and the history's [push](https://reacttraining.com/react-router/native/api/history) method.
+
+After the _authorize_ mutation has been executed and you have stored the user's access token to the storage, you should reset the Apollo Client's store. This will clear the Apollo Client's cache and re-execute all active queries. You can do this by using the Apollo Client's [resetStore](https://www.apollographql.com/docs/react/v2.5/api/apollo-client/#ApolloClient.resetStore) method. You can access the Apollo Client in the _useSignIn_ hook using the [useApolloClient](https://www.apollographql.com/docs/react/api/react-hooks/#useapolloclient) hook. Note that the order of the execution is crucial and should be the following:
+
+```javascript
+const { data } = await mutate(/* options */);
+await authStorage.setAccessToken(/* access token from the data */)
+await apolloClient.resetStore();
+```
+
+### Exercise
+
 - Sign out
