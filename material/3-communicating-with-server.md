@@ -1,6 +1,6 @@
 # Communicating with server
 
-So far we have implemented features to our application without any actual server communication. For example, the rated repositories list we have implemented uses mock data and the sign-in form doesn't send the user's credentials to any authorization endpoint.
+So far we have implemented features to our application without any actual server communication. For example, the rated repositories list we have implemented uses mock data and the sign-in form doesn't send the user's credentials to any authorization endpoint. In this section, we will learn how to communicate with a server using HTTP requests, how to use Apollo Client in a React Native application, and how to store data in the user's device.
 
 <!-- TODO: fullstack/rate-repository-api repo -->
 

@@ -1,6 +1,6 @@
 # React Native basics
 
-Now that we have set up our development environment we can get into to React Native basics and get started with the development of our application.
+Now that we have set up our development environment we can get into to React Native basics and get started with the development of our application. In this section, we will learn how to build user interfaces with React Native's core components, how to add style properties to these core components, how to transition between views, and how to manage form's state efficiently.
 
 ## Core components
 
