@@ -2,11 +2,9 @@
 
 So far we have implemented features to our application without any actual server communication. For example, the rated repositories list we have implemented uses mock data and the sign-in form doesn't send the user's credentials to any authorization endpoint. In this section, we will learn how to communicate with a server using HTTP requests, how to use Apollo Client in a React Native application, and how to store data in the user's device.
 
-<!-- TODO: fullstack/rate-repository-api repo -->
+Soon we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose, we have a completed server implementation in the [rate-repository-api](https://github.com/fullstack-hy2020/rate-repository-api) repository. The _rate-repository-api_ server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any setup and provides an Apollo GraphQL API along with a few REST API endpoints.
 
-Soon we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose, we have a completed server implementation in the [rate-repository-api](https://github.com/Kaltsoon/rate-repository-api) repository. The _rate-repository-api_ server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any setup and provides an Apollo GraphQL API along with a few REST API endpoints.
-
-Before heading further into the material, set up the _rate-repository-api_ server by following the setup instructions in the repository's [README](https://github.com/Kaltsoon/rate-repository-api/blob/master/README.md). Note that if you are using an emulator for development it is recommended to run the server and the emulator _on the same computer_. This eases network requests considerably.
+Before heading further into the material, set up the _rate-repository-api_ server by following the setup instructions in the repository's [README](https://github.com/fullstack-hy2020/rate-repository-api/blob/master/README.md). Note that if you are using an emulator for development it is recommended to run the server and the emulator _on the same computer_. This eases network requests considerably.
 
 ## HTTP requests
 
@@ -98,7 +96,7 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-<!-- TODO: Viewiling logs linkki -->
+<!-- TODO: Viewing logs linkki -->
 
 We are using the React's `useState` hook to maintain the repository list state and the `useEffect` hook to call the `fetchRepositories` function when the `RepositoryList` component is mounted. We extract the actual repositories into the `repositoryNodes` variable and replace the previously used `repositories` variable in the `FlatList` component's `data` prop with it. Now you should be able to see actual server-provided data in the rated repositories list.
 
@@ -410,7 +408,7 @@ We can add an item to the storage using the [AsyncStorage.setItem](https://githu
 
 ### Exercise
 
-The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/Kaltsoon/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/Kaltsoon/rate-repository-api#-getting-started) section of the README.
+The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/fullstack-hy2020/rate-repository-api#-getting-started) section of the README.
 
 Once you know how the authorization queries are supposed to work, create a file _useSignIn.js_ file in the _hooks_ directory. In that file implement a `useSignIn` hook that sends the _authorize_ mutation using the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook. The return value of the hook should be a tuple `[signIn, result]` where `result` is the mutations result as it is returned by the `useMutation` hook and `signIn` a function that runs the mutation with a `{ username, password }` object argument. Hint: don't pass the mutation function to the return value directly. Instead, return a function that calls the mutation function like this:
 
@@ -616,6 +614,6 @@ The final step in completing the sign-in feature is to implement a sign out feat
 }
 ```
 
-You will probably end up with the `null` result. This is because the GraphQL Playground is not authorized, meaning that it doesn't send a valid access token with the request. Revise the [authorization documentation](https://github.com/Kaltsoon/rate-repository-api#-authorization) and retrieve an access token using the _authorize_ mutation. Use this access token in the _Authorization_ header as instructed in the documentation. Now, run the _authorizedUser_ query again and you should be able to see the authorized user's information.
+You will probably end up with the `null` result. This is because the GraphQL Playground is not authorized, meaning that it doesn't send a valid access token with the request. Revise the [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and retrieve an access token using the _authorize_ mutation. Use this access token in the _Authorization_ header as instructed in the documentation. Now, run the _authorizedUser_ query again and you should be able to see the authorized user's information.
 
 Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if the user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the _authorizedUser_ query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. In addition, pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store. Resetting the Apollo Client's store should also re-execute all active queries which means that the _authorizedUser_ query should be re-executed. Note that the order of execution is crucial: access token must be removed from the storage _before_ the Apollo Client's store is reset.
