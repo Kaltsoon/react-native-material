@@ -84,7 +84,7 @@ In this example, the component's code is in the _index.jsx_ file and the test in
 
 ## Testing components
 
-Now that we have managed to set up Jest and run a very simple test, it is time find out how to test components. As we know, testing components requires a way to serialize a component's render output and simulate firing different kind of events, such as pressing a button. For these purposes there is the[Testing Library](https://testing-library.com/docs/intro) family, which provides libraries for testing user interface components in different platforms. All of these libraries share similar API for testing user interface components in a user-centric way. One of these libraries is the [Native Testing Library](https://testing-library.com/docs/native-testing-library/intro), which we will use for testing our React Native components. Before getting into the details, let's install the package:
+Now that we have managed to set up Jest and run a very simple test, it is time find out how to test components. As we know, testing components requires a way to serialize a component's render output and simulate firing different kind of events, such as pressing a button. For these purposes there is the [Testing Library](https://testing-library.com/docs/intro) family, which provides libraries for testing user interface components in different platforms. All of these libraries share similar API for testing user interface components in a user-centric way. One of these libraries is the [Native Testing Library](https://testing-library.com/docs/native-testing-library/intro), which we will use for testing our React Native components. Before getting into the details, let's install the package:
 
 ```shell
 npm install --save-dev @testing-library/react-native
