@@ -98,7 +98,7 @@ To be able to use these matchers we need to extend the Jest's `expect` object. T
 import '@testing-library/jest-native/extend-expect';
 ```
 
-Next, configure this file as a setup file in the Jest's configuration in the _package.json_ file:
+Next, configure this file as a setup file in the Jest's configuration in the _package.json_ file (note that the `<rootDir>` in the path is intentional and there is no need to replace it):
 
 ```javascript
 {
@@ -111,7 +111,7 @@ Next, configure this file as a setup file in the Jest's configuration in the _pa
 }
 ```
 
-The main concepts of the Native Testing Library are the [queries](https://www.native-testing-library.com/docs/api-queries) and [firing events](https://www.native-testing-library.com/docs/api-events). Queries are used extract a set of nodes from the component that is rendered using the [render](https://www.native-testing-library.com/docs/api-main#render-options) function. These are useful in tests where we except for example some text, such as name of a repository, to be present in the rendered component. To get hands on specific nodes easily, it is recommended to tag nodes with the `testID` prop, and query it with the [getByTestId](https://www.native-testing-library.com/docs/api-queries#bytestid) function. Every React Native core component accept the `testID` prop. Here is an example of how to use the queries:
+The main concepts of the Native Testing Library are the [queries](https://www.native-testing-library.com/docs/api-queries) and [firing events](https://www.native-testing-library.com/docs/api-events). Queries are used extract a set of nodes from the component that is rendered using the [render](https://www.native-testing-library.com/docs/api-main#render-options) function. Queries are useful in tests where we except for example some text, such as name of a repository, to be present in the rendered component. To get hands on specific nodes easily, it is recommended to tag nodes with the `testID` prop, and query it with the [getByTestId](https://www.native-testing-library.com/docs/api-queries#bytestid) function. Every React Native core component accept the `testID` prop. Here is an example of how to use the queries:
 
 ```javascript
 import React from 'react';
@@ -205,9 +205,9 @@ In this test we want to test that after filling the form's fields using the `fir
 
 ## Handling dependencies in tests
 
-Components in the previous examples are quite easy to test because they are more or less _pure_. Pure components don't depend on _side effects_ such as network requests or using some native API such as the AsyncStorage. The `Form` component is much less pure than the `Greeting` component because its state changes can be counted as a side effect. Nevertheless, testing it isn't too difficult. Let's have an example from our application. How could we test the `RepositoryList` component, which uses a GraphQL query to display the rated repositories?
+Components in the previous examples are quite easy to test because they are more or less _pure_. Pure components don't depend on _side effects_ such as network requests or using some native API such as the AsyncStorage. The `Form` component is much less pure than the `Greeting` component because its state changes can be counted as a side effect. Nevertheless, testing it isn't too difficult. 
 
-The current implementation of the `RepositoryList` component looks something like this:
+Next, let's have a look at a strategy for testing components with side effects. Let's pick the `RepositoryList` component from our application as an example. At the moment the component has one side effect, which is a GraphQL query for fetching the rated repositories. The current implementation of the `RepositoryList` component looks something like this:
 
 ```javascript
 const RepositoryList = () => {
