@@ -201,7 +201,7 @@ describe('Form', () => {
 });
 ```
 
-In this test we want to test that after filling the form's fields using the `fireEvent.change` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api#mockfnmockcalls). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
+In this test we want to test that after filling the form's fields using the `fireEvent.change` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
 
 ## Handling dependencies in tests
 
@@ -259,7 +259,7 @@ Now, the `RepositoryList` component contains only the side effects and its imple
 
 ### Exercise
 
-Test that the `RepositoryListContainer` component correctly renders repository's name, description, language, forks count, stargazers count, rating average and review count. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has a certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
+Create a test that ensures that the `RepositoryListContainer` component renders repository's name, description, language, forks count, stargazers count, rating average and review count correctly. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has a certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
 
 Use this as a base for your test:
 
@@ -320,7 +320,38 @@ You can put the test file where you please, however it is recommended to follow 
 
 ### Exercise
 
-- Testing SignIn component in the application
+Create a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The first argument of the handler should be an object representing the form's values. In addition, create a test that ensures that the `onSubmit` handler is _not called_ when the form is submitted with empty values. These test cases can be in the same test file in a different `it` block. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
+
+You don't have to test any Apollo Client or AsyncStorage related code which is in the `useSignIn` hook. As in the previous exercise, extract the pure code into its own component and test it in the test. Here's an example how this can be achieved:
+
+```javascript
+export const SignInContainer = ({ onSubmit }) => {
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+    </Formik>
+  );
+};
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  const history = useHistory();
+
+  const onSubmit = async (values) => {
+    // ...
+  };
+
+  return <SignInContainer onSubmit={onSubmit} />;
+};
+
+export default SignIn;
+```
+
+Now you can import the `SignInContainer` component in the test file and use it in the test. As in the previous exercise, you can choose how to organize the test files.
 
 ## Additional resources
 
