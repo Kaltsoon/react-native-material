@@ -121,6 +121,7 @@ import { render } from '@testing-library/react-native';
 const Greeting = ({ name }) => {
   return (
     <View>
+      {/* This node is tagged with the testID prop */}
       <Text testID="greetingText">Hello {name}!</Text>
     </View>
   );
@@ -137,7 +138,7 @@ describe('Greeting', () => {
 });
 ```
 
-The `render` function returns the queries and additional helpers, such as the `debug` function. The [debug](https://www.native-testing-library.com/docs/api-main#debug) function is a very handy to print the rendering result. Use it if you are unsure what is being rendered with the `render` function. The `toHaveTextContent` is one of the React Native specific matchers provided by the jest-native library. The full list of available matchers can be found in the [documentation](https://github.com/testing-library/jest-native#matchers) of the jest-native library.
+The `render` function returns the queries and additional helpers, such as the `debug` function. The [debug](https://www.native-testing-library.com/docs/api-main#debug) function is a very handy to print the rendering result. Use it if you are unsure what is being rendered with the `render` function. We acquire the `Text` node tagged with the `testID` prop by using the `getBytestId` function. For all avaiable queries, check the Native Testing Library's [documentation]. The `toHaveTextContent` matcher is used to assert that the node's textual content is correct. The full list of available React Native specific matchers can be found in the [documentation](https://github.com/testing-library/jest-native#matchers) of the jest-native library. Jest's [documentation](https://jestjs.io/docs/en/expect) contains every universal Jest matcher.
 
 The second very important Native Testing Library concept is firing events. We can fire an event in a provided node by using the [fireEvent](https://www.native-testing-library.com/docs/api-events) object's methods. This is useful for for example typing text in to a text field or pressing a button. Here is an example of how to test submitting a simple form:
 
@@ -200,9 +201,124 @@ describe('Form', () => {
 });
 ```
 
+In this test we want to test that after filling the form's fields using the `fireEvent.change` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api#mockfnmockcalls). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
+
 ## Handling dependencies in tests
 
+Components in the previous examples are quite easy to test because they are more or less _pure_. Pure components don't depend on _side effects_ such as network requests or using some native API such as the AsyncStorage. The `Form` component is much less pure than the `Greeting` component because its state changes can be counted as a side effect. Nevertheless, testing it isn't too difficult. Let's have an example from our application. How could we test the `RepositoryList` component, which uses a GraphQL query to display the rated repositories?
+
+The current implementation of the `RepositoryList` component looks something like this:
+
+```javascript
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      // ...
+    />
+  );
+};
+
+export default RepositoryList;
+```
+
+The only side effect is the use of the `useRepositories` hook, which sends a GraphQL query. There are a few ways to test this component. One way is to mock the Apollo Client's responses as instructed in the Apollo Client's [documentation](https://www.apollographql.com/docs/react/development-testing/testing/). A more simple way is to assume that the `useRepositories` hook works as intended (preferably through testing it) and extract the components "pure" code into another component, such as the `RepositoryListContainer` component:
+
+```javascript
+export const RepositoryListContainer = ({ repositories }) => {
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      // ...
+    />
+  );
+};
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+
+  return <RepositoryListContainer repositories={repositories} />;
+};
+
+export default RepositoryList;
+```
+
+Now, the `RepositoryList` component contains only the side effects and its implementation is quite simple. We can test the `RepositoListContainer` component by providing it with paginated repository data through the `repositories` prop and checking that the rendered content has the correct information. This can be achieved by tagging the required `RepositoryItem` component's nodes with `testID` props.
+
 ## Exercises
+
+### Exercise
+
+Test that the `RepositoryListContainer` component correctly renders repository's name, description, language, forks count, stargazers count, rating average and review count. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has a certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
+
+Use this as a base for your test:
+
+```javascript
+describe('RepositoryList', () => {
+  describe('RepositoryListContainer', () => {
+    it('renders repository information correctly', () => {
+      const repositories = {
+        pageInfo: {
+          totalCount: 8,
+          hasNextPage: true,
+          endCursor:
+            'WyJhc3luYy1saWJyYXJ5LnJlYWN0LWFzeW5jIiwxNTg4NjU2NzUwMDc2XQ==',
+          startCursor: 'WyJqYXJlZHBhbG1lci5mb3JtaWsiLDE1ODg2NjAzNTAwNzZd',
+        },
+        edges: [
+          {
+            node: {
+              id: 'jaredpalmer.formik',
+              fullName: 'jaredpalmer/formik',
+              description: 'Build forms in React, without the tears 😭 ',
+              language: 'TypeScript',
+              forksCount: 1619,
+              stargazersCount: 21856,
+              ratingAverage: 88,
+              reviewCount: 3,
+              ownerAvatarUrl:
+                'https://avatars2.githubusercontent.com/u/4060187?v=4',
+            },
+            cursor: 'WyJqYXJlZHBhbG1lci5mb3JtaWsiLDE1ODg2NjAzNTAwNzZd',
+          },
+          {
+            node: {
+              id: 'async-library.react-async',
+              fullName: 'async-library/react-async',
+              description: '🍾 Flexible promise-based React data loader',
+              language: 'JavaScript',
+              forksCount: 69,
+              stargazersCount: 1760,
+              ratingAverage: 72,
+              reviewCount: 3,
+              ownerAvatarUrl:
+                'https://avatars1.githubusercontent.com/u/54310907?v=4',
+            },
+            cursor:
+              'WyJhc3luYy1saWJyYXJ5LnJlYWN0LWFzeW5jIiwxNTg4NjU2NzUwMDc2XQ==',
+          },
+        ],
+      };
+
+      // Add your test code here
+    });
+  });
+});
+```
+
+You can put the test file where you please, however it is recommended to follow one of the ways of organizing test files introduced earlier. Use the `repositories` variable as the repository data for the test. There should be no need to alter the variable's value. Note that the repository data contains two repositories, which means that you need to check that both repositorie's information is present.
+
+### Exercise
 
 - Testing SignIn component in the application
 
