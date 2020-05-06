@@ -89,7 +89,7 @@ Now that we have managed to set up Jest and run a very simple test, it is time f
 In [part 5](/en/part5/testing_react_apps) we got familiar with one of these libraries, the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro). Unfortunately, this library is only suitable for testing React web applications. Luckily, there exists a React Native counterpart for this library, which is the [Native Testing Library](https://testing-library.com/docs/native-testing-library/intro). This is the library we will be using in testing our React Native application's components. The good news it, that these libraries shares a very similar API, so there isn't too many new concepts to learn. In addition to the Native Testing Library, we need a set of React Native specific Jest matchers such as `toHaveTextContent` and `toHaveProp`. These matchers are provided by the [jest-native](https://github.com/testing-library/jest-native) library. Before getting into the details, let's install these packages:
 
 ```shell
-npm install --save-dev @testing-library/react-native jest-native
+npm install --save-dev @testing-library/react-native @testing-library/jest-native
 ```
 
 To be able to use these matchers we need to extend the Jest's `expect` object. This can be done by using a global setup file. Create a file _setupTests.js_ in the root directory of your project, that is, the same directory where the _package.json_ file is located. In that file add the following line:
@@ -105,7 +105,7 @@ Next, configure this file as a setup file in the Jest's configuration in the _pa
   // ...
   "jest": {
     "preset": "jest-expo",
-    "setupFiles": ["<rootDir>/setupTests.js"]
+    "setupFilesAfterEnv": ["<rootDir>/setupTests.js"]
   }
   // ...
 }
@@ -115,7 +115,7 @@ The main concepts of the Native Testing Library are the [queries](https://www.na
 
 ```javascript
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { render } from '@testing-library/react-native';
 
 const Greeting = ({ name }) => {
@@ -144,7 +144,7 @@ The second very important Native Testing Library concept is firing events. We ca
 
 ```javascript
 import React, { useState } from 'react';
-import { Text, TextField, TouchableWithoutFeedback, View } from 'react-native';
+import { Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 
 const Form = ({ onSubmit }) => {
@@ -158,7 +158,7 @@ const Form = ({ onSubmit }) => {
   return (
     <View>
       <View>
-        <TextField
+        <TextInput
           value={username}
           onChangeText={(text) => setUsername(text)}
           placeholder="Username"
@@ -166,7 +166,7 @@ const Form = ({ onSubmit }) => {
         />
       </View>
       <View>
-        <TextField
+        <TextInput
           value={password}
           onChangeText={(text) => setPassword(text)}
           placeholder="Password"
@@ -185,11 +185,11 @@ const Form = ({ onSubmit }) => {
 describe('Form', () => {
   it('calls function provided by onSubmit prop after pressing the submit button', () => {
     const onSubmit = jest.fn();
-    const { getByTestId } = render(<Form />);
+    const { getByTestId } = render(<Form onSubmit={onSubmit} />);
 
-    fireEvent.change(getByTestId('usernameField'), 'kalle');
-    fireEvent.change(getByTestId('passwordField'), 'password');
-    fireEvent.press(getByTestId('usernameField'), 'submitButton');
+    fireEvent.changeText(getByTestId('usernameField'), 'kalle');
+    fireEvent.changeText(getByTestId('passwordField'), 'password');
+    fireEvent.press(getByTestId('submitButton'));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
 
@@ -201,7 +201,9 @@ describe('Form', () => {
 });
 ```
 
-In this test we want to test that after filling the form's fields using the `fireEvent.change` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
+In this test we want to test that after filling the form's fields using the `fireEvent.changeText` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
+
+Before heading further into the world of testing React Native applications, play around with these examples by adding a test file in the <i>\_\_tests\_\_</i> directory we created earlier.
 
 ## Handling dependencies in tests
 
