@@ -20,7 +20,10 @@ To use the jest-expo preset in Jest, we need to add the following Jest configura
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }
 ```
@@ -105,6 +108,9 @@ Next, configure this file as a setup file in the Jest's configuration in the _pa
   // ...
   "jest": {
     "preset": "jest-expo",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
     "setupFilesAfterEnv": ["<rootDir>/setupTests.js"]
   }
   // ...
@@ -207,7 +213,7 @@ Before heading further into the world of testing React Native applications, play
 
 ## Handling dependencies in tests
 
-Components in the previous examples are quite easy to test because they are more or less _pure_. Pure components don't depend on _side effects_ such as network requests or using some native API such as the AsyncStorage. The `Form` component is much less pure than the `Greeting` component because its state changes can be counted as a side effect. Nevertheless, testing it isn't too difficult. 
+Components in the previous examples are quite easy to test because they are more or less _pure_. Pure components don't depend on _side effects_ such as network requests or using some native API such as the AsyncStorage. The `Form` component is much less pure than the `Greeting` component because its state changes can be counted as a side effect. Nevertheless, testing it isn't too difficult.
 
 Next, let's have a look at a strategy for testing components with side effects. Let's pick the `RepositoryList` component from our application as an example. At the moment the component has one side effect, which is a GraphQL query for fetching the rated repositories. The current implementation of the `RepositoryList` component looks something like this:
 
@@ -282,7 +288,7 @@ describe('RepositoryList', () => {
             node: {
               id: 'jaredpalmer.formik',
               fullName: 'jaredpalmer/formik',
-              description: 'Build forms in React, without the tears 😭 ',
+              description: 'Build forms in React, without the tears',
               language: 'TypeScript',
               forksCount: 1619,
               stargazersCount: 21856,
@@ -297,7 +303,7 @@ describe('RepositoryList', () => {
             node: {
               id: 'async-library.react-async',
               fullName: 'async-library/react-async',
-              description: '🍾 Flexible promise-based React data loader',
+              description: 'Flexible promise-based React data loader',
               language: 'JavaScript',
               forksCount: 69,
               stargazersCount: 1760,
@@ -357,9 +363,58 @@ Now you can import the `SignInContainer` component in the test file and use it i
 
 ## Additional resources
 
-- https://github.com/jondot/awesome-react-native
-- https://callstack.github.io/react-native-paper/
-- https://styled-components.com/docs/basics#react-native
+As we are getting closer to the end of this part, let's take a moment to look at some additional React Native related resources. [Awesome React Native](https://github.com/jondot/awesome-react-native) is a extremely encompassing curated list of React Native resources such as libraries, tutorials and articles. Because the list is exhaustively long, let's have a closer look at few of its highlights
+
+### React Native Paper
+
+> Paper is a collection of customizable and production-ready components for React Native, following Google’s Material Design guidelines.
+
+[React Native Paper](https://callstack.github.io/react-native-paper/) is for React Native what [Material-UI](https://material-ui.com/) is for React web applications. It offers a wide range of high quality UI components and a support for [custom themes](https://callstack.github.io/react-native-paper/theming.html). [Setting up](https://callstack.github.io/react-native-paper/getting-started.html) React Native Paper for Expo based React Native applications is quite simple, which makes it possible to use it in the upcoming exercises, if want to give it a go.
+
+### Styled-components
+
+> Utilising tagged template literals (a recent addition to JavaScript) and the power of CSS, styled-components allows you to write actual CSS code to style your components. It also removes the mapping between components and styles – using components as a low-level styling construct could not be easier!
+
+[Styled-components] is a library for styling React components using [CSS-in-JS](https://en.wikipedia.org/wiki/CSS-in-JS) technique. In React Native we are already used to defining component's styles as a JavaScript object, so CSS-in-JS not so uncharted territory. However, the approach of styled-components is quite different from using the `StyleSheet.create` method and the `style` prop.
+
+In styled-components component's styles are defined with the component using a feature called [tagged template literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates) or a plain JavaScript object. Styled-components makes it possible to define new style properties for component based on its props _at runtime_. This brings many possibilities, such as seamlessly switching between a light and a dark theme. It also has a full [theming support](https://styled-components.com/docs/advanced#theming). Here is an example of creating a `Text` component with style variations based on props:
+
+```javascript
+import React from 'react';
+import styled from 'styled-components/native';
+import { css } from 'styled-components';
+
+const FancyText = styled.Text`
+  color: grey;
+  font-size: 14px;
+
+  ${({ isBlue }) =>
+    isBlue &&
+    css`
+      color: blue;
+    `}
+  
+  ${({ isBig }) => isBig && css`
+    font-size: 24px;
+    font-weight: 700;
+  `}
+`;
+
+const Main = () => {
+  return (
+    <>
+      <FancyText>Simple text</FancyText>
+      <FancyText isBlue>Blue text</FancyText>
+      <FancyText isBig>Big text</FancyText>
+      <FancyText isBig isBlue>
+        Big blue text
+      </FancyText>
+    </>
+  );
+};
+```
+
+Because styled-component processes the style definitions, it is possible to use CSS-like snake case syntax with the property names and units in property values. However, units don't have any affect because property values are internally unitless. For more information on styled-components, head out to the [documentation](https://styled-components.com/docs).
 
 ## Extending our application
 
