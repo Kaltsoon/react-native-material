@@ -455,6 +455,8 @@ Because styled-components processes the style definitions, it is possible to use
 
 ## Extending our application
 
+It is time to put everything we have learned so far to a good use and start extending our application. Our application still lacks a few important features such as reviewing a repository and registering a user. The upcoming exercises will focus on these essential features. Feel free to use any additional resources, such as React Native Paper's components, while working on the exercises. However, using additional resources is entirely _optional_ and you should focus on completing the minimum requirements of the exercises before working on improvements.
+
 ## Exercises
 
 - Single repository view
