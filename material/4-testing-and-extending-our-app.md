@@ -47,7 +47,7 @@ To use the eslint-plugin-jest plugin in Eslint, we need to include it in the _.e
 }
 ```
 
-To see that the setup is working, create a directory <i>\_\_tests\_\_</i> in the _src_ directory and i n the created directory create a file _example.js_. In that file, add this simple test:
+To see that the setup is working, create a directory <i>\_\_tests\_\_</i> in the _src_ directory and in the created directory create a file _example.js_. In that file, add this simple test:
 
 ```javascript
 describe('Example', () => {
@@ -59,7 +59,7 @@ describe('Example', () => {
 
 Now, let's run our example test by running `npm test`. The command's output should indicate that the test located in the `src/__tests__/example.js` file is passed.
 
-Organizing test files in a single <i>\_\_tests\_\_</i> directory is one approach in organizing the tests. When choosing this approach, it is recommended to put the test files in their corresponding subdirectories just like the code itself. This means that for example tests related to components are in the _components_ directory, tests related to utilities are in the _utils_ directory and so on. This will result in the following structure:
+Organizing test files in a single <i>\_\_tests\_\_</i> directory is one approach in organizing the tests. When choosing this approach, it is recommended to put the test files in their corresponding subdirectories just like the code itself. This means that for example tests related to components are in the _components_ directory, tests related to utilities are in the _utils_ directory, and so on. This will result in the following structure:
 
 ```
 src/
@@ -74,7 +74,7 @@ src/
   ...
 ```
 
-Other approach is to organize the tests near the implementation. This means that for example the test file containing tests for the `AppBar` component is in the same directory as the component's code. This will result in the following structure:
+Another approach is to organize the tests near the implementation. This means that for example, the test file containing tests for the `AppBar` component is in the same directory as the component's code. This will result in the following structure:
 
 ```
 src/
@@ -90,9 +90,9 @@ In this example, the component's code is in the _index.jsx_ file and the test in
 
 ## Testing components
 
-Now that we have managed to set up Jest and run a very simple test, it is time find out how to test components. As we know, testing components requires a way to serialize a component's render output and simulate firing different kind of events, such as pressing a button. For these purposes there is the [Testing Library](https://testing-library.com/docs/intro) family, which provides libraries for testing user interface components in different platforms. All of these libraries share similar API for testing user interface components in a user-centric way.
+Now that we have managed to set up Jest and run a very simple test, it is time to find out how to test components. As we know, testing components requires a way to serialize a component's render output and simulate firing different kind of events, such as pressing a button. For these purposes, there is the [Testing Library](https://testing-library.com/docs/intro) family, which provides libraries for testing user interface components in different platforms. All of these libraries share similar API for testing user interface components in a user-centric way.
 
-In [part 5](/en/part5/testing_react_apps) we got familiar with one of these libraries, the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro). Unfortunately, this library is only suitable for testing React web applications. Luckily, there exists a React Native counterpart for this library, which is the [Native Testing Library](https://testing-library.com/docs/native-testing-library/intro). This is the library we will be using in testing our React Native application's components. The good news it, that these libraries shares a very similar API, so there isn't too many new concepts to learn. In addition to the Native Testing Library, we need a set of React Native specific Jest matchers such as `toHaveTextContent` and `toHaveProp`. These matchers are provided by the [jest-native](https://github.com/testing-library/jest-native) library. Before getting into the details, let's install these packages:
+In [part 5](/en/part5/testing_react_apps) we got familiar with one of these libraries, the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro). Unfortunately, this library is only suitable for testing React web applications. Luckily, there exists a React Native counterpart for this library, which is the [Native Testing Library](https://testing-library.com/docs/native-testing-library/intro). This is the library we will be using while testing our React Native application's components. The good news is, that these libraries share a very similar API, so there aren't too many new concepts to learn. In addition to the Native Testing Library, we need a set of React Native specific Jest matchers such as `toHaveTextContent` and `toHaveProp`. These matchers are provided by the [jest-native](https://github.com/testing-library/jest-native) library. Before getting into the details, let's install these packages:
 
 ```shell
 npm install --save-dev @testing-library/react-native @testing-library/jest-native
@@ -123,7 +123,7 @@ Next, configure this file as a setup file in the Jest's configuration in the _pa
 }
 ```
 
-The main concepts of the Native Testing Library are the [queries](https://www.native-testing-library.com/docs/api-queries) and [firing events](https://www.native-testing-library.com/docs/api-events). Queries are used extract a set of nodes from the component that is rendered using the [render](https://www.native-testing-library.com/docs/api-main#render-options) function. Queries are useful in tests where we except for example some text, such as name of a repository, to be present in the rendered component. To get hands on specific nodes easily, it is recommended to tag nodes with the `testID` prop, and query it with the [getByTestId](https://www.native-testing-library.com/docs/api-queries#bytestid) function. Every React Native core component accept the `testID` prop. Here is an example of how to use the queries:
+The main concepts of the Native Testing Library are the [queries](https://www.native-testing-library.com/docs/api-queries) and [firing events](https://www.native-testing-library.com/docs/api-events). Queries are used to extract a set of nodes from the component that is rendered using the [render](https://www.native-testing-library.com/docs/api-main#render-options) function. Queries are useful in tests where we except for example some text, such as the name of a repository, to be present in the rendered component. To get hold of specific nodes easily, it is recommended to tag nodes with the `testID` prop, and query it with the [getByTestId](https://www.native-testing-library.com/docs/api-queries#bytestid) function. Every React Native core component accepts the `testID` prop. Here is an example of how to use the queries:
 
 ```javascript
 import React from 'react';
@@ -150,9 +150,9 @@ describe('Greeting', () => {
 });
 ```
 
-The `render` function returns the queries and additional helpers, such as the `debug` function. The [debug](https://www.native-testing-library.com/docs/api-main#debug) function is a very handy to print the rendering result. Use it if you are unsure what is being rendered with the `render` function. We acquire the `Text` node tagged with the `testID` prop by using the `getBytestId` function. For all avaiable queries, check the Native Testing Library's [documentation]. The `toHaveTextContent` matcher is used to assert that the node's textual content is correct. The full list of available React Native specific matchers can be found in the [documentation](https://github.com/testing-library/jest-native#matchers) of the jest-native library. Jest's [documentation](https://jestjs.io/docs/en/expect) contains every universal Jest matcher.
+The `render` function returns the queries and additional helpers, such as the `debug` function. The [debug](https://www.native-testing-library.com/docs/api-main#debug) function prints the rendered React tree in a user-friendly format. Use it if you are unsure what the React tree rendered by the `render` function looks like. We acquire the `Text` node tagged with the `testID` prop by using the `getBytestId` function. For all available queries, check the Native Testing Library's [documentation]. The `toHaveTextContent` matcher is used to assert that the node's textual content is correct. The full list of available React Native specific matchers can be found in the [documentation](https://github.com/testing-library/jest-native#matchers) of the jest-native library. Jest's [documentation](https://jestjs.io/docs/en/expect) contains every universal Jest matcher.
 
-The second very important Native Testing Library concept is firing events. We can fire an event in a provided node by using the [fireEvent](https://www.native-testing-library.com/docs/api-events) object's methods. This is useful for for example typing text in to a text field or pressing a button. Here is an example of how to test submitting a simple form:
+The second very important Native Testing Library concept is firing events. We can fire an event in a provided node by using the [fireEvent](https://www.native-testing-library.com/docs/api-events) object's methods. This is useful for example typing text into a text field or pressing a button. Here is an example of how to test submitting a simple form:
 
 ```javascript
 import React, { useState } from 'react';
@@ -214,7 +214,7 @@ describe('Form', () => {
 });
 ```
 
-In this test we want to test that after filling the form's fields using the `fireEvent.changeText` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
+In this test, we want to test that after filling the form's fields using the `fireEvent.changeText` method and pressing the submit button using the `fireEvent.press` method, the `onSubmit` callback function is called correctly. To inspect whether the `onSubmit` function is called and with which arguments, we can use a [mock function](https://jestjs.io/docs/en/mock-function-api). Mock functions are functions with preprogrammed behavior such as a specific return value. In addition, we can create expectations for the mock functions such as "expect the mock function to have been called once". The full list of available expectations can be found in the Jest's [expect documentation](https://jestjs.io/docs/en/expect).
 
 Before heading further into the world of testing React Native applications, play around with these examples by adding a test file in the <i>\_\_tests\_\_</i> directory we created earlier.
 
@@ -274,7 +274,7 @@ Now, the `RepositoryList` component contains only the side effects and its imple
 
 ### Exercise
 
-Create a test that ensures that the `RepositoryListContainer` component renders repository's name, description, language, forks count, stargazers count, rating average and review count correctly. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has a certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
+Create a test that ensures that the `RepositoryListContainer` component renders repository's name, description, language, forks count, stargazers count, rating average, and review count correctly. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
 
 Use this as a base for your test:
 
@@ -331,13 +331,13 @@ describe('RepositoryList', () => {
 });
 ```
 
-You can put the test file where you please, however it is recommended to follow one of the ways of organizing test files introduced earlier. Use the `repositories` variable as the repository data for the test. There should be no need to alter the variable's value. Note that the repository data contains two repositories, which means that you need to check that both repositorie's information is present.
+You can put the test file where you please. However, it is recommended to follow one of the ways of organizing test files introduced earlier. Use the `repositories` variable as the repository data for the test. There should be no need to alter the variable's value. Note that the repository data contains two repositories, which means that you need to check that both repositories' information is present.
 
 ### Exercise
 
 Create a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The _first argument_ of the handler should be an object representing the form's values. You can ignore the other arguments of the function. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
 
-You don't have to test any Apollo Client or AsyncStorage related code which is in the `useSignIn` hook. As in the previous exercise, extract the pure code into its own component and test it in the test. Here's an example how this can be achieved:
+You don't have to test any Apollo Client or AsyncStorage related code which is in the `useSignIn` hook. As in the previous exercise, extract the pure code into its own component and test it in the test. Here's an example of how this can be achieved:
 
 ```javascript
 export const SignInContainer = ({ onSubmit }) => {
@@ -368,7 +368,7 @@ export default SignIn;
 
 Now you can import the `SignInContainer` component in the test file and use it in the test. As in the previous exercise, you can choose how to organize the test files.
 
-Note that Formik's form submissions is _asynchronous_ so expecting the `onSubmit` function to be called immediately after pressing the submit button wont work. You can get around this issue by making the test function an async function using the `async` keyword and using the Native Testing Library's [wait](https://www.native-testing-library.com/docs/next/api-async#wait) helper function. The `wait` function can be used to wait for expectations to pass. Here is a rough example how to use it:
+Note that Formik's form submissions are _asynchronous_ so expecting the `onSubmit` function to be called immediately after pressing the submit button won't work. You can get around this issue by making the test function an async function using the `async` keyword and using the Native Testing Library's [wait](https://www.native-testing-library.com/docs/next/api-async#wait) helper function. The `wait` function can be used to wait for expectations to pass. Here is a rough example of how to use it:
 
 ```javascript
 import React from 'react';
@@ -388,7 +388,7 @@ describe('SignIn', () => {
 });
 ```
 
-You might face the following warning messages: `Warning: An update to Formik inside a test was not wrapped in act(...)`. This happens because `fireEvent` methods calls cause asynchronous calls in Formik's internal logic. You can get rid of these messages by wrapping the `fireEvent` method calls with the [act](https://www.native-testing-library.com/docs/next/api-main#act) function like this:
+You might face the following warning messages: `Warning: An update to Formik inside a test was not wrapped in act(...)`. This happens because `fireEvent` method calls cause asynchronous calls in Formik's internal logic. You can get rid of these messages by wrapping each of the `fireEvent` method calls with the [act](https://www.native-testing-library.com/docs/next/api-main#act) function like this:
 
 ```javascript
 await act(async () => {
@@ -398,13 +398,13 @@ await act(async () => {
 
 ## Additional resources
 
-As we are getting closer to the end of this part, let's take a moment to look at some additional React Native related resources. [Awesome React Native](https://github.com/jondot/awesome-react-native) is a extremely encompassing curated list of React Native resources such as libraries, tutorials and articles. Because the list is exhaustively long, let's have a closer look at few of its highlights
+As we are getting closer to the end of this part, let's take a moment to look at some additional React Native related resources. [Awesome React Native](https://github.com/jondot/awesome-react-native) is an extremely encompassing curated list of React Native resources such as libraries, tutorials, and articles. Because the list is exhaustively long, let's have a closer look at few of its highlights
 
 ### React Native Paper
 
 > Paper is a collection of customizable and production-ready components for React Native, following Google’s Material Design guidelines.
 
-[React Native Paper](https://callstack.github.io/react-native-paper/) is for React Native what [Material-UI](https://material-ui.com/) is for React web applications. It offers a wide range of high quality UI components and a support for [custom themes](https://callstack.github.io/react-native-paper/theming.html). [Setting up](https://callstack.github.io/react-native-paper/getting-started.html) React Native Paper for Expo based React Native applications is quite simple, which makes it possible to use it in the upcoming exercises, if want to give it a go.
+[React Native Paper](https://callstack.github.io/react-native-paper/) is for React Native what [Material-UI](https://material-ui.com/) is for React web applications. It offers a wide range of high-quality UI components and support for [custom themes](https://callstack.github.io/react-native-paper/theming.html). [Setting up](https://callstack.github.io/react-native-paper/getting-started.html) React Native Paper for Expo based React Native applications is quite simple, which makes it possible to use it in the upcoming exercises if want to give it a go.
 
 ### Styled-components
 
@@ -451,7 +451,7 @@ const Main = () => {
 };
 ```
 
-Because styled-component processes the style definitions, it is possible to use CSS-like snake case syntax with the property names and units in property values. However, units don't have any affect because property values are internally unitless. For more information on styled-components, head out to the [documentation](https://styled-components.com/docs).
+Because styled-components processes the style definitions, it is possible to use CSS-like snake case syntax with the property names and units in property values. However, units don't have any effect because property values are internally unitless. For more information on styled-components, head out to the [documentation](https://styled-components.com/docs).
 
 ## Extending our application
 

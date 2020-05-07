@@ -891,6 +891,6 @@ const PlatformSpecificButton = () => {
 
 Now, the Android bundle of the application will have the component defined in the _Button.android.jsx_ whereas the iOS bundle the one defined in the _Button.ios.jsx_ file.
 
-## Exericse
+## Exercise
 
 Currently the font family of our application is set to _System_ in the theme configuration located in the _theme.js_ file. Instead of the _System_ font, use a platform specific [Sans-serif](https://en.wikipedia.org/wiki/Sans-serif) font. In the Android platform use the _Ubuntu_ font and in the iOS platform use the _Arial_ font. The default font can be _System_.
