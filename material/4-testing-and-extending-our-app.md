@@ -388,6 +388,14 @@ describe('SignIn', () => {
 });
 ```
 
+You might face the following warning messages: `Warning: An update to Formik inside a test was not wrapped in act(...)`. This happens because `fireEvent` methods calls cause asynchronous calls in Formik's internal logic. You can get rid of these messages by wrapping the `fireEvent` method calls with the [act](https://www.native-testing-library.com/docs/next/api-main#act) function like this:
+
+```javascript
+await act(async () => {
+  // Call the fireEvent method here
+});
+```
+
 ## Additional resources
 
 As we are getting closer to the end of this part, let's take a moment to look at some additional React Native related resources. [Awesome React Native](https://github.com/jondot/awesome-react-native) is a extremely encompassing curated list of React Native resources such as libraries, tutorials and articles. Because the list is exhaustively long, let's have a closer look at few of its highlights
