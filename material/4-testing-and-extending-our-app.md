@@ -392,7 +392,7 @@ You might face the following warning messages: `Warning: An update to Formik ins
 
 ```javascript
 await act(async () => {
-  // Call the fireEvent method here
+  // call the fireEvent method here
 });
 ```
 
