@@ -23,7 +23,10 @@ To use the jest-expo preset in Jest, we need to add the following Jest configura
     "preset": "jest-expo",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-router-native)"
+    ],
   }
 }
 ```
@@ -111,6 +114,9 @@ Next, configure this file as a setup file in the Jest's configuration in the _pa
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-router-native)"
+    ],
     "setupFilesAfterEnv": ["<rootDir>/setupTests.js"]
   }
   // ...
@@ -199,10 +205,11 @@ describe('Form', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
 
-    // onSubmit.mock.calls[0] contains the arguments of the first call as an array
-    expect(onSubmit.mock.calls[0]).toEqual([
-      { username: 'kalle', password: 'password' },
-    ]);
+    // onSubmit.mock.calls[0][0] contains the first argument of the first call
+    expect(onSubmit.mock.calls[0][0]).toEqual({
+      username: 'kalle',
+      password: 'password',
+    });
   });
 });
 ```
@@ -328,7 +335,7 @@ You can put the test file where you please, however it is recommended to follow 
 
 ### Exercise
 
-Create a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The first argument of the handler should be an object representing the form's values. In addition, create a test that ensures that the `onSubmit` handler is _not called_ when the form is submitted with empty values. These test cases can be in the same test file in a different `it` block. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
+Create a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The _first argument_ of the handler should be an object representing the form's values. You can ignore the other arguments of the function. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
 
 You don't have to test any Apollo Client or AsyncStorage related code which is in the `useSignIn` hook. As in the previous exercise, extract the pure code into its own component and test it in the test. Here's an example how this can be achieved:
 
@@ -360,6 +367,26 @@ export default SignIn;
 ```
 
 Now you can import the `SignInContainer` component in the test file and use it in the test. As in the previous exercise, you can choose how to organize the test files.
+
+Note that Formik's form submissions is _asynchronous_ so expecting the `onSubmit` function to be called immediately after pressing the submit button wont work. You can get around this issue by making the test function an async function using the `async` keyword and using the Native Testing Library's [wait](https://www.native-testing-library.com/docs/next/api-async#wait) helper function. The `wait` function can be used to wait for expectations to pass. Here is a rough example how to use it:
+
+```javascript
+import React from 'react';
+import { render, fireEvent, wait } from '@testing-library/react-native';
+// ...
+
+describe('SignIn', () => {
+  describe('SignInContainer', () => {
+    it('calls onSubmit function with correct arguments when a valid form is submitted', async () => {
+      // render the SignInContainer component, fill the text inputs and press the submit button
+
+      await wait(() => {
+        // expect the onSubmit function to have been called once and with a correct first argument
+      });
+    });
+  });
+});
+```
 
 ## Additional resources
 
@@ -393,11 +420,13 @@ const FancyText = styled.Text`
     css`
       color: blue;
     `}
-  
-  ${({ isBig }) => isBig && css`
-    font-size: 24px;
-    font-weight: 700;
-  `}
+
+  ${({ isBig }) =>
+    isBig &&
+    css`
+      font-size: 24px;
+      font-weight: 700;
+    `}
 `;
 
 const Main = () => {
