@@ -467,7 +467,7 @@ Repository's URL is in the `url` field of the `Repository` type in the GraphQL s
 
 ```javascript
 {
-	repository(id: "jaredpalmer.formik") {
+  repository(id: "jaredpalmer.formik") {
     id
     fullName
     url
@@ -489,7 +489,7 @@ Now that we have a view for a single repository, let's display repository's revi
 
 ```javascript
 {
-	repository(id: "jaredpalmer.formik") {
+  repository(id: "jaredpalmer.formik") {
     id
     fullName
     reviews {
@@ -573,4 +573,4 @@ The round shape of the rating's container can be achieved with the `borderRadius
 
 ## Exercises
 
-- Repository review list infinite scrolling optional
+- Repository review list infinite scrolling
