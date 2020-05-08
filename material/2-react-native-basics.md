@@ -496,7 +496,7 @@ The background color of the app bar in the image is `#24292e` but you can use an
 
 The current version of the rated repositories list looks quite grim. Modify the _RepositoryListItem_ component so that it also displays reporitory author's avatar image. You can implement this by using the [Image](https://reactnative.dev/docs/image) component. Counts, such as number of stars and forks, larger than or equal to 1000 should be displayed in thousands with precision of one decimal and with a "k" suffix. This means that for example fork count of 8439 should be displayed as "8.4k". Also polish the overall look of the component so that the rated repositories list looks something like this:
 
-![Application preview](images/7.png)
+![Application preview](images/7.jpg)
 
 In the image, the `Main` component's background color is set to `#e1e4e8` whereas `RepositoryListItem` component's background color is set to `white`. The language tag's background color is `#0366d6` which is the value of the `colors.primary` variable in the theme configuration. Remember to exploit the `Text` component we implemented earlier. Also when needed, split the `RepositoryListItem` component into smaller components.
 
@@ -827,7 +827,7 @@ const onSubmit = values => {
 
 Note that the callback _should not be called_ if the form validation fails. The sign in form should look something like this:
 
-![Application preview](images/8.png)
+![Application preview](images/8.jpg)
 
 Remember to utilize the `FormikTextInput` component we implemented earlier. You will need to add a red border to the `TextInput` component when the `error` prop is `true`. Also use same the red color in the `FormikTextInput` component's error message. The red color used in the image is `#d73a4a`. You can use the [secureTextEntry](https://reactnative.dev/docs/textinput#securetextentry) prop in the `TextInput` component to obscure the password input.
 
