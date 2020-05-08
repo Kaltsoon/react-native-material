@@ -546,7 +546,7 @@ The final version of the repository's reviews list should look something like th
 
 The date under the reviewer's username is the creation date of the review, which is in the `createdAt` field of the `Review` type. The date format should be user-friendly such as _date.month.year_. You can for example install the [date-fns](https://date-fns.org/) library and use the [format](https://date-fns.org/v2.13.0/docs/format) function for formatting the creation date.
 
-The round shape of the rating's container can be achieved with the `borderRadius` style property. You can make it round by fixing the container's `with` and `height` style property and setting the border radius as `width / 2`.
+The round shape of the rating's container can be achieved with the `borderRadius` style property. You can make it round by fixing the container's `width` and `height` style property and setting the border radius as `width / 2`.
 
 ### Exercise
 
@@ -573,4 +573,4 @@ The round shape of the rating's container can be achieved with the `borderRadius
 
 ## Exercises
 
-- Repository review list infinite scrolling (optional)
+- Repository review list infinite scrolling optional
