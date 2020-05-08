@@ -274,7 +274,7 @@ Now, the `RepositoryList` component contains only the side effects and its imple
 
 ### Exercise
 
-Create a test that ensures that the `RepositoryListContainer` component renders repository's name, description, language, forks count, stargazers count, rating average, and review count correctly. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
+Implement a test that ensures that the `RepositoryListContainer` component renders repository's name, description, language, forks count, stargazers count, rating average, and review count correctly. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
 
 Use this as a base for your test:
 
@@ -335,7 +335,7 @@ You can put the test file where you please. However, it is recommended to follow
 
 ### Exercise
 
-Create a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The _first argument_ of the handler should be an object representing the form's values. You can ignore the other arguments of the function. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
+Implement a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The _first argument_ of the handler should be an object representing the form's values. You can ignore the other arguments of the function. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
 
 You don't have to test any Apollo Client or AsyncStorage related code which is in the `useSignIn` hook. As in the previous exercise, extract the pure code into its own component and test it in the test. Here's an example of how this can be achieved:
 
@@ -459,11 +459,105 @@ It is time to put everything we have learned so far to a good use and start exte
 
 ## Exercises
 
-- Single repository view
-- Repository's reviews view
+### Exercise
+
+Implement a view for a single repository, which contains the same repository information as in the rated repository list but also a button for opening the repository in GitHub. It would be good idea to reuse the `RepositoryItem` component used in the `RepositoryList` component, and display the GitHub repository button for example based on a boolean prop.
+
+Repository's URL is in the `url` field of the `Repository` type in the GraphQL schema. You can fetch a single repository from the Apollo server with the `repository` query. The query has a single argument, which is the id of the repository. Here's a simple example of the `repository` query:
+
+```javascript
+{
+	repository(id: "jaredpalmer.formik") {
+    id
+    fullName
+    url
+  }
+}
+```
+
+As allways, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. For learning how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/).
+
+The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the rated repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
+
+The final version of the single repository view should look something like this:
+
+<!-- TODO: kuva -->
+
+### Exercise
+
+Now that we have a view for a single repository, let's display repository's reviews there. Repository's reviews are in the `reviews` field of the `Repository` type in the GraphQL schema. `reviews` is a similar paginated list as in the `repositories` query. Here's an example of getting reviews of a repository:
+
+```javascript
+{
+	repository(id: "jaredpalmer.formik") {
+    id
+    fullName
+    reviews {
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          user {
+            id
+            username
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Review's `text` field contains the textual review, `rating` field a numeric rating between 0 and 100 and `createdAt` the date when the review was created. Review's `user` field contains the reviewer's information, which is of type `User`.
+
+We want to display reviews as a scrollable list, which makes [FlatList](https://reactnative.dev/docs/flatlist) a suitable component for the job. To display the previous exercise's repository's information in the top of the list, you can use the `FlatList` components [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop. You can use the [ItemSeparatorComponent](https://reactnative.dev/docs/flatlist#itemseparatorcomponent) to add some space between the items like in the `RepositoryList` component. Here's an example of the structure:
+
+```javascript
+const ListHeader = () => {
+  // Repository's information implemented in the previous exercise
+};
+
+const ReviewItem = ({ review }) => {
+  // Single review item
+};
+
+const SingleRepository = () => {
+  // ...
+
+  return (
+    <FlatList
+      data={reviews}
+      renderItem={({ item }) => <ReviewItem review={item} />}
+      keyExtractor={({ id }) => id}
+      ListHeaderComponent={ListHeader}
+      // ...
+    />
+  );
+};
+
+export default SingleRepository;
+```
+
+The final version of the repository's reviews list should look something like this:
+
+<!-- TODO: kuva -->
+
+### Exercise
+
 - Review form
+
+### Exercise
+
 - Sign up form
+
+### Exercise
+
 - Repository list sorting (optional)
+
+### Exercise
+
 - Repository list filtering (optional)
 
 ## Infinite scrolling
@@ -474,4 +568,4 @@ It is time to put everything we have learned so far to a good use and start exte
 
 ## Exercises
 
-- Repository review list infinite scrolling
+- Repository review list infinite scrolling (optional)
