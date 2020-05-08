@@ -475,13 +475,22 @@ Repository's URL is in the `url` field of the `Repository` type in the GraphQL s
 }
 ```
 
-As allways, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. For learning how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/).
+As always, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. If you have trouble using the id as a variable in the query, take a moment to study the Apollo Client's [documentation](https://www.apollographql.com/docs/react/data/queries/) on queries. It is a good idea to use the `cache-and-network` fetch policy with the Apollo Client's `useQuery` hook to avoid caching issues. The fetch policy can be defined in the query's options like this:
 
-The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the rated repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
+```javascript
+useQuery(MY_QUERY, {
+  fetchPolicy: 'cache-and-network',
+  // Other options such as variables
+});
+```
+
+To learn how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/). You will need this feature while implementing the button for opening the repository in GitHub.
+
+The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the rated repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
 
 The final version of the single repository view should look something like this:
 
-<!-- TODO: kuva -->
+![Application preview](images/13.jpg)
 
 ### Exercise
 
@@ -515,7 +524,7 @@ Review's `text` field contains the textual review, `rating` field a numeric rati
 We want to display reviews as a scrollable list, which makes [FlatList](https://reactnative.dev/docs/flatlist) a suitable component for the job. To display the previous exercise's repository's information in the top of the list, you can use the `FlatList` components [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop. You can use the [ItemSeparatorComponent](https://reactnative.dev/docs/flatlist#itemseparatorcomponent) to add some space between the items like in the `RepositoryList` component. Here's an example of the structure:
 
 ```javascript
-const ListHeader = () => {
+const RepositoryInfo = () => {
   // Repository's information implemented in the previous exercise
 };
 
@@ -531,7 +540,7 @@ const SingleRepository = () => {
       data={reviews}
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
-      ListHeaderComponent={ListHeader}
+      ListHeaderComponent={RepositoryInfo}
       // ...
     />
   );
