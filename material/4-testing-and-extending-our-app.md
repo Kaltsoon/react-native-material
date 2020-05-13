@@ -550,8 +550,31 @@ The round shape of the rating's container can be achieved with the `borderRadius
 
 ### Exercise
 
-- Review form
-- Fetch policy: cache-and-network
+Implement a form for creating a review using Formik. The form should have four fields: repository owner's GitHub username (for example "jaredpalmer"), repository's name (for example "formik"), a numeric rating, and a textual review. Validate the fields using Yup schema so that it contains the following validations:
+
+* Repository owner's username is a required string
+* Repository's name is a required string
+* Rating is a required number between 0 and 100
+* Review is a optional string
+
+Explore the Yup's [documentation](https://github.com/jquense/yup#yup) to find suitable validators. Use sensible error messages with the validators. The validation message can be defined as the validator method's `message` argument. You can make the review field expand to multiple lines by using `TextInput` component's [multiline](https://reactnative.dev/docs/textinput#multiline) prop. 
+
+You can create a review using the `createReview` mutation. Check this mutation's arguments in the _docs_ tab in the GraphQL playground. You can use the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook to send a mutation to the Apollo Server. After a successful `createReview` mutation, redirect user to the repository's view you implemented in the previous exercise. This can be done with the `history.push` method after you have obtained the history object using the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook. The created review has a `repositoryId` field which you can use to construct the route's path. To prevent getting cached data with the `repository` query in the single repository view, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the `useQuery` hook like this:
+
+```javascript
+useQuery(GET_REPOSITORY, {
+  fetchPolicy: 'cache-and-network',
+  // Other options
+});
+```
+
+Note that only _an existing GitHub repository_ can be reviewed and user can review a repository _only once_. You don't have to handle these error cases, but the error payload includes specific codes and messages for these errors.
+
+The review form should be accessible through the app bar. Create a tab to the app bar with a label "Create a review". This tab should only be visible to users who have signed in. You will also need to define a route for the review form.
+
+The final version of the review form should look something like this:
+
+<!-- TODO: kuva -->
 
 ### Exercise
 
