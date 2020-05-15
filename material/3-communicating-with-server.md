@@ -215,7 +215,9 @@ const App = () => {
 export default App;
 ```
 
-It is up to you how to organize the GraphQL related code. It is recommended to define queries, mutations, fragments, and possibly other entities in their own files. Here is an example of a structure you can use to get started:
+## Organizing GraphQL related code
+
+It is up to you how to organize the GraphQL related code in your application. However, for the sake of a reference structure, let's have a look at one quite simple and efficient way to organize the GraphQL related code. In this structure, we define queries, mutations, fragments, and possibly other entities in their own files. These files are located in the same directory. Here is an example of the structure you can use to get started:
 
 ![GraphQL structure](images/12.png)
 
