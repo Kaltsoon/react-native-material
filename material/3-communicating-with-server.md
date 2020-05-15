@@ -219,17 +219,21 @@ It is up to you how to organize the GraphQL related code. It is recommended to d
 
 ![GraphQL structure](images/12.png)
 
-You can import the [gql](https://www.apollographql.com/docs/apollo-server/api/apollo-server/#gql) template literal tag used to define GraphQL queries and mutations from the Apollo Boost library. If we follow the structure suggested above, we could have a _queries.js_ file in the _graphql_ directory and export a `GET_REPOSITORIES` variable containing a query from that file:
+You can import the [gql](https://www.apollographql.com/docs/apollo-server/api/apollo-server/#gql) template literal tag used to define GraphQL queries from the Apollo Boost library. If we follow the structure suggested above, we could have a _queries.js_ file in the _graphql_ directory for our application's GraphQL queries. Each of the queries can be stored in a variable and exported like this: 
 
 ```javascript
 import { gql } from 'apollo-boost';
 
 export const GET_REPOSITORIES = gql`
-  ${/* ... */}
+  query repositories {
+    ${/* ... */}
+  }
 `;
+
+// other queries...
 ```
 
-We could import this variable and use it with the `useQuery` hook like this:
+We can import these variables and use them with the `useQuery` hook like this:
 
 ```javascript
 import { useQuery } from '@apollo/react-hooks';
@@ -241,6 +245,8 @@ const Component = () => {
   // ...
 };
 ```
+
+The same goes for organizing mutations. The only difference is that we define them in a different file, _mutations.js_. It is recommended to use [fragments](https://www.apollographql.com/docs/react/data/fragments/) in queries to avoid retyping the same fields over and over again.
 
 ## Evolving the structure
 
