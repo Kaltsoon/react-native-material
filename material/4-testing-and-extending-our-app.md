@@ -475,7 +475,9 @@ Repository's URL is in the `url` field of the `Repository` type in the GraphQL s
 }
 ```
 
-As always, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. If you have trouble using the id as a variable in the query, take a moment to study the Apollo Client's [documentation](https://www.apollographql.com/docs/react/data/queries/) on queries. To learn how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/). You will need this feature while implementing the button for opening the repository in GitHub.
+As always, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. If you have trouble using the id as a variable in the query, take a moment to study the Apollo Client's [documentation](https://www.apollographql.com/docs/react/data/queries/) on queries. 
+
+To learn how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/). You will need this feature while implementing the button for opening the repository in GitHub.
 
 The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the rated repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
 
@@ -552,14 +554,18 @@ The round shape of the rating's container can be achieved with the `borderRadius
 
 Implement a form for creating a review using Formik. The form should have four fields: repository owner's GitHub username (for example "jaredpalmer"), repository's name (for example "formik"), a numeric rating, and a textual review. Validate the fields using Yup schema so that it contains the following validations:
 
-* Repository owner's username is a required string
-* Repository's name is a required string
-* Rating is a required number between 0 and 100
-* Review is a optional string
+- Repository owner's username is a required string
+- Repository's name is a required string
+- Rating is a required number between 0 and 100
+- Review is a optional string
 
-Explore the Yup's [documentation](https://github.com/jquense/yup#yup) to find suitable validators. Use sensible error messages with the validators. The validation message can be defined as the validator method's `message` argument. You can make the review field expand to multiple lines by using `TextInput` component's [multiline](https://reactnative.dev/docs/textinput#multiline) prop. 
+Explore the Yup's [documentation](https://github.com/jquense/yup#yup) to find suitable validators. Use sensible error messages with the validators. The validation message can be defined as the validator method's `message` argument. You can make the review field expand to multiple lines by using `TextInput` component's [multiline](https://reactnative.dev/docs/textinput#multiline) prop.
 
-You can create a review using the `createReview` mutation. Check this mutation's arguments in the _docs_ tab in the GraphQL playground. You can use the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook to send a mutation to the Apollo Server. After a successful `createReview` mutation, redirect user to the repository's view you implemented in the previous exercise. This can be done with the `history.push` method after you have obtained the history object using the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook. The created review has a `repositoryId` field which you can use to construct the route's path. To prevent getting cached data with the `repository` query in the single repository view, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the `useQuery` hook like this:
+You can create a review using the `createReview` mutation. Check this mutation's arguments in the _docs_ tab in the GraphQL playground. You can use the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook to send a mutation to the Apollo Server.
+
+After a successful `createReview` mutation, redirect user to the repository's view you implemented in the previous exercise. This can be done with the `history.push` method after you have obtained the history object using the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook. The created review has a `repositoryId` field which you can use to construct the route's path.
+
+To prevent getting cached data with the `repository` query in the single repository view, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the `useQuery` hook like this:
 
 ```javascript
 useQuery(GET_REPOSITORY, {
@@ -568,17 +574,35 @@ useQuery(GET_REPOSITORY, {
 });
 ```
 
-Note that only _an existing GitHub repository_ can be reviewed and user can review a repository _only once_. You don't have to handle these error cases, but the error payload includes specific codes and messages for these errors.
+Note that only _an existing public GitHub repository_ can be reviewed and user can review the same repository _only once_. You don't have to handle these error cases, but the error payload includes specific codes and messages for these errors. You can try out your implementation by reviewing one of your own public repositories or any other public repository.
 
 The review form should be accessible through the app bar. Create a tab to the app bar with a label "Create a review". This tab should only be visible to users who have signed in. You will also need to define a route for the review form.
 
 The final version of the review form should look something like this:
 
-<!-- TODO: kuva -->
+![Application preview](images/15.jpg)
+
+This screenshot has been taken after an invalid form submission to present what the form should look like in an invalid state.
 
 ### Exercise
 
-- Sign up form
+Implement a sign up form for registering a user using Formik. The form should have three fields: username, password and password confirmation. Validate the form using Yup schema so that it contains the following validations:
+
+- Username is a required string with a length between 1 and 30
+- Password is a required string with a length between 5 and 50
+- Password confirmation matches the password
+
+Password confirmation field's validation can be a bit tricky, but it can be done for example by using the [oneOf](https://github.com/jquense/yup#mixedoneofarrayofvalues-arrayany-message-string--function-schema-alias-equals) and [ref](https://github.com/jquense/yup#yuprefpath-string-options--contextprefix-string--ref) methods like suggested in [this issue](https://github.com/jaredpalmer/formik/issues/90#issuecomment-354873201).
+
+You can create a new user by using the `createUser` mutation. Find out how this mutations work by exploring the documentation in the GraphQL playground. After a succesful `createUser` mutation, sign the created user in by using the `useSignIn` hook like we did in the sign in the form. After user has been signed in, redirect the user to the rated repository list view.
+
+User should be able to access the sign up form through the app bar by pressing a "Sign up" tab. This tab should only be visible to users that aren't signed in.
+
+The final version of the sign up form should look something like this:
+
+![Application preview](images/16.jpg)
+
+This screenshot has been taken after an invalid form submission to present what the form should look like in an invalid state.
 
 ### Exercise
 

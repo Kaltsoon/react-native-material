@@ -165,7 +165,7 @@ That's it, now the `RepositoryList` component is no longer aware of the way the 
 
 In [part 8](https://fullstackopen.com/en/part8) we learned about GraphQL and how to send GraphQL queries to an Apollo Server using the [Apollo Client](https://www.apollographql.com/docs/react/) in React applications. The good news is that we can use the Apollo Client in a React Native application exactly as we would with a React web application.
 
-As mentioned earlier, the _rate-repository-api_ server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to send a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _DOCS_ tab to open the documentation:
+As mentioned earlier, the _rate-repository-api_ server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to send a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _docs_ tab to open the documentation:
 
 ![GraphQL Playground](images/11.png)
 
@@ -219,14 +219,27 @@ It is up to you how to organize the GraphQL related code. It is recommended to d
 
 ![GraphQL structure](images/12.png)
 
-You can import the [gql](https://www.apollographql.com/docs/apollo-server/api/apollo-server/#gql) template literal tag used to define GraphQL queries from the Apollo Boost library like this:
+You can import the [gql](https://www.apollographql.com/docs/apollo-server/api/apollo-server/#gql) template literal tag used to define GraphQL queries and mutations from the Apollo Boost library. If we follow the structure suggested above, we could have a _queries.js_ file in the _graphql_ directory and export a `GET_REPOSITORIES` variable containing a query from that file:
 
 ```javascript
 import { gql } from 'apollo-boost';
 
-const GET_REPOSITORIES = gql`
+export const GET_REPOSITORIES = gql`
   ${/* ... */}
 `;
+```
+
+We could import this variable and use it with the `useQuery` hook like this:
+
+```javascript
+import { useQuery } from '@apollo/react-hooks';
+
+import { GET_REPOSITORIES } from '../graphql/queries';
+
+const Component = () => {
+  const { data, error, loading } = useQuery(GET_REPOSITORIES);
+  // ...
+};
 ```
 
 ## Evolving the structure
@@ -258,7 +271,7 @@ The first option is fairly decent, however, if components `B` and `C` are not re
 
 ## Exercises
 
-We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _DOCS_ tab. Look up the _repositories_ query. The query has some arguments, however, all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
+We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _docs_ tab. Look up the _repositories_ query. The query has some arguments, however, all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
 
 Once the query is working in the GraphQL Playground, use it to replace the Fetch API implementation in the `useRepositories` hook. This can be achieved using the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. The `gql` template literal tag can be imported from the Apollo Boost as instructed earlier. Consider using the structure recommended earlier for the GraphQL related code. To avoid future caching issues, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the `useQuery` hook like this:
 
