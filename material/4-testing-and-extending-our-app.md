@@ -222,7 +222,7 @@ Before heading further into the world of testing React Native applications, play
 
 Components in the previous examples are quite easy to test because they are more or less _pure_. Pure components don't depend on _side effects_ such as network requests or using some native API such as the AsyncStorage. The `Form` component is much less pure than the `Greeting` component because its state changes can be counted as a side effect. Nevertheless, testing it isn't too difficult.
 
-Next, let's have a look at a strategy for testing components with side effects. Let's pick the `RepositoryList` component from our application as an example. At the moment the component has one side effect, which is a GraphQL query for fetching the rated repositories. The current implementation of the `RepositoryList` component looks something like this:
+Next, let's have a look at a strategy for testing components with side effects. Let's pick the `RepositoryList` component from our application as an example. At the moment the component has one side effect, which is a GraphQL query for fetching the reviewed repositories. The current implementation of the `RepositoryList` component looks something like this:
 
 ```javascript
 const RepositoryList = () => {
@@ -461,7 +461,7 @@ It is time to put everything we have learned so far to a good use and start exte
 
 ### Exercise
 
-Implement a view for a single repository, which contains the same repository information as in the rated repository list but also a button for opening the repository in GitHub. It would be good idea to reuse the `RepositoryItem` component used in the `RepositoryList` component, and display the GitHub repository button for example based on a boolean prop.
+Implement a view for a single repository, which contains the same repository information as in the reviewed repositories list but also a button for opening the repository in GitHub. It would be good idea to reuse the `RepositoryItem` component used in the `RepositoryList` component, and display the GitHub repository button for example based on a boolean prop.
 
 Repository's URL is in the `url` field of the `Repository` type in the GraphQL schema. You can fetch a single repository from the Apollo server with the `repository` query. The query has a single argument, which is the id of the repository. Here's a simple example of the `repository` query:
 
@@ -479,7 +479,7 @@ As always, test your queries in the GraphQL playground first before using them i
 
 To learn how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/). You will need this feature while implementing the button for opening the repository in GitHub.
 
-The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the rated repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
+The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the reviewed repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
 
 The final version of the single repository view should look something like this:
 
@@ -594,7 +594,7 @@ Implement a sign up form for registering a user using Formik. The form should ha
 
 Password confirmation field's validation can be a bit tricky, but it can be done for example by using the [oneOf](https://github.com/jquense/yup#mixedoneofarrayofvalues-arrayany-message-string--function-schema-alias-equals) and [ref](https://github.com/jquense/yup#yuprefpath-string-options--contextprefix-string--ref) methods like suggested in [this issue](https://github.com/jaredpalmer/formik/issues/90#issuecomment-354873201).
 
-You can create a new user by using the `createUser` mutation. Find out how this mutations work by exploring the documentation in the GraphQL playground. After a succesful `createUser` mutation, sign the created user in by using the `useSignIn` hook like we did in the sign in the form. After user has been signed in, redirect the user to the rated repository list view.
+You can create a new user by using the `createUser` mutation. Find out how this mutations work by exploring the documentation in the GraphQL playground. After a succesful `createUser` mutation, sign the created user in by using the `useSignIn` hook like we did in the sign in the form. After user has been signed in, redirect the user to the reviewed repositories list view.
 
 User should be able to access the sign up form through the app bar by pressing a "Sign up" tab. This tab should only be visible to users that aren't signed in.
 
@@ -606,7 +606,19 @@ This screenshot has been taken after an invalid form submission to present what 
 
 ### Exercise
 
-- Repository list sorting (optional)
+At the moment repositories in the reviewed repositories list are ordered by the date of repository's first review. Implement a feature that allows users to select the principle, which is used to order the repositories. The available ordering principles should be:
+
+- Latest repositories. Repository with the latest first review is on the top of the list. This is the current behavior and should be the default principle.
+- Highest rated repositories. Repository with the _highest_ average rating is on the top of the list.
+- Lowest rated repositories. Repository with the _lowest_ average rating is on the top of the list.
+
+The `repositories` query used to fetch the reviewed repositories has a argument called `orderBy`, which you can use to define the ordering principle. The argument has two allowed values: `CREATED_AT` (order by the date of repository's first review) and `RATING_AVERAGE`, (order by the repository's average rating). The query also has an argument called `orderDirection` which can be used to change the order direction. The argument has two allowed values: `ASC` (ascending, smallest value first) and `DESC` (descending, biggest value first).
+
+You can use for example [react-native-picker](https://www.npmjs.com/package/react-native-picker-select) library, or React Native Paper's [Menu](https://callstack.github.io/react-native-paper/menu.html) component to implement the ordering principle's selection. You can use the `FlatList` component's [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop to provide the list a header containing the selection component.
+
+The final version of the feature, depending on the selection component in use, should look something like this:
+
+![Application preview](images/17.jpg)
 
 ### Exercise
 
