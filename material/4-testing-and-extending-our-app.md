@@ -475,7 +475,7 @@ Repository's URL is in the `url` field of the `Repository` type in the GraphQL s
 }
 ```
 
-As always, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. If you have trouble using the id as a variable in the query, take a moment to study the Apollo Client's [documentation](https://www.apollographql.com/docs/react/data/queries/) on queries. 
+As always, test your queries in the GraphQL playground first before using them in your application. If you are unsure about the GraphQL schema or what are the available queries, open either the _docs_ or _schema_ tab in the GraphQL playground. If you have trouble using the id as a variable in the query, take a moment to study the Apollo Client's [documentation](https://www.apollographql.com/docs/react/data/queries/) on queries.
 
 To learn how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/). You will need this feature while implementing the button for opening the repository in GitHub.
 
@@ -614,7 +614,7 @@ At the moment repositories in the reviewed repositories list are ordered by the 
 
 The `repositories` query used to fetch the reviewed repositories has a argument called `orderBy`, which you can use to define the ordering principle. The argument has two allowed values: `CREATED_AT` (order by the date of repository's first review) and `RATING_AVERAGE`, (order by the repository's average rating). The query also has an argument called `orderDirection` which can be used to change the order direction. The argument has two allowed values: `ASC` (ascending, smallest value first) and `DESC` (descending, biggest value first).
 
-You can use for example [react-native-picker](https://www.npmjs.com/package/react-native-picker-select) library, or React Native Paper's [Menu](https://callstack.github.io/react-native-paper/menu.html) component to implement the ordering principle's selection. You can use the `FlatList` component's [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop to provide the list a header containing the selection component.
+You can use for example [react-native-picker](https://www.npmjs.com/package/react-native-picker-select) library, or React Native Paper's [Menu](https://callstack.github.io/react-native-paper/menu.html) component to implement the ordering principle's selection. You can use the `FlatList` component's [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop to provide the list with a header containing the selection component.
 
 The final version of the feature, depending on the selection component in use, should look something like this:
 
@@ -624,7 +624,105 @@ The final version of the feature, depending on the selection component in use, s
 
 - Repository list filtering (optional)
 
+## Cursor based pagination
+
+When an API returns an ordered list of items from some collection, it usually returns a subsets of the whole set of items to reduce the required bandwidth and to decrease the memory usage of the client applications. The desired subset of items can be parametrized so that the client can request for example the first twenty items on the list after some index. This technique is commonly referred as _pagination_. When items can be requested after a certain item defined by a _cursor_, we are talking about _cursor based pagination_.
+
+So cursor is just a serialized presentation of an item in a ordered list. Let's have a look at the paginated repositories returned by the `repositories` query using the following query:
+
+```javascript
+{
+  repositories(first: 2) {
+    edges {
+      node {
+        id
+        fullName
+        createdAt
+      }
+      cursor
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      totalCount
+      hasNextPage
+    }
+  }
+}
+```
+
+The `first` argument tells the API to return only the first two repositories. Here's an example of a result of the query:
+
+```javascript
+{
+  "data": {
+    "repositories": {
+      "edges": [
+        {
+          "node": {
+            "id": "zeit.next.js",
+            "fullName": "zeit/next.js",
+            "createdAt": "2020-05-15T11:59:57.557Z"
+          },
+          "cursor": "WyJ6ZWl0Lm5leHQuanMiLDE1ODk1NDM5OTc1NTdd"
+        },
+        {
+          "node": {
+            "id": "zeit.swr",
+            "fullName": "zeit/swr",
+            "createdAt": "2020-05-15T11:58:53.867Z"
+          },
+          "cursor": "WyJ6ZWl0LnN3ciIsMTU4OTU0MzkzMzg2N10="
+        }
+      ],
+      "pageInfo": {
+        "endCursor": "WyJ6ZWl0LnN3ciIsMTU4OTU0MzkzMzg2N10=",
+        "startCursor": "WyJ6ZWl0Lm5leHQuanMiLDE1ODk1NDM5OTc1NTdd",
+        "totalCount": 10,
+        "hasNextPage": true
+      }
+    }
+  }
+}
+```
+
+In the result we have the `edges` array containing items with `node` and `cursor` attributes.
+As we know, the `node` contains the repository itself. The `cursor` on the other is a base64 encoded representation of the node. It contains repository's id and date of repository's creation as a timestamp. This is the information we need to point to the item when they are ordered by the creation time of the repository. The `pageInfo` contains information such as the cursor of the first and the last item in the array.
+
+Let's say that we wan't to get the next set of items _after_ the last item of the current set, which is the "zeit/swr" repository. We can set the `after` argument of the query as the value of the `endCursor` like this:
+
+```javascript
+{
+  repositories(first: 2, after: "WyJ6ZWl0LnN3ciIsMTU4OTU0MzkzMzg2N10=") {
+    edges {
+      node {
+        id
+        fullName
+        createdAt
+      }
+      cursor
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      totalCount
+      hasNextPage
+    }
+  }
+}
+```
+
+Now have the next two items and we can keep on doing this until the `hasNextPage` has value of `false`, meaning that we have reached the end of the list. To dig deeper into cursor based pagination, read the Shopify's article [Pagination with Relative Cursors](https://engineering.shopify.com/blogs/engineering/pagination-relative-cursors). It provides great details on the implementation itself and the benefits over the traditional index based pagination. 
+
 ## Infinite scrolling
+
+Vertically scrollable lists in mobile and desktop applications are commonly implemented using technique called infinite scrolling. The principle of infinite scrolling is quite simple:
+
+1. Fetch the initial set of items
+2. When user reaches the last item, fetch the next set of items after the last item
+
+The second step is repeated until user gets tired of scrolling or some scrolling limit is exceeded. The name "infinite scrolling" refers to the way the list seems to be infinite - user can just keep on scrolling and new items keep on appearing on the list.
+
 
 - https://reactnative.dev/docs/flatlist
 - https://www.apollographql.com/docs/react/data/pagination/#cursor-based
@@ -633,3 +731,7 @@ The final version of the feature, depending on the selection component in use, s
 ## Exercises
 
 - Repository review list infinite scrolling
+
+## Closing words
+
+- https://docs.expo.io/distribution/app-stores/
