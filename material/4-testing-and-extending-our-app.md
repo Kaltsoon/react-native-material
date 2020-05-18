@@ -772,55 +772,57 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-Next, we need to fetch more repositories once the end of the list is reached. This can be achieved using the [fetchMore](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) function provided by the `useQuery` hook. Let's alter the `useRepositories` hook so that it calls the `fetchMore` function with the `endCursor` and updates the query correctly:
+Next, we need to fetch more repositories once the end of the list is reached. This can be achieved using the [fetchMore](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) function provided by the `useQuery` hook. Let's alter the `useRepositories` hook so that it calls the `fetchMore` function with the `endCursor` and updates the query correctly with the fetched data:
 
 ```javascript
-const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
-  variables,
-  // ...
-});
-
-const handleFetchMore = () => {
-  const canFetchMore =
-    !loading && data && data.repositories.pageInfo.hasNextPage;
-
-  if (!canFetchMore) {
-    return;
-  }
-
-  fetchMore({
-    query: GET_REPOSITORIES,
-    variables: {
-      after: data.repositories.pageInfo.endCursor,
-      ...variables,
-    },
-    updateQuery: (previousResult, { fetchMoreResult }) => {
-      const nextResult = {
-        repositories: {
-          ...fetchMoreResult.repositories,
-          edges: [
-            ...previousResult.repositories.edges,
-            ...fetchMoreResult.repositories.edges,
-          ],
-        },
-      };
-
-      return nextResult;
-    },
+const useRepositories = (variables) => {
+  const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
+    variables,
+    // ...
   });
-};
 
-return {
-  repositories: data ? data.repositories : undefined,
-  fetchMore: handleFetchMore,
-  loading,
-  ...result,
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data && data.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      query: GET_REPOSITORIES,
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        const nextResult = {
+          repositories: {
+            ...fetchMoreResult.repositories,
+            edges: [
+              ...previousResult.repositories.edges,
+              ...fetchMoreResult.repositories.edges,
+            ],
+          },
+        };
+
+        return nextResult;
+      },
+    });
+  };
+
+  return {
+    repositories: data ? data.repositories : undefined,
+    fetchMore: handleFetchMore,
+    loading,
+    ...result,
+  };
 };
 ```
 
 Make sure you have the `pageInfo` and the `cursor` fields in your `repositories` query. You will also need to include the `after` and `first` arguments for the query.
 
-The `handleFetchMore` function will call the Apollo Client's `fetchMore` function is there is more items to fetch, which is determined by the `hasNextPage`. In the `fetchMore` function we are providing the query with an `after` argument, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
+The `handleFetchMore` function will call the Apollo Client's `fetchMore` function if there is more items to fetch, which is determined by the `hasNextPage` property. We also want to prevent fetching more items if fetching is already in process. In this case `loading` will be `true`. In the `fetchMore` function we are providing the query with an `after` variable, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
 
 The final step is to call the `fetchMore` function in the `onEndReach` handler:
 
@@ -851,9 +853,44 @@ export default RepositoryList;
 
 Use a relatively small `first` argument value such as 8 for testing purposes so you don't need to review too many repositories. Once the infinite scrolling seems to be working correctly you can raise the value to for example 20.
 
-## Exercises
+## Exercise
 
-- Repository review list infinite scrolling
+Implement infinite scrolling for the repository's reviews list. The `Repository` type's `reviews` field has the `first` and `after` arguments similar to the `repositories` query. `ReviewConnection` type also has the `pageInfo` field just like the `RepositoryConnection`. Here's an example query:
+
+```javascript
+{
+  repository(id: "jaredpalmer.formik") {
+    id
+    fullName
+    reviews(first: 2, after: "WyIxYjEwZTRkOC01N2VlLTRkMDAtODg4Ni1lNGEwNDlkN2ZmOGYuamFyZWRwYWxtZXIuZm9ybWlrIiwxNTg4NjU2NzUwMDgwXQ==") {
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          repositoryId
+          user {
+            id
+            username
+          }
+        }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        totalCount
+        hasNextPage
+      }
+    }
+  }
+}
+```
+
+As with the reviewed repositories list, use a relatively small `first` argument value while you are testing the infinite scrolling. Once everything is working, feel free to use a larger value. You might also need to sign up a few new users and use them to create a few new reviews to make the reviews list long enough to scroll. If the `onEndReach` handler is called immediately after the view is loaded, try using a larger value for the `first` argument.
+
+This was the last exercise of this part of the course. It's time to push your code to GitHub and mark all of your finished exercises to the [exercise submission system](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
 
 ## Closing words
 
