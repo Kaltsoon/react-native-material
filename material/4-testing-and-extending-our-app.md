@@ -614,15 +614,19 @@ At the moment repositories in the reviewed repositories list are ordered by the 
 
 The `repositories` query used to fetch the reviewed repositories has a argument called `orderBy`, which you can use to define the ordering principle. The argument has two allowed values: `CREATED_AT` (order by the date of repository's first review) and `RATING_AVERAGE`, (order by the repository's average rating). The query also has an argument called `orderDirection` which can be used to change the order direction. The argument has two allowed values: `ASC` (ascending, smallest value first) and `DESC` (descending, biggest value first).
 
+The selected ordering principle state can be maintained for example using the React's [useState](https://reactjs.org/docs/hooks-reference.html#usestate) hook. The variables used in the `repositories` query can be given to the `useRepositories` hook as an argument.
+
 You can use for example [react-native-picker](https://www.npmjs.com/package/react-native-picker-select) library, or React Native Paper's [Menu](https://callstack.github.io/react-native-paper/menu.html) component to implement the ordering principle's selection. You can use the `FlatList` component's [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop to provide the list with a header containing the selection component.
 
 The final version of the feature, depending on the selection component in use, should look something like this:
 
 ![Application preview](images/17.jpg)
 
+<!--
 ### Exercise
 
 - Repository list filtering (optional)
+-->
 
 ## Cursor based pagination
 
@@ -712,21 +716,140 @@ Let's say that we wan't to get the next set of items _after_ the last item of th
 }
 ```
 
-Now have the next two items and we can keep on doing this until the `hasNextPage` has value of `false`, meaning that we have reached the end of the list. To dig deeper into cursor based pagination, read the Shopify's article [Pagination with Relative Cursors](https://engineering.shopify.com/blogs/engineering/pagination-relative-cursors). It provides great details on the implementation itself and the benefits over the traditional index based pagination. 
+Now have the next two items and we can keep on doing this until the `hasNextPage` has value of `false`, meaning that we have reached the end of the list. To dig deeper into cursor based pagination, read the Shopify's article [Pagination with Relative Cursors](https://engineering.shopify.com/blogs/engineering/pagination-relative-cursors). It provides great details on the implementation itself and the benefits over the traditional index based pagination.
 
 ## Infinite scrolling
 
-Vertically scrollable lists in mobile and desktop applications are commonly implemented using technique called infinite scrolling. The principle of infinite scrolling is quite simple:
+Vertically scrollable lists in mobile and desktop applications are commonly implemented using technique called _infinite scrolling_. The principle of infinite scrolling is quite simple:
 
 1. Fetch the initial set of items
 2. When user reaches the last item, fetch the next set of items after the last item
 
 The second step is repeated until user gets tired of scrolling or some scrolling limit is exceeded. The name "infinite scrolling" refers to the way the list seems to be infinite - user can just keep on scrolling and new items keep on appearing on the list.
 
+Let's have a look how this work in practice using the Apollo Client's `useQuery` hook. Apollo Client has a great [documentation](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) on implementing the cursor based pagination. Let's implement infinite scrolling for the reviewed repository list as an example.
 
-- https://reactnative.dev/docs/flatlist
-- https://www.apollographql.com/docs/react/data/pagination/#cursor-based
-- Example of adding infinite scrolling to the repository list
+First, we need to know when user has reached the end of the list. Luckily, the `FlatList` component has a prop [onReachEnd](https://reactnative.dev/docs/flatlist#onendreached), which will call the provided function once the user has scrolled to the last item on the list. You can change how early the `onEndReach` callback is called using the [onEndReachedThreshold](https://reactnative.dev/docs/flatlist#onendreachedthreshold) prop. Alter the `RepositoryList` component's `FlatList` component so that it calls a function once the end of the list is reached:
+
+```javascript
+export const RepositoryListContainer = ({
+  repositories,
+  onEndReach,
+  /* ... */,
+}) => {
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      // ...
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
+    />
+  );
+};
+
+const RepositoryList = () => {
+  // ...
+
+  const { repositories } = useRepositories(/* ... */);
+
+  const onEndReach = () => {
+    console.log('We have reached the end of the list');
+  };
+
+  return (
+    <RepositoryListContainer
+      repositories={repositories}
+      onEndReach={onEndReach}
+      // ...
+    />
+  );
+};
+
+export default RepositoryList;
+```
+
+Next, we need to fetch more repositories once the end of the list is reached. This can be achieved using the [fetchMore](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) function provided by the `useQuery` hook. Let's alter the `useRepositories` hook so that it calls the `fetchMore` function with the `endCursor` and updates the query correctly:
+
+```javascript
+const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
+  variables,
+  // ...
+});
+
+const handleFetchMore = () => {
+  const canFetchMore =
+    !loading && data && data.repositories.pageInfo.hasNextPage;
+
+  if (!canFetchMore) {
+    return;
+  }
+
+  fetchMore({
+    query: GET_REPOSITORIES,
+    variables: {
+      after: data.repositories.pageInfo.endCursor,
+      ...variables,
+    },
+    updateQuery: (previousResult, { fetchMoreResult }) => {
+      const nextResult = {
+        repositories: {
+          ...fetchMoreResult.repositories,
+          edges: [
+            ...previousResult.repositories.edges,
+            ...fetchMoreResult.repositories.edges,
+          ],
+        },
+      };
+
+      return nextResult;
+    },
+  });
+};
+
+return {
+  repositories: data ? data.repositories : undefined,
+  fetchMore: handleFetchMore,
+  loading,
+  ...result,
+};
+```
+
+Make sure you have the `pageInfo` and the `cursor` fields in your `repositories` query. You will also need to include the `after` and `first` arguments for the query.
+
+The `handleFetchMore` function will call the Apollo Client's `fetchMore` function is there is more items to fetch, which is determined by the `hasNextPage`. In the `fetchMore` function we are providing the query with an `after` argument, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
+
+The final step is to call the `fetchMore` function in the `onEndReach` handler:
+
+```javascript
+const RepositoryList = () => {
+  // ...
+
+  const { repositories, fetchMore } = useRepositories({
+    first: 8,
+    // ...
+  });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
+
+  return (
+    <RepositoryListContainer
+      repositories={repositories}
+      onEndReach={onEndReach}
+      // ...
+    />
+  );
+};
+
+export default RepositoryList;
+```
+
+Use a relatively small `first` argument value such as 8 for testing purposes so you don't need to review too many repositories. Once the infinite scrolling seems to be working correctly you can raise the value to for example 20.
 
 ## Exercises
 
