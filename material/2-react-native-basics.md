@@ -181,7 +181,7 @@ export default RepositoryList;
 
 _Do not_ alter the contents of the `repositories` variable, it should contain everything you need to complete this exercise. Render the `RepositoryList` component in the `Main` component which we previously added to the _Main.jsx_ file. The reviewed repository list should roughly look something like this:
 
-![Application preview](images/5.png)
+![Application preview](images/5.jpg)
 
 ## Style
 
@@ -488,7 +488,7 @@ export default AppBar;
 
 The [ScrollView](https://reactnative.dev/docs/scrollview) component enables horizontal scrolling when there is too much content to fit the screen. Now that the `AppBar` component will prevent the status bar from overlapping the content, you can remove the `marginTop` style we added for the `Main` component earlier in the _Main.jsx_ file. The `AppBar` component should currently contain a tab with text "Repositories". Make the tab touchable by using the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component but you don't have to handle the `onPress` event in any way. Add the `AppBar` component to the `Main` component so that it is the uppermost component in the screen. The `AppBar` component should look something like this:
 
-![Application preview](images/6.png)
+![Application preview](images/6.jpg)
 
 The background color of the app bar in the image is `#24292e` but you can use any other color as well. It might be a good idea to add the app bar's background color into the theme configuration so that it is easy to change it if needed. Another good idea might be to separate the app bar's tab into its own component such as `AppBarTab` so that it is easy to add new tabs in the future.
 
