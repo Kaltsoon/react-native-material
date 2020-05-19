@@ -277,7 +277,7 @@ components/
 
 The first option is fairly decent, however, if components `B` and `C` are not reusable outside the component `A`, it is useless to bloat the _components_ directory by adding them as separate files. The second option is quite modular and doesn't break any imports because importing a path such as _./A_ will match both _A.jsx_ and _A/index.jsx_.
 
-## Exercises
+## Exercise 10.9.
 
 We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _docs_ tab. Look up the _repositories_ query. The query has some arguments, however, all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
 
@@ -357,7 +357,7 @@ export default App;
 
 You should see the value of the _ENV_ variable in the logs. You can remove the log message and the import, once you have succesfully logged the variable's value. Note that it is _never_ a good idea to put sensitive data into the React Native's environment variables. The reason for this is that once a user has downloaded your application, they can, at least in theory, reverse engineer your application and figure out the sensitive data you have stored into the code.
 
-## Exercise
+## Exercise 10.10.
 
 Instead of the hardcoded Apollo Server's URL, use an environment variable when initializing the Apollo Client. You can name the variable for example `APOLLO_URI`. For now, it is enough that you only define the variable in the _development environment_, because we aren't aware of the production URL of the Apollo Server.
 
@@ -425,9 +425,9 @@ Because `AsyncStorage` keys are global, it is usually a good idea to add a _name
 
 We can add an item to the storage using the [AsyncStorage.setItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#setItem) method. The first argument of the method is the item's key and the second argument its value. The value _must be a string_, so we need to serialize non-string values as we did with the `JSON.stringify` method. The [AsyncStorage.getItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#getitem) method can be used to get an item from the storage. The argument of the method is the item's key, of which value will be resolved. The [AsyncStorage.removeItem](https://github.com/react-native-community/async-storage/blob/master/docs/API.md#removeitem) method can be used to remove the item with the provided key from the storage.
 
-## Exercises
+## Exercises 10.11. - 10.12.
 
-### Exercise
+### Exercise 10.11.
 
 The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/fullstack-hy2020/rate-repository-api#-getting-started) section of the README.
 
@@ -468,7 +468,7 @@ const SignIn = () => {
 
 This exercise is completed once you can log the user's _authorize_ mutations result after the sign-in form has been submitted. The mutation result should contain the user's access token.
 
-### Exercise
+### Exercise 10.12.
 
 Now that we can obtain the access token we need to store it. Create a file _authStorage.js_ in the _utils_ directory with the following content:
 
@@ -608,9 +608,9 @@ const useSignIn = () => {
 
 Note that accessing a context's value using the `useContext` hook only works if the `useContext` hook is used in a component that is a _descendant_ of the [Context.Provider](https://reactjs.org/docs/context.html#contextprovider) component.
 
-## Exercises
+## Exercises 10.13. - 10.14.
 
-### Exercise
+### Exercise 10.13.
 
 Improve the `useSignIn` hook so that it stores the user's access token retrieved from the _authorize_ mutation. The return value of the hook should not change. The only change you should make to the `SignIn` component is that you should redirect the user to the reviewed repositories list view after a successful sign in. You can achieve this by using the [https://reacttraining.com/react-router/native/api/Hooks/usehistory] hook and the history's [push](https://reacttraining.com/react-router/native/api/history) method.
 
@@ -622,7 +622,7 @@ await authStorage.setAccessToken(/* access token from the data */)
 apolloClient.resetStore();
 ```
 
-### Exercise
+### Exercise 10.14.
 
 The final step in completing the sign-in feature is to implement a sign out feature. The _authorizedUser_ query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground and run the following query:
 

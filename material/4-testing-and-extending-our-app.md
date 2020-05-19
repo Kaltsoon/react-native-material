@@ -270,9 +270,9 @@ export default RepositoryList;
 
 Now, the `RepositoryList` component contains only the side effects and its implementation is quite simple. We can test the `RepositoListContainer` component by providing it with paginated repository data through the `repositories` prop and checking that the rendered content has the correct information. This can be achieved by tagging the required `RepositoryItem` component's nodes with `testID` props.
 
-## Exercises
+## Exercises 10.15. - 10.16.
 
-### Exercise
+### Exercise 10.15.
 
 Implement a test that ensures that the `RepositoryListContainer` component renders repository's name, description, language, forks count, stargazers count, rating average, and review count correctly. Remember that you can use the [toHaveTextContent](https://github.com/testing-library/jest-native#tohavetextcontent) matcher to check whether a node has certain textual content. You can use the [getAllByTestId](https://www.native-testing-library.com/docs/api-queries#getallby) query to get all nodes with a certain `testID` prop as an array. If you are unsure what is being rendered, use the [debug](https://www.native-testing-library.com/docs/next/api-main#debug) function to see the serialized rendering result.
 
@@ -333,7 +333,7 @@ describe('RepositoryList', () => {
 
 You can put the test file where you please. However, it is recommended to follow one of the ways of organizing test files introduced earlier. Use the `repositories` variable as the repository data for the test. There should be no need to alter the variable's value. Note that the repository data contains two repositories, which means that you need to check that both repositories' information is present.
 
-### Exercise
+### Exercise 10.16.
 
 Implement a test that ensures that filling the sing in form's username and password fields and pressing the submit button _will call_ the `onSubmit` handler with _correct arguments_. The _first argument_ of the handler should be an object representing the form's values. You can ignore the other arguments of the function. Remember that the [fireEvent](https://www.native-testing-library.com/docs/api-events) methods can be used for triggering events and a [mock function](https://jestjs.io/docs/en/mock-function-api) for checking whether the `onSubmit` handler is called or not.
 
@@ -457,9 +457,9 @@ Because styled-components processes the style definitions, it is possible to use
 
 It is time to put everything we have learned so far to a good use and start extending our application. Our application still lacks a few important features such as reviewing a repository and registering a user. The upcoming exercises will focus on these essential features. Feel free to use any additional resources, such as React Native Paper's components, while working on the exercises. However, using additional resources is entirely _optional_ and you should focus on completing the minimum requirements of the exercises before working on improvements.
 
-## Exercises
+## Exercises 10.17. - 10.21.
 
-### Exercise
+### Exercise 10.17.
 
 Implement a view for a single repository, which contains the same repository information as in the reviewed repositories list but also a button for opening the repository in GitHub. It would be good idea to reuse the `RepositoryItem` component used in the `RepositoryList` component, and display the GitHub repository button for example based on a boolean prop.
 
@@ -485,7 +485,7 @@ The final version of the single repository view should look something like this:
 
 ![Application preview](images/13.jpg)
 
-### Exercise
+### Exercise 10.18.
 
 Now that we have a view for a single repository, let's display repository's reviews there. Repository's reviews are in the `reviews` field of the `Repository` type in the GraphQL schema. `reviews` is a similar paginated list as in the `repositories` query. Here's an example of getting reviews of a repository:
 
@@ -550,7 +550,7 @@ The date under the reviewer's username is the creation date of the review, which
 
 The round shape of the rating's container can be achieved with the `borderRadius` style property. You can make it round by fixing the container's `width` and `height` style property and setting the border radius as `width / 2`.
 
-### Exercise
+### Exercise 10.19.
 
 Implement a form for creating a review using Formik. The form should have four fields: repository owner's GitHub username (for example "jaredpalmer"), repository's name (for example "formik"), a numeric rating, and a textual review. Validate the fields using Yup schema so that it contains the following validations:
 
@@ -584,7 +584,7 @@ The final version of the review form should look something like this:
 
 This screenshot has been taken after an invalid form submission to present what the form should look like in an invalid state.
 
-### Exercise
+### Exercise 10.20.
 
 Implement a sign up form for registering a user using Formik. The form should have three fields: username, password and password confirmation. Validate the form using Yup schema so that it contains the following validations:
 
@@ -604,7 +604,7 @@ The final version of the sign up form should look something like this:
 
 This screenshot has been taken after an invalid form submission to present what the form should look like in an invalid state.
 
-### Exercise
+### Exercise 10.21.
 
 At the moment repositories in the reviewed repositories list are ordered by the date of repository's first review. Implement a feature that allows users to select the principle, which is used to order the repositories. The available ordering principles should be:
 
@@ -727,9 +727,9 @@ Vertically scrollable lists in mobile and desktop applications are commonly impl
 
 The second step is repeated until user gets tired of scrolling or some scrolling limit is exceeded. The name "infinite scrolling" refers to the way the list seems to be infinite - user can just keep on scrolling and new items keep on appearing on the list.
 
-Let's have a look how this work in practice using the Apollo Client's `useQuery` hook. Apollo Client has a great [documentation](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) on implementing the cursor based pagination. Let's implement infinite scrolling for the reviewed repository list as an example.
+Let's have a look how this work in practice using the Apollo Client's `useQuery` hook. Apollo Client has a great [documentation](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) on implementing the cursor based pagination. Let's implement infinite scrolling for the reviewed repositories list as an example.
 
-First, we need to know when user has reached the end of the list. Luckily, the `FlatList` component has a prop [onReachEnd](https://reactnative.dev/docs/flatlist#onendreached), which will call the provided function once the user has scrolled to the last item on the list. You can change how early the `onEndReach` callback is called using the [onEndReachedThreshold](https://reactnative.dev/docs/flatlist#onendreachedthreshold) prop. Alter the `RepositoryList` component's `FlatList` component so that it calls a function once the end of the list is reached:
+First, we need to know when user has reached the end of the list. Luckily, the `FlatList` component has a prop [onEndReached](https://reactnative.dev/docs/flatlist#onendreached), which will call the provided function once the user has scrolled to the last item on the list. You can change how early the `onEndReach` callback is called using the [onEndReachedThreshold](https://reactnative.dev/docs/flatlist#onendreachedthreshold) prop. Alter the `RepositoryList` component's `FlatList` component so that it calls a function once the end of the list is reached:
 
 ```javascript
 export const RepositoryListContainer = ({
@@ -757,7 +757,7 @@ const RepositoryList = () => {
   const { repositories } = useRepositories(/* ... */);
 
   const onEndReach = () => {
-    console.log('We have reached the end of the list');
+    console.log('You have reached the end of the list');
   };
 
   return (
@@ -772,7 +772,9 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-Next, we need to fetch more repositories once the end of the list is reached. This can be achieved using the [fetchMore](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) function provided by the `useQuery` hook. Let's alter the `useRepositories` hook so that it calls the `fetchMore` function with the `endCursor` and updates the query correctly with the fetched data:
+Try scolling to the end of the reviewed repositories list and you should the message in the logs.
+
+Next, we need to fetch more repositories once the end of the list is reached. This can be achieved using the [fetchMore](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) function provided by the `useQuery` hook. Let's alter the `useRepositories` hook so that it returns a decorated `fetchMore` function, which calls the actual `fetchMore` function with the `endCursor` and updates the query correctly with the fetched data:
 
 ```javascript
 const useRepositories = (variables) => {
@@ -820,7 +822,7 @@ const useRepositories = (variables) => {
 };
 ```
 
-Make sure you have the `pageInfo` and the `cursor` fields in your `repositories` query. You will also need to include the `after` and `first` arguments for the query.
+Make sure you have the `pageInfo` and the `cursor` fields in your `repositories` query as described in the pagination examples. You will also need to include the `after` and `first` arguments for the query.
 
 The `handleFetchMore` function will call the Apollo Client's `fetchMore` function if there is more items to fetch, which is determined by the `hasNextPage` property. We also want to prevent fetching more items if fetching is already in process. In this case `loading` will be `true`. In the `fetchMore` function we are providing the query with an `after` variable, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
 
@@ -851,11 +853,11 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-Use a relatively small `first` argument value such as 8 for testing purposes so you don't need to review too many repositories. Once the infinite scrolling seems to be working correctly you can raise the value to for example 20.
+Use a relatively small `first` argument value such as 8 while trying out the infinite scrolling. This way you don't need to review too many repositories. You might face and issue that the `onEndReach` handler is called immediately after the view is loaded. This is most likely because the list contains so few repositories that end of the list is reached immediately. You can get around this issue by increasing the value of `first` argument. Once you are confident that the infinite scrolling is working, feel free to use a larger value for the `first` argument.
 
-## Exercise
+## Exercise 10.22.
 
-Implement infinite scrolling for the repository's reviews list. The `Repository` type's `reviews` field has the `first` and `after` arguments similar to the `repositories` query. `ReviewConnection` type also has the `pageInfo` field just like the `RepositoryConnection`. Here's an example query:
+Implement infinite scrolling for the repository's reviews list. The `Repository` type's `reviews` field has the `first` and `after` arguments similar to the `repositories` query. `ReviewConnection` type also has the `pageInfo` field just like the `RepositoryConnection` type. Here's an example query:
 
 ```javascript
 {
@@ -888,7 +890,7 @@ Implement infinite scrolling for the repository's reviews list. The `Repository`
 }
 ```
 
-As with the reviewed repositories list, use a relatively small `first` argument value while you are testing the infinite scrolling. Once everything is working, feel free to use a larger value. You might also need to sign up a few new users and use them to create a few new reviews to make the reviews list long enough to scroll. If the `onEndReach` handler is called immediately after the view is loaded, try using a larger value for the `first` argument.
+As with the reviewed repositories list, use a relatively small `first` argument value while you are trying out the infinite scrolling. You might need to sign up a few new users and use them to create a few new reviews to make the reviews list long enough to scroll. Set the value of the `first` argument high enough so that the `onEndReach` handler isn't called immediately after the view is loaded, but low enough so that you can see that more reviews are fetched once you reach the end of the list. Once everything is working as inteded you can use a larger value for the `first` argument.
 
 This was the last exercise of this part of the course. It's time to push your code to GitHub and mark all of your finished exercises to the [exercise submission system](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
 

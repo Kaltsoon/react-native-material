@@ -103,7 +103,7 @@ const App = () => {
 export default App;
 ```
 
-## Exercise
+## Exercise 10.3.
 
 In this exercise, we will implement the first version of the reviewed repositories list. The list should contain the repository's full name, description, language, number of forks, number of stars, rating average and number of reviews. Luckily React Native provides a handy component for displaying a list of data, which is the [FlatList](https://reactnative.dev/docs/flatlist) component. Implement components `RepositoryList` and `RepositoryItem` in the _components_ directory's files _RepositoryList.jsx_ and _RepositoryItem.jsx_. The `RepositoryList` component should render the `FlatList` component and `RepositoryItem` a single item on the list (hint: use the `FlatList` component's [renderItem](https://reactnative.dev/docs/flatlist#renderitem) prop). Use this as the basis for the _RepositoryList.jsx_ file:
 
@@ -456,9 +456,9 @@ Here is a more interactive and concreate example of how to use flexbox to implem
 
 Next, read the article [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) which has comprehensive visual examples of flexbox. It is also a good idea to play around with the flexbox properties in the [Flexbox Playground](https://demos.scotch.io/visual-guide-to-css3-flexbox-flexbox-playground/demos/) to see how different flexbox properties affect the layout. Remember that in React Native the property names are the same as the ones in CSS except for the _camelCase_ naming. However, the _property values_ such as `flex-start` and `space-between` are exactly the same.
 
-## Exercises
+## Exercises 10.4. - 10.5.
 
-### Exercise
+### Exercise 10.4.
 
 We will soon need to navigate between different views in our application. That is why need an [app bar](https://material.io/components/app-bars-top/) to display tabs for switching between different views. Create a file _AppBar.jsx_ in the _components_ folder with the following content:
 
@@ -492,7 +492,7 @@ The [ScrollView](https://reactnative.dev/docs/scrollview) component enables hori
 
 The background color of the app bar in the image is `#24292e` but you can use any other color as well. It might be a good idea to add the app bar's background color into the theme configuration so that it is easy to change it if needed. Another good idea might be to separate the app bar's tab into its own component such as `AppBarTab` so that it is easy to add new tabs in the future.
 
-### Exercise
+### Exercise 10.5.
 
 The current version of the reviewed repositories list looks quite grim. Modify the _RepositoryListItem_ component so that it also displays reporitory author's avatar image. You can implement this by using the [Image](https://reactnative.dev/docs/image) component. Counts, such as number of stars and forks, larger than or equal to 1000 should be displayed in thousands with precision of one decimal and with a "k" suffix. This means that for example fork count of 8439 should be displayed as "8.4k". Also polish the overall look of the component so that the reviewed repositories list looks something like this:
 
@@ -571,7 +571,7 @@ const Main = () => {
 export default Main;
 ```
 
-## Exercise
+## Exercise 10.6.
 
 Create a file _SignIn.jsx_ in the _components_ directory with the following content:
 
@@ -815,7 +815,7 @@ const FormikTextInput = ({ name, ...props }) => {
 };
 ```
 
-## Exercise
+## Exercise 10.7.
 
 Implement a sign in form to the `SignIn` component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. Validate the sign in form so that both username and password fields are required. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted. You can use this simple function as the `onSubmit` callback function:
 
@@ -891,6 +891,6 @@ const PlatformSpecificButton = () => {
 
 Now, the Android bundle of the application will have the component defined in the _Button.android.jsx_ whereas the iOS bundle the one defined in the _Button.ios.jsx_ file.
 
-## Exercise
+## Exercise 10.8.
 
 Currently the font family of our application is set to _System_ in the theme configuration located in the _theme.js_ file. Instead of the _System_ font, use a platform specific [Sans-serif](https://en.wikipedia.org/wiki/Sans-serif) font. In the Android platform use the _Ubuntu_ font and in the iOS platform use the _Arial_ font. The default font can be _System_.
