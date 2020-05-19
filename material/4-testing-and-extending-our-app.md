@@ -455,15 +455,15 @@ Because styled-components processes the style definitions, it is possible to use
 
 ## Extending our application
 
-It is time to put everything we have learned so far to a good use and start extending our application. Our application still lacks a few important features such as reviewing a repository and registering a user. The upcoming exercises will focus on these essential features. Feel free to use any additional resources, such as React Native Paper's components, while working on the exercises. However, using additional resources is entirely _optional_ and you should focus on completing the minimum requirements of the exercises before working on improvements.
+It is time to put everything we have learned so far to good use and start extending our application. Our application still lacks a few important features such as reviewing a repository and registering a user. The upcoming exercises will focus on these essential features. Feel free to use any additional resources, such as React Native Paper's components, while working on the exercises. However, using additional resources is entirely _optional_ and you should focus on completing the minimum requirements of the exercises before working on improvements.
 
 ## Exercises 10.17. - 10.21.
 
 ### Exercise 10.17.
 
-Implement a view for a single repository, which contains the same repository information as in the reviewed repositories list but also a button for opening the repository in GitHub. It would be good idea to reuse the `RepositoryItem` component used in the `RepositoryList` component, and display the GitHub repository button for example based on a boolean prop.
+Implement a view for a single repository, which contains the same repository information as in the reviewed repositories list but also a button for opening the repository in GitHub. It would be a good idea to reuse the `RepositoryItem` component used in the `RepositoryList` component and display the GitHub repository button for example based on a boolean prop.
 
-Repository's URL is in the `url` field of the `Repository` type in the GraphQL schema. You can fetch a single repository from the Apollo server with the `repository` query. The query has a single argument, which is the id of the repository. Here's a simple example of the `repository` query:
+The repository's URL is in the `url` field of the `Repository` type in the GraphQL schema. You can fetch a single repository from the Apollo server with the `repository` query. The query has a single argument, which is the id of the repository. Here's a simple example of the `repository` query:
 
 ```javascript
 {
@@ -479,7 +479,7 @@ As always, test your queries in the GraphQL playground first before using them i
 
 To learn how to open a URL in a browser, read the Expo's [Linking API documentation](https://docs.expo.io/workflow/linking/). You will need this feature while implementing the button for opening the repository in GitHub.
 
-The view should have its own route. It would be a good idea to define repository's id in the route's path as path paramter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. Hser should be able to access the view by pressing a repository in the reviewed repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) component in the `RepositoryList` component and using `history.push` method to change the route in a `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
+The view should have its own route. It would be a good idea to define the repository's id in the route's path as a path parameter, which you can access by using the [useParams](https://reacttraining.com/react-router/native/api/Hooks/useparams) hook. The user should be able to access the view by pressing a repository in the reviewed repositories list. You can achieve this by for example wrapping the `RepositoryItem` with a [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) component in the `RepositoryList` component and using `history.push` method to change the route in an `onPress` event handler. You can access the `history` object with the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook.
 
 The final version of the single repository view should look something like this:
 
@@ -512,9 +512,9 @@ Now that we have a view for a single repository, let's display repository's revi
 }
 ```
 
-Review's `text` field contains the textual review, `rating` field a numeric rating between 0 and 100 and `createdAt` the date when the review was created. Review's `user` field contains the reviewer's information, which is of type `User`.
+Review's `text` field contains the textual review, `rating` field a numeric rating between 0 and 100, and `createdAt` the date when the review was created. Review's `user` field contains the reviewer's information, which is of type `User`.
 
-We want to display reviews as a scrollable list, which makes [FlatList](https://reactnative.dev/docs/flatlist) a suitable component for the job. To display the previous exercise's repository's information in the top of the list, you can use the `FlatList` components [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop. You can use the [ItemSeparatorComponent](https://reactnative.dev/docs/flatlist#itemseparatorcomponent) to add some space between the items like in the `RepositoryList` component. Here's an example of the structure:
+We want to display reviews as a scrollable list, which makes [FlatList](https://reactnative.dev/docs/flatlist) a suitable component for the job. To display the previous exercise's repository's information at the top of the list, you can use the `FlatList` components [ListHeaderComponent](https://reactnative.dev/docs/flatlist#listheadercomponent) prop. You can use the [ItemSeparatorComponent](https://reactnative.dev/docs/flatlist#itemseparatorcomponent) to add some space between the items like in the `RepositoryList` component. Here's an example of the structure:
 
 ```javascript
 const RepositoryInfo = ({ repository }) => {
@@ -548,7 +548,7 @@ The final version of the repository's reviews list should look something like th
 
 The date under the reviewer's username is the creation date of the review, which is in the `createdAt` field of the `Review` type. The date format should be user-friendly such as _date.month.year_. You can for example install the [date-fns](https://date-fns.org/) library and use the [format](https://date-fns.org/v2.13.0/docs/format) function for formatting the creation date.
 
-The round shape of the rating's container can be achieved with the `borderRadius` style property. You can make it round by fixing the container's `width` and `height` style property and setting the border radius as `width / 2`.
+The round shape of the rating's container can be achieved with the `borderRadius` style property. You can make it round by fixing the container's `width` and `height` style property and setting the border-radius as `width / 2`.
 
 ### Exercise 10.19.
 
@@ -559,11 +559,11 @@ Implement a form for creating a review using Formik. The form should have four f
 - Rating is a required number between 0 and 100
 - Review is a optional string
 
-Explore the Yup's [documentation](https://github.com/jquense/yup#yup) to find suitable validators. Use sensible error messages with the validators. The validation message can be defined as the validator method's `message` argument. You can make the review field expand to multiple lines by using `TextInput` component's [multiline](https://reactnative.dev/docs/textinput#multiline) prop.
+Explore Yup's [documentation](https://github.com/jquense/yup#yup) to find suitable validators. Use sensible error messages with the validators. The validation message can be defined as the validator method's `message` argument. You can make the review field expand to multiple lines by using `TextInput` component's [multiline](https://reactnative.dev/docs/textinput#multiline) prop.
 
 You can create a review using the `createReview` mutation. Check this mutation's arguments in the _docs_ tab in the GraphQL playground. You can use the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook to send a mutation to the Apollo Server.
 
-After a successful `createReview` mutation, redirect user to the repository's view you implemented in the previous exercise. This can be done with the `history.push` method after you have obtained the history object using the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook. The created review has a `repositoryId` field which you can use to construct the route's path.
+After a successful `createReview` mutation, redirect the user to the repository's view you implemented in the previous exercise. This can be done with the `history.push` method after you have obtained the history object using the [useHistory](https://reacttraining.com/react-router/native/api/Hooks/usehistory) hook. The created review has a `repositoryId` field which you can use to construct the route's path.
 
 To prevent getting cached data with the `repository` query in the single repository view, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the `useQuery` hook like this:
 
@@ -574,7 +574,7 @@ useQuery(GET_REPOSITORY, {
 });
 ```
 
-Note that only _an existing public GitHub repository_ can be reviewed and user can review the same repository _only once_. You don't have to handle these error cases, but the error payload includes specific codes and messages for these errors. You can try out your implementation by reviewing one of your own public repositories or any other public repository.
+Note that only _an existing public GitHub repository_ can be reviewed and a user can review the same repository _only once_. You don't have to handle these error cases, but the error payload includes specific codes and messages for these errors. You can try out your implementation by reviewing one of your own public repositories or any other public repository.
 
 The review form should be accessible through the app bar. Create a tab to the app bar with a label "Create a review". This tab should only be visible to users who have signed in. You will also need to define a route for the review form.
 
@@ -582,37 +582,37 @@ The final version of the review form should look something like this:
 
 ![Application preview](images/15.jpg)
 
-This screenshot has been taken after an invalid form submission to present what the form should look like in an invalid state.
+This screenshot has been taken after invalid form submission to present what the form should look like in an invalid state.
 
 ### Exercise 10.20.
 
-Implement a sign up form for registering a user using Formik. The form should have three fields: username, password and password confirmation. Validate the form using Yup schema so that it contains the following validations:
+Implement a sign-up form for registering a user using Formik. The form should have three fields: username, password, and password confirmation. Validate the form using Yup schema so that it contains the following validations:
 
 - Username is a required string with a length between 1 and 30
 - Password is a required string with a length between 5 and 50
 - Password confirmation matches the password
 
-Password confirmation field's validation can be a bit tricky, but it can be done for example by using the [oneOf](https://github.com/jquense/yup#mixedoneofarrayofvalues-arrayany-message-string--function-schema-alias-equals) and [ref](https://github.com/jquense/yup#yuprefpath-string-options--contextprefix-string--ref) methods like suggested in [this issue](https://github.com/jaredpalmer/formik/issues/90#issuecomment-354873201).
+The password confirmation field's validation can be a bit tricky, but it can be done for example by using the [oneOf](https://github.com/jquense/yup#mixedoneofarrayofvalues-arrayany-message-string--function-schema-alias-equals) and [ref](https://github.com/jquense/yup#yuprefpath-string-options--contextprefix-string--ref) methods like suggested in [this issue](https://github.com/jaredpalmer/formik/issues/90#issuecomment-354873201).
 
-You can create a new user by using the `createUser` mutation. Find out how this mutations work by exploring the documentation in the GraphQL playground. After a succesful `createUser` mutation, sign the created user in by using the `useSignIn` hook like we did in the sign in the form. After user has been signed in, redirect the user to the reviewed repositories list view.
+You can create a new user by using the `createUser` mutation. Find out how this mutation work by exploring the documentation in the GraphQL playground. After a successful `createUser` mutation, sign the created user in by using the `useSignIn` hook as we did in the sign in the form. After the user has been signed in, redirect the user to the reviewed repositories list view.
 
-User should be able to access the sign up form through the app bar by pressing a "Sign up" tab. This tab should only be visible to users that aren't signed in.
+The user should be able to access the sign-up form through the app bar by pressing a "Sign up" tab. This tab should only be visible to users that aren't signed in.
 
-The final version of the sign up form should look something like this:
+The final version of the sign-up form should look something like this:
 
 ![Application preview](images/16.jpg)
 
-This screenshot has been taken after an invalid form submission to present what the form should look like in an invalid state.
+This screenshot has been taken after invalid form submission to present what the form should look like in an invalid state.
 
 ### Exercise 10.21.
 
 At the moment repositories in the reviewed repositories list are ordered by the date of repository's first review. Implement a feature that allows users to select the principle, which is used to order the repositories. The available ordering principles should be:
 
-- Latest repositories. Repository with the latest first review is on the top of the list. This is the current behavior and should be the default principle.
-- Highest rated repositories. Repository with the _highest_ average rating is on the top of the list.
-- Lowest rated repositories. Repository with the _lowest_ average rating is on the top of the list.
+- Latest repositories. The repository with the latest first review is on the top of the list. This is the current behavior and should be the default principle.
+- Highest rated repositories. The repository with the _highest_ average rating is on the top of the list.
+- Lowest rated repositories. The repository with the _lowest_ average rating is on the top of the list.
 
-The `repositories` query used to fetch the reviewed repositories has a argument called `orderBy`, which you can use to define the ordering principle. The argument has two allowed values: `CREATED_AT` (order by the date of repository's first review) and `RATING_AVERAGE`, (order by the repository's average rating). The query also has an argument called `orderDirection` which can be used to change the order direction. The argument has two allowed values: `ASC` (ascending, smallest value first) and `DESC` (descending, biggest value first).
+The `repositories` query used to fetch the reviewed repositories has an argument called `orderBy`, which you can use to define the ordering principle. The argument has two allowed values: `CREATED_AT` (order by the date of repository's first review) and `RATING_AVERAGE`, (order by the repository's average rating). The query also has an argument called `orderDirection` which can be used to change the order direction. The argument has two allowed values: `ASC` (ascending, smallest value first) and `DESC` (descending, biggest value first).
 
 The selected ordering principle state can be maintained for example using the React's [useState](https://reactjs.org/docs/hooks-reference.html#usestate) hook. The variables used in the `repositories` query can be given to the `useRepositories` hook as an argument.
 
@@ -622,17 +622,59 @@ The final version of the feature, depending on the selection component in use, s
 
 ![Application preview](images/17.jpg)
 
-<!--
-### Exercise
+### Exercise 10.22.
 
-- Repository list filtering (optional)
--->
+The Apollo Server allows filtering repositories using the repository's name or the owner's username. This can be done using the `searchKeyword` argument in the `repositories` query. Here's an example of how to use the argument in a query:
 
-## Cursor based pagination
+```javascript
+{
+  repositories(searchKeyword: "ze") {
+    edges {
+      node {
+        id
+        fullName
+      }
+    }
+  }
+}
+```
 
-When an API returns an ordered list of items from some collection, it usually returns a subsets of the whole set of items to reduce the required bandwidth and to decrease the memory usage of the client applications. The desired subset of items can be parametrized so that the client can request for example the first twenty items on the list after some index. This technique is commonly referred as _pagination_. When items can be requested after a certain item defined by a _cursor_, we are talking about _cursor based pagination_.
+Implement a feature for filtering the reviewed repositories list based on a keyword. Users should be able to type in a keyword into a text input and the list should be filtered as the user types. You can use a simple `TextInput` component or something a bit fancier such as React Native Paper's [Searchbar](https://callstack.github.io/react-native-paper/searchbar.html) component as the text input. Put the text input component in the `FlatList` component's header.
 
-So cursor is just a serialized presentation of an item in a ordered list. Let's have a look at the paginated repositories returned by the `repositories` query using the following query:
+To avoid a multitude of unnecessary requests while the user types the keyword fast, only pick the latest input after a short delay. This technique is often referred to as [debouncing](https://lodash.com/docs/4.17.15#debounce). [use-debounce](https://www.npmjs.com/package/use-debounce) library is a handy hook for debouncing a state variable. Use it with a sensible delay time, such as 500 milliseconds. Store the text input's value by using the `useState` hook and the pass the debounced value to the query as the value of the `searchKeyword` argument.
+
+You probably face an issue that the text input component loses focus after each keystroke. This is because the content provided by the `ListHeaderComponent` prop is constantly unmounted. This can be fixed by turning the component rendering the `FlatList` component into a class component and defining the header's render function as a class property like this:
+
+```javascript
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    return (
+      <RepositoryListHeader
+      // ...
+      />
+    );
+  };
+
+  render() {
+    return (
+      <FlatList
+        // ...
+        ListHeaderComponent={this.renderHeader}
+      />
+    );
+  }
+}
+```
+
+The final version of the filtering feature should look something like this:
+
+![Application preview](images/18.jpg)
+
+## Cursor-based pagination
+
+When an API returns an ordered list of items from some collection, it usually returns a subset of the whole set of items to reduce the required bandwidth and to decrease the memory usage of the client applications. The desired subset of items can be parameterized so that the client can request for example the first twenty items on the list after some index. This technique is commonly referred to as _pagination_. When items can be requested after a certain item defined by a _cursor_, we are talking about _cursor-based pagination_.
+
+So cursor is just a serialized presentation of an item in an ordered list. Let's have a look at the paginated repositories returned by the `repositories` query using the following query:
 
 ```javascript
 {
@@ -690,10 +732,9 @@ The `first` argument tells the API to return only the first two repositories. He
 }
 ```
 
-In the result we have the `edges` array containing items with `node` and `cursor` attributes.
-As we know, the `node` contains the repository itself. The `cursor` on the other is a base64 encoded representation of the node. It contains repository's id and date of repository's creation as a timestamp. This is the information we need to point to the item when they are ordered by the creation time of the repository. The `pageInfo` contains information such as the cursor of the first and the last item in the array.
+In the result object, we have the `edges` array containing items with `node` and `cursor` attributes. As we know, the `node` contains the repository itself. The `cursor` on the other is a Base64 encoded representation of the node. It contains the repository's id and date of repository's creation as a timestamp. This is the information we need to point to the item when they are ordered by the creation time of the repository. The `pageInfo` contains information such as the cursor of the first and the last item in the array.
 
-Let's say that we wan't to get the next set of items _after_ the last item of the current set, which is the "zeit/swr" repository. We can set the `after` argument of the query as the value of the `endCursor` like this:
+Let's say that we want to get the next set of items _after_ the last item of the current set, which is the "zeit/swr" repository. We can set the `after` argument of the query as the value of the `endCursor` like this:
 
 ```javascript
 {
@@ -716,20 +757,20 @@ Let's say that we wan't to get the next set of items _after_ the last item of th
 }
 ```
 
-Now have the next two items and we can keep on doing this until the `hasNextPage` has value of `false`, meaning that we have reached the end of the list. To dig deeper into cursor based pagination, read the Shopify's article [Pagination with Relative Cursors](https://engineering.shopify.com/blogs/engineering/pagination-relative-cursors). It provides great details on the implementation itself and the benefits over the traditional index based pagination.
+Now that we have the next two items and we can keep on doing this until the `hasNextPage` has the value `false`, meaning that we have reached the end of the list. To dig deeper into cursor-based pagination, read Shopify's article [Pagination with Relative Cursors](https://engineering.shopify.com/blogs/engineering/pagination-relative-cursors). It provides great details on the implementation itself and the benefits over the traditional index-based pagination.
 
 ## Infinite scrolling
 
-Vertically scrollable lists in mobile and desktop applications are commonly implemented using technique called _infinite scrolling_. The principle of infinite scrolling is quite simple:
+Vertically scrollable lists in mobile and desktop applications are commonly implemented using a technique called _infinite scrolling_. The principle of infinite scrolling is quite simple:
 
 1. Fetch the initial set of items
-2. When user reaches the last item, fetch the next set of items after the last item
+2. When the user reaches the last item, fetch the next set of items after the last item
 
-The second step is repeated until user gets tired of scrolling or some scrolling limit is exceeded. The name "infinite scrolling" refers to the way the list seems to be infinite - user can just keep on scrolling and new items keep on appearing on the list.
+The second step is repeated until the user gets tired of scrolling or some scrolling limit is exceeded. The name "infinite scrolling" refers to the way the list seems to be infinite - the user can just keep on scrolling and new items keep on appearing on the list.
 
-Let's have a look how this work in practice using the Apollo Client's `useQuery` hook. Apollo Client has a great [documentation](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) on implementing the cursor based pagination. Let's implement infinite scrolling for the reviewed repositories list as an example.
+Let's have a look at how this works in practice using the Apollo Client's `useQuery` hook. Apollo Client has a great [documentation](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) on implementing the cursor-based pagination. Let's implement infinite scrolling for the reviewed repositories list as an example.
 
-First, we need to know when user has reached the end of the list. Luckily, the `FlatList` component has a prop [onEndReached](https://reactnative.dev/docs/flatlist#onendreached), which will call the provided function once the user has scrolled to the last item on the list. You can change how early the `onEndReach` callback is called using the [onEndReachedThreshold](https://reactnative.dev/docs/flatlist#onendreachedthreshold) prop. Alter the `RepositoryList` component's `FlatList` component so that it calls a function once the end of the list is reached:
+First, we need to know when the user has reached the end of the list. Luckily, the `FlatList` component has a prop [onEndReached](https://reactnative.dev/docs/flatlist#onendreached), which will call the provided function once the user has scrolled to the last item on the list. You can change how early the `onEndReach` callback is called using the [onEndReachedThreshold](https://reactnative.dev/docs/flatlist#onendreachedthreshold) prop. Alter the `RepositoryList` component's `FlatList` component so that it calls a function once the end of the list is reached:
 
 ```javascript
 export const RepositoryListContainer = ({
@@ -772,7 +813,7 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-Try scolling to the end of the reviewed repositories list and you should the message in the logs.
+Try scrolling to the end of the reviewed repositories list and you should the message in the logs.
 
 Next, we need to fetch more repositories once the end of the list is reached. This can be achieved using the [fetchMore](https://www.apollographql.com/docs/react/data/pagination/#cursor-based) function provided by the `useQuery` hook. Let's alter the `useRepositories` hook so that it returns a decorated `fetchMore` function, which calls the actual `fetchMore` function with the `endCursor` and updates the query correctly with the fetched data:
 
@@ -824,7 +865,7 @@ const useRepositories = (variables) => {
 
 Make sure you have the `pageInfo` and the `cursor` fields in your `repositories` query as described in the pagination examples. You will also need to include the `after` and `first` arguments for the query.
 
-The `handleFetchMore` function will call the Apollo Client's `fetchMore` function if there is more items to fetch, which is determined by the `hasNextPage` property. We also want to prevent fetching more items if fetching is already in process. In this case `loading` will be `true`. In the `fetchMore` function we are providing the query with an `after` variable, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
+The `handleFetchMore` function will call the Apollo Client's `fetchMore` function if there are more items to fetch, which is determined by the `hasNextPage` property. We also want to prevent fetching more items if fetching is already in process. In this case, `loading` will be `true`. In the `fetchMore` function we are providing the query with an `after` variable, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
 
 The final step is to call the `fetchMore` function in the `onEndReach` handler:
 
@@ -853,9 +894,9 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-Use a relatively small `first` argument value such as 8 while trying out the infinite scrolling. This way you don't need to review too many repositories. You might face and issue that the `onEndReach` handler is called immediately after the view is loaded. This is most likely because the list contains so few repositories that end of the list is reached immediately. You can get around this issue by increasing the value of `first` argument. Once you are confident that the infinite scrolling is working, feel free to use a larger value for the `first` argument.
+Use a relatively small `first` argument value such as 8 while trying out the infinite scrolling. This way you don't need to review too many repositories. You might face an issue that the `onEndReach` handler is called immediately after the view is loaded. This is most likely because the list contains so few repositories that the end of the list is reached immediately. You can get around this issue by increasing the value of `first` argument. Once you are confident that the infinite scrolling is working, feel free to use a larger value for the `first` argument.
 
-## Exercise 10.22.
+## Exercise 10.23.
 
 Implement infinite scrolling for the repository's reviews list. The `Repository` type's `reviews` field has the `first` and `after` arguments similar to the `repositories` query. `ReviewConnection` type also has the `pageInfo` field just like the `RepositoryConnection` type. Here's an example query:
 
@@ -890,7 +931,7 @@ Implement infinite scrolling for the repository's reviews list. The `Repository`
 }
 ```
 
-As with the reviewed repositories list, use a relatively small `first` argument value while you are trying out the infinite scrolling. You might need to sign up a few new users and use them to create a few new reviews to make the reviews list long enough to scroll. Set the value of the `first` argument high enough so that the `onEndReach` handler isn't called immediately after the view is loaded, but low enough so that you can see that more reviews are fetched once you reach the end of the list. Once everything is working as inteded you can use a larger value for the `first` argument.
+As with the reviewed repositories list, use a relatively small `first` argument value while you are trying out the infinite scrolling. You might need to create a few new users and use them to create a few new reviews to make the reviews list long enough to scroll. Set the value of the `first` argument high enough so that the `onEndReach` handler isn't called immediately after the view is loaded, but low enough so that you can see that more reviews are fetched once you reach the end of the list. Once everything is working as intended you can use a larger value for the `first` argument.
 
 This was the last exercise of this part of the course. It's time to push your code to GitHub and mark all of your finished exercises to the [exercise submission system](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
 
