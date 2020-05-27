@@ -68,14 +68,14 @@ Organizing test files in a single <i>\_\_tests\_\_</i> directory is one approach
 ```
 src/
   __tests__/
-  components/
-    AppBar.js
-    RepositoryList.js
+    components/
+      AppBar.js
+      RepositoryList.js
+      ...
+    utils/
+      authStorage.js
+      ...
     ...
-  utils/
-    authStorage.js
-    ...
-  ...
 ```
 
 Another approach is to organize the tests near the implementation. This means that for example, the test file containing tests for the `AppBar` component is in the same directory as the component's code. This will result in the following structure:
