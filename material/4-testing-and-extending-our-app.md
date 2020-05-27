@@ -31,6 +31,8 @@ To use the jest-expo preset in Jest, we need to add the following Jest configura
 }
 ```
 
+The `transform` option tells Jest to transform _.js_ and _.jsx_ files with the [Babel](https://babeljs.io/) compiler. The `transformIgnorePatterns` option is for ignoring certain directories in the <i>node_modules</i> directory while transforming files. This Jest configuration is almost identical to the one proposed in the Expo's [documentation](https://docs.expo.io/guides/testing-with-jest/).
+
 To use the eslint-plugin-jest plugin in ESLint, we need to include it in the plugins and extensions array in the _.eslintrc_ file:
 
 ```javascript
@@ -58,6 +60,8 @@ describe('Example', () => {
 ```
 
 Now, let's run our example test by running `npm test`. The command's output should indicate that the test located in the `src/__tests__/example.js` file is passed.
+
+## Organizing tests
 
 Organizing test files in a single <i>\_\_tests\_\_</i> directory is one approach in organizing the tests. When choosing this approach, it is recommended to put the test files in their corresponding subdirectories just like the code itself. This means that for example tests related to components are in the _components_ directory, tests related to utilities are in the _utils_ directory, and so on. This will result in the following structure:
 
