@@ -91,9 +91,9 @@ Initialize your application with Expo command-line interface and set up the deve
 
 To submit this exercise and all the future exercises you need to [create a new GitHub repostitory](https://github.com/new). The name of the repository can be for example the name of the application you initialized with `expo init`. Now that the repository is created, run `git init` within your application's root directory to make sure that the directory is initialized as a Git repository. Next, to add the created repository as the remote run `git remote add origin git@github.com:<YOUR_GITHUB_USERNAME>/<NAME_OF_YOUR_REPOSITORY>.git` (remember to replace the placeholder values in the command). Finally, just commit and push your changes into the repository and you are all done.
 
-## Eslint
+## ESLint
 
-Now that we are somewhat familiar with the development environment let's enhance our development experience even further by configuring a linter. We will be using [Eslint](https://eslint.org/) which is already familiar to us from the previous parts. Let's get started by installing the dependencies:
+Now that we are somewhat familiar with the development environment let's enhance our development experience even further by configuring a linter. We will be using [ESLint](https://eslint.org/) which is already familiar to us from the previous parts. Let's get started by installing the dependencies:
 
 ```shell
 npm install --save-dev eslint babel-eslint eslint-plugin-react
@@ -128,15 +128,15 @@ And finally, let's add a `lint` script to the _package.json_ file to check the l
 }
 ```
 
-Now we can check that the linting rules are obeyed in JavaScript files in the _src_ directory and in the _App.js_ file by running `npm run lint`. We will be adding our future code to the _src_ directory but because we haven't added any files there yet, we need the `no-error-on-unmatched-pattern` flag. Also if possible integrate Eslint with your editor. If you are using Visual Studio Code you can do that by, going to the extensions section and checking that the Eslint extension is installed and enabled:
+Now we can check that the linting rules are obeyed in JavaScript files in the _src_ directory and in the _App.js_ file by running `npm run lint`. We will be adding our future code to the _src_ directory but because we haven't added any files there yet, we need the `no-error-on-unmatched-pattern` flag. Also if possible integrate ESLint with your editor. If you are using Visual Studio Code you can do that by, going to the extensions section and checking that the ESLint extension is installed and enabled:
 
-![Visual Studio Code Eslint extensions](images/3.png)
+![Visual Studio Code ESLint extensions](images/3.png)
 
-The provided Eslint configuration contains only the basis for the configuration. Feel free to improve the configuration and add new plugins if you feel like it.
+The provided ESLint configuration contains only the basis for the configuration. Feel free to improve the configuration and add new plugins if you feel like it.
 
 ## Exercise 10.2.
 
-Set up Eslint in your project so that you can perform linter checks by running `npm run lint`. To get most of linting it is also recommended to integrate Eslint with your editor.
+Set up ESLint in your project so that you can perform linter checks by running `npm run lint`. To get most of linting it is also recommended to integrate ESLint with your editor.
 
 ## Viewing logs
 

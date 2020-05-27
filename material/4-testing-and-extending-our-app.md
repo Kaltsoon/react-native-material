@@ -4,7 +4,7 @@ Now that we have established a good foundation for our project, it is time to st
 
 ## Testing React Native applications
 
-To start testing code of any kind, the first thing we need is a testing framework, which we can use to run a set of test cases and inspect their results. For testing a JavaScript application, [Jest](https://jestjs.io/) is a popular candidate for such testing framework. For testing an Expo based React Native application with Jest, Expo provides a set of Jest configuration in a form of [jest-expo](https://github.com/expo/expo/tree/master/packages/jest-expo) preset. In order to use Eslint in the Jest's test files, we also need the [eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest) plugin for Eslint. Let's get started by installing the packages:
+To start testing code of any kind, the first thing we need is a testing framework, which we can use to run a set of test cases and inspect their results. For testing a JavaScript application, [Jest](https://jestjs.io/) is a popular candidate for such testing framework. For testing an Expo based React Native application with Jest, Expo provides a set of Jest configuration in a form of [jest-expo](https://github.com/expo/expo/tree/master/packages/jest-expo) preset. In order to use ESLint in the Jest's test files, we also need the [eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest) plugin for ESLint. Let's get started by installing the packages:
 
 ```shell
 npm install --save-dev jest jest-expo eslint-plugin-jest
@@ -31,7 +31,7 @@ To use the jest-expo preset in Jest, we need to add the following Jest configura
 }
 ```
 
-To use the eslint-plugin-jest plugin in Eslint, we need to include it in the _.eslintrc_ file:
+To use the eslint-plugin-jest plugin in ESLint, we need to include it in the plugins and extensions array in the _.eslintrc_ file:
 
 ```javascript
 {
