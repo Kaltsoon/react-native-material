@@ -99,7 +99,7 @@ Now that we are somewhat familiar with the development environment let's enhance
 npm install --save-dev eslint babel-eslint eslint-plugin-react
 ```
 
-Next, let's add a eslint configuration into a _.eslintrc_ file into the _rate-repository-app_ directory:
+Next, let's add the ESLint configuration into a _.eslintrc_ file into the _rate-repository-app_ directory with the following content:
 
 ```javascript
 {

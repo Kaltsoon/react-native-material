@@ -336,7 +336,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { ENV } from 'react-native-dotenv';
 
 import Main from './src/components/Main';
-import createApolloClient from './utils/apolloClient';
+import createApolloClient from './src/utils/apolloClient';
 
 const apolloClient = createApolloClient();
 

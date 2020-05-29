@@ -597,7 +597,7 @@ Implementation of forms relies heavily on the state management. Using the React'
 
 The main concepts of Formik are the _context_ and a _field_. The Formik's context is provided by the [Formik](https://jaredpalmer.com/formik/docs/api/formik) component that it contains the form's state. The state consists of information of form's fields. This information includes for example the value and validation errors of each field. State's fields can be referenced by their name using the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook or the [Field](https://jaredpalmer.com/formik/docs/api/field) component.
 
-Let's see how this actually works by creating a form for calculation the [body mass index](https://en.wikipedia.org/wiki/Body_mass_index):
+Let's see how this actually works by creating a form for calculating the [body mass index](https://en.wikipedia.org/wiki/Body_mass_index):
 
 ```javascript
 import React from 'react';
@@ -654,7 +654,9 @@ const BodyMassIndexCalculator = () => {
 };
 ```
 
-We define the `Formik` context in the `BodyMassIndexCalculator` component and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errros. Children of the `Formik` component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
+This example is not part of our application, so you don't need to actually add this code to the application. You can however try it out in [Expo Snack](https://snack.expo.io/). Expo Snack is an online editor for React Native, similar to [JSFiddle](https://jsfiddle.net/) and [CodePen](https://codepen.io/). It is a useful platform for quickly trying out code. You can share Expo Snacks with others using a link or embedding them as a <i>Snack Player</i> in a web site. You might have bumped into Snack Players for example in this material and React Native documentation.
+
+In the example, we define the `Formik` context in the `BodyMassIndexCalculator` component and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errros. Children of the `Formik` component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
 
 The `BodyMassIndexForm` component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a posibble error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function. Note that the component that uses the `useField` hook has to be _within the Formik's context_. This means that the component has to be a descendant of the `Formik` component.
 
@@ -820,7 +822,7 @@ const FormikTextInput = ({ name, ...props }) => {
 Implement a sign in form to the `SignIn` component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. Validate the sign in form so that both username and password fields are required. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted. You can use this simple function as the `onSubmit` callback function:
 
 ```javascript
-const onSubmit = values => {
+const onSubmit = (values) => {
   console.log(values);
 };
 ```
@@ -874,7 +876,7 @@ const MyComponent = Platform.select({
   android: () => require('./MyAndroidComponent'),
 })();
 
-<MyComponent />
+<MyComponent />;
 ```
 
 However, a more sophisticated method for implementing and importing platform specific components (or any other piece of code) is to use the _.io.jsx_ and _.android.jsx_ file extensions. Note that the _.jsx_ extension can as well be any extensions recognized by the bundler, such as _.js_. We can for example have files _Button.ios.jsx_ and _Button.android.jsx_ which we can import like this:
@@ -885,7 +887,7 @@ import React from 'react';
 import Button from './Button';
 
 const PlatformSpecificButton = () => {
-  return <Button />
+  return <Button />;
 };
 ```
 
