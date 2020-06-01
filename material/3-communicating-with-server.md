@@ -2,9 +2,9 @@
 
 So far we have implemented features to our application without any actual server communication. For example, the reviewed repositories list we have implemented uses mock data and the sign-in form doesn't send the user's credentials to any authorization endpoint. In this section, we will learn how to communicate with a server using HTTP requests, how to use Apollo Client in a React Native application, and how to store data in the user's device.
 
-Soon we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose, we have a completed server implementation in the [rate-repository-api](https://github.com/fullstack-hy2020/rate-repository-api) repository. The _rate-repository-api_ server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any setup and provides an Apollo GraphQL API along with a few REST API endpoints.
+Soon we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose, we have a completed server implementation in the [rate-repository-api](https://github.com/fullstack-hy2020/rate-repository-api) repository. The rate-repository-api server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any setup and provides an Apollo GraphQL API along with a few REST API endpoints.
 
-Before heading further into the material, set up the _rate-repository-api_ server by following the setup instructions in the repository's [README](https://github.com/fullstack-hy2020/rate-repository-api/blob/master/README.md). Note that if you are using an emulator for development it is recommended to run the server and the emulator _on the same computer_. This eases network requests considerably.
+Before heading further into the material, set up the rate-repository-api server by following the setup instructions in the repository's [README](https://github.com/fullstack-hy2020/rate-repository-api/blob/master/README.md). Note that if you are using an emulator for development it is recommended to run the server and the emulator _on the same computer_. This eases network requests considerably.
 
 ## HTTP requests
 
@@ -49,7 +49,7 @@ const fetchMovies = async () => {
 
 For a more detailed introduction to the Fetch API, read the [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) article in the MDN web docs.
 
-Next, let's try the Fetch API in practice. The _rate-repository-api_ server provides an endpoint for returning a paginated list of reviewed repositories. Once the server is running, you should be able to access the endpoint at [http://localhost:5000/api/repositories](http://localhost:5000/api/repositories). The data is paginated in a common [cursor based pagination format](https://graphql.org/learn/pagination/). The actual repository data is behind the _node_ key in the _edges_ array.
+Next, let's try the Fetch API in practice. The rate-repository-api server provides an endpoint for returning a paginated list of reviewed repositories. Once the server is running, you should be able to access the endpoint at [http://localhost:5000/api/repositories](http://localhost:5000/api/repositories). The data is paginated in a common [cursor based pagination format](https://graphql.org/learn/pagination/). The actual repository data is behind the _node_ key in the _edges_ array.
 
 Unfortunately, we can't access the server directly in our application by using the _http://localhost:5000/api/repositories_ URL. To make a request to this endpoint in our application we need to access the server using its IP address in its local network. To find out what it is, open the Expo development tools by running `npm start`. In the development tools you should be able to see an URL starting with _exp://_ above the QR code:
 
@@ -165,7 +165,7 @@ That's it, now the `RepositoryList` component is no longer aware of the way the 
 
 In [part 8](https://fullstackopen.com/en/part8) we learned about GraphQL and how to send GraphQL queries to an Apollo Server using the [Apollo Client](https://www.apollographql.com/docs/react/) in React applications. The good news is that we can use the Apollo Client in a React Native application exactly as we would with a React web application.
 
-As mentioned earlier, the _rate-repository-api_ server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to send a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _docs_ tab to open the documentation:
+As mentioned earlier, the rate-repository-api server provides a GraphQL API which is implemented with Apollo Server. Once the server is running, you can access the [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/#gatsby-focus-wrapper) at [http://localhost:5000/graphql](http://localhost:5000/graphql). GraphQL Playground is a development tool for making GraphQL queries and inspecting the GraphQL APIs schema and documentation. If you need to send a query in your application _always_ test it with the GraphQL Playground first before implementing it in the code. It is much easier to debug possible problems in the query in the GraphQL Playground than in the application. If you are uncertain what the available queries are or how to use them, click the _docs_ tab to open the documentation:
 
 ![GraphQL Playground](images/11.png)
 
@@ -221,7 +221,7 @@ It is up to you how to organize the GraphQL related code in your application. Ho
 
 ![GraphQL structure](images/12.png)
 
-You can import the [gql](https://www.apollographql.com/docs/apollo-server/api/apollo-server/#gql) template literal tag used to define GraphQL queries from the Apollo Boost library. If we follow the structure suggested above, we could have a _queries.js_ file in the _graphql_ directory for our application's GraphQL queries. Each of the queries can be stored in a variable and exported like this: 
+You can import the [gql](https://www.apollographql.com/docs/apollo-server/api/apollo-server/#gql) template literal tag used to define GraphQL queries from the Apollo Boost library. If we follow the structure suggested above, we could have a _queries.js_ file in the _graphql_ directory for our application's GraphQL queries. Each of the queries can be stored in a variable and exported like this:
 
 ```javascript
 import { gql } from 'apollo-boost';
@@ -279,7 +279,7 @@ The first option is fairly decent, however, if components `B` and `C` are not re
 
 ## Exercise 10.9.
 
-We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _docs_ tab. Look up the _repositories_ query. The query has some arguments, however, all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
+We want to replace the Fetch API implementation in the `useRepositories` hook with a GraphQL query. Open the GraphQL Playground at [http://localhost:5000/graphql](http://localhost:5000/graphql) and open to documentation by clicking the _docs_ tab. Look up the `repositories` query. The query has some arguments, however, all of these are optional so you don't need to specify them. In the GraphQL Playground form a query for fetching the repositories with the fields you are currently displaying in the application. The result will be paginated and it contains the up to first 30 results by default. For now, you can ignore the pagination entirely.
 
 Once the query is working in the GraphQL Playground, use it to replace the Fetch API implementation in the `useRepositories` hook. This can be achieved using the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. The `gql` template literal tag can be imported from the Apollo Boost as instructed earlier. Consider using the structure recommended earlier for the GraphQL related code. To avoid future caching issues, use the _cache-and-network_ [fetch policy](https://www.apollographql.com/docs/react/api/react-apollo/#optionsfetchpolicy) in the query. It can be used with the `useQuery` hook like this:
 
@@ -365,7 +365,7 @@ Instead of the hardcoded Apollo Server's URL, use an environment variable when i
 
 There are times when we need to store some persisted pieces of data in the user's device. One such common scenario is storing the user's authentication token so that we can retrieve it even if the user closes and reopens our application. In web development, we have used the browser's `localStorage` object to achieve such functionality. React Native provides similar persistent storage, the [AsyncStorage](https://docs.expo.io/versions/latest/react-native/asyncstorage/).
 
-The API of the `AsyncStorage` is in many ways same as the `localStorage` API. They are both key-value storages with similar methods. The biggest difference between the two is that, as the name implies, the operations of `AsyncStorage` are _asynchronous_. 
+The API of the `AsyncStorage` is in many ways same as the `localStorage` API. They are both key-value storages with similar methods. The biggest difference between the two is that, as the name implies, the operations of `AsyncStorage` are _asynchronous_.
 
 Because `AsyncStorage` operates with string keys in a global namespace it is a good idea to create a simple abstraction for its operations. This abstraction can be implemented for example using a [class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes). As an example, we could implement a shopping cart storage for storing the products user wants to buy:
 
@@ -429,9 +429,11 @@ We can add an item to the storage using the [AsyncStorage.setItem](https://githu
 
 ### Exercise 10.11.
 
-The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the _rate-repository-api_ server's [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/fullstack-hy2020/rate-repository-api#-getting-started) section of the README.
+The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the rate-repository-api server's [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/fullstack-hy2020/rate-repository-api#-getting-started) section of the README.
 
-Once you know how the authorization queries are supposed to work, create a file _useSignIn.js_ file in the _hooks_ directory. In that file implement a `useSignIn` hook that sends the _authorize_ mutation using the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook. The return value of the hook should be a tuple `[signIn, result]` where `result` is the mutations result as it is returned by the `useMutation` hook and `signIn` a function that runs the mutation with a `{ username, password }` object argument. Hint: don't pass the mutation function to the return value directly. Instead, return a function that calls the mutation function like this:
+Once you know how the authorization queries are supposed to work, create a file _useSignIn.js_ file in the _hooks_ directory. In that file implement a `useSignIn` hook that sends the `authorize` mutation using the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook. Note that the `authorize` mutation has a _single_ argument called `credentials`, which is of type `AuthorizeInput`. This [input type](https://graphql.org/graphql-js/mutations-and-input-types) contains `username` and `password` fields.
+
+The return value of the hook should be a tuple `[signIn, result]` where `result` is the mutations result as it is returned by the `useMutation` hook and `signIn` a function that runs the mutation with a `{ username, password }` object argument. Hint: don't pass the mutation function to the return value directly. Instead, return a function that calls the mutation function like this:
 
 ```javascript
 const useSignIn = () => {
@@ -618,13 +620,13 @@ After the _authorize_ mutation has been executed and you have stored the user's 
 
 ```javascript
 const { data } = await mutate(/* options */);
-await authStorage.setAccessToken(/* access token from the data */)
+await authStorage.setAccessToken(/* access token from the data */);
 apolloClient.resetStore();
 ```
 
 ### Exercise 10.14.
 
-The final step in completing the sign-in feature is to implement a sign out feature. The _authorizedUser_ query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground and run the following query:
+The final step in completing the sign-in feature is to implement a sign out feature. The `authorizedUser` query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground and run the following query:
 
 ```javascript
 {
@@ -635,6 +637,6 @@ The final step in completing the sign-in feature is to implement a sign out feat
 }
 ```
 
-You will probably end up with the `null` result. This is because the GraphQL Playground is not authorized, meaning that it doesn't send a valid access token with the request. Revise the [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and retrieve an access token using the _authorize_ mutation. Use this access token in the _Authorization_ header as instructed in the documentation. Now, run the _authorizedUser_ query again and you should be able to see the authorized user's information.
+You will probably end up with the `null` result. This is because the GraphQL Playground is not authorized, meaning that it doesn't send a valid access token with the request. Revise the [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and retrieve an access token using the `authorize` mutation. Use this access token in the _Authorization_ header as instructed in the documentation. Now, run the `authorizedUser` query again and you should be able to see the authorized user's information.
 
-Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if the user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the _authorizedUser_ query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. In addition, pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store. Resetting the Apollo Client's store should also re-execute all active queries which means that the _authorizedUser_ query should be re-executed. Note that the order of execution is crucial: access token must be removed from the storage _before_ the Apollo Client's store is reset.
+Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if the user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the `authorizedUser` query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. In addition, pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store. Resetting the Apollo Client's store should also re-execute all active queries which means that the `authorizedUser` query should be re-executed. Note that the order of execution is crucial: access token must be removed from the storage _before_ the Apollo Client's store is reset.
