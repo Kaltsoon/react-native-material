@@ -140,12 +140,12 @@ Set up ESLint in your project so that you can perform linter checks by running `
 
 ## Viewing logs
 
-Expo development tools can be used to display the log messages of the running application. Error and warning level messages are also visible in the emulator and the mobile app interface. For debugging purposes, we can use the familiar `console.log` method to write debugging messages to the log.
+Expo development tools can be used to display the log messages of the running application. Error and warning level messages are also visible in the emulator and the mobile app interface. Error messages will pop out as a red overlay whereas warning messages can be expanded by pressing the yellow alert dialog at the bottom of the screen. For debugging purposes, we can use the familiar `console.log` method to write debugging messages to the log.
 
 Let's try this in practice. Start the Expo development tools by running `npm start` and open the application with either emulator or the mobile app. When the application is running you should be able to a device under the "Metro Bundler" in the top left corner of the developments tools:
 
 ![Expo development tools](images/9.png)
 
-Click on the device to open its logs. Next, open the _App.js_ file and a `console.log` message to the `App` component. You should be able to see your message in the logs.
+Click on the device to open its logs. Next, open the _App.js_ file and add a `console.log` message to the `App` component. After saving the file, you should be able to see your message in the logs.
 
 <!-- TODO: pitäiskö käsitellä https://github.com/jhen0409/react-native-debugger -->
