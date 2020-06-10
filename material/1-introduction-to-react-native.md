@@ -18,7 +18,7 @@ We will be developing an application for rating [GitHub](https://github.com/) re
 
 ![Application preview](images/4.png)
 
-All the exercises in this part need to submit into _a single GitHub repository_ which will eventually contain the entire source code of your application. There will be model solutions available for each section of this part which you can use to fill in incomplete submissions. This part is structured based on the idea that you develop your application as you progress in the material. So _do not_ wait until the exercises to start the development. Instead, develop your application in the same pace as the material progresses.
+All the exercises in this part have to be submitted into _a single GitHub repository_ which will eventually contain the entire source code of your application. There will be model solutions available for each section of this part which you can use to fill in incomplete submissions. This part is structured based on the idea that you develop your application as you progress in the material. So _do not_ wait until the exercises to start the development. Instead, develop your application in the same pace as the material progresses.
 
 <!-- TODO: palautussovelluksen info & opintopisteet -->
 
