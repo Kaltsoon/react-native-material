@@ -464,7 +464,7 @@ We will soon need to navigate between different views in our application. That i
 
 ```javascript
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
