@@ -463,6 +463,12 @@ Because styled-components processes the style definitions, it is possible to use
 
 [React-spring](https://www.react-spring.io/) is a library that provides a clean [hook API](https://www.react-spring.io/docs/hooks/basics) for animating React Native components.
 
+### React Navigation
+
+> Routing and navigation for your React Native apps
+
+[React Navigation](https://reactnavigation.org/) is a routing library for React Native. It shares some similarities with the React Router library we have been using during this and earlier parts. However, unlike React Router, React Navigation offers more native features such as native gestures and animations to transition between views.
+
 ## Extending our application
 
 It is time to put everything we have learned so far to good use and start extending our application. Our application still lacks a few important features such as reviewing a repository and registering a user. The upcoming exercises will focus on these essential features. Feel free to use any additional resources, such as React Native Paper's components, while working on the exercises. However, using additional resources is entirely _optional_ and you should focus on completing the minimum requirements of the exercises before working on improvements.
