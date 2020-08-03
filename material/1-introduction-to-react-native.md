@@ -142,7 +142,7 @@ Set up ESLint in your project so that you can perform linter checks by running `
 
 Expo development tools can be used to display the log messages of the running application. Error and warning level messages are also visible in the emulator and the mobile app interface. Error messages will pop out as a red overlay whereas warning messages can be expanded by pressing the yellow alert dialog at the bottom of the screen. For debugging purposes, we can use the familiar `console.log` method to write debugging messages to the log.
 
-Let's try this in practice. Start the Expo development tools by running `npm start` and open the application with either emulator or the mobile app. When the application is running you should be able to a device under the "Metro Bundler" in the top left corner of the developments tools:
+Let's try this in practice. Start the Expo development tools by running `npm start` and open the application with either emulator or the mobile app. When the application is running you should be able to see your connected devices under the "Metro Bundler" in the top left corner of the developments tools:
 
 ![Expo development tools](images/9.png)
 
