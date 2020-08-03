@@ -198,7 +198,7 @@ const BigBlueText = () => {
     <View style={{ padding: 20 }}>
       <Text style={{ color: 'blue', fontSize: 24, fontWeight: 700 }}>
         Big blue text
-      <Text>
+      </Text>
     </View>
   );
 };
