@@ -196,7 +196,7 @@ import { Text, View } from 'react-native';
 const BigBlueText = () => {
   return (
     <View style={{ padding: 20 }}>
-      <Text style={{ color: 'blue', fontSize: 24, fontWeight: 700 }}>
+      <Text style={{ color: 'blue', fontSize: 24, fontWeight: '700' }}>
         Big blue text
       </Text>
     </View>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'blue',
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: '700',
   },
 });
 
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   },
   bigText: {
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: '700',
   },
 });
 
