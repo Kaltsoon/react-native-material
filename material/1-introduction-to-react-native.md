@@ -104,6 +104,11 @@ Next, let's add the ESLint configuration into a _.eslintrc_ file into the _rate-
 ```javascript
 {
   "plugins": ["react"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parser": "babel-eslint",
   "env": {
@@ -111,6 +116,7 @@ Next, let's add the ESLint configuration into a _.eslintrc_ file into the _rate-
   },
   "rules": {
     "react/prop-types": "off",
+    "semi": "error"
   }
 }
 ```
