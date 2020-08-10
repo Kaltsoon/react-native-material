@@ -138,7 +138,7 @@ And finally, let's add a `lint` script to the _package.json_ file to check the l
 }
 ```
 
-In contrast to parts 1-8 we follow are using semicolons to terminate lines, so we have added the rule [semi](https://eslint.org/docs/rules/semi) to check that.
+In contrast to parts 1-8, we are using semicolons to terminate lines now, so we have added the rule [semi](https://eslint.org/docs/rules/semi) to check that.
 
 Now we can check that the linting rules are obeyed in JavaScript files in the _src_ directory and in the _App.js_ file by running `npm run lint`. We will be adding our future code to the _src_ directory but because we haven't added any files there yet, we need the `no-error-on-unmatched-pattern` flag. Also if possible integrate ESLint with your editor. If you are using Visual Studio Code you can do that by, going to the extensions section and checking that the ESLint extension is installed and enabled:
 
