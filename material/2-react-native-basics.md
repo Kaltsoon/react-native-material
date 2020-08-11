@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal>{/* ... */}</ScrollView>
+      {/* ... */}
     </View>
   );
 };
@@ -494,7 +494,7 @@ const AppBar = () => {
 export default AppBar;
 ```
 
-The [ScrollView](https://reactnative.dev/docs/scrollview) component enables horizontal scrolling when there is too much content to fit the screen. Now that the `AppBar` component will prevent the status bar from overlapping the content, you can remove the `marginTop` style we added for the `Main` component earlier in the _Main.jsx_ file. The `AppBar` component should currently contain a tab with text "Repositories". Make the tab touchable by using the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component but you don't have to handle the `onPress` event in any way. Add the `AppBar` component to the `Main` component so that it is the uppermost component in the screen. The `AppBar` component should look something like this:
+Now that the `AppBar` component will prevent the status bar from overlapping the content, you can remove the `marginTop` style we added for the `Main` component earlier in the _Main.jsx_ file. The `AppBar` component should currently contain a tab with text "Repositories". Make the tab touchable by using the [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) component but you don't have to handle the `onPress` event in any way. Add the `AppBar` component to the `Main` component so that it is the uppermost component in the screen. The `AppBar` component should look something like this:
 
 ![Application preview](images/6.jpg)
 
@@ -596,6 +596,24 @@ export default SignIn;
 ```
 
 Set up a route for this `SignIn` component in the `Main` component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
+
+As we are adding more tabs to our app bar, it its a good idea to allow horizontal scrolling once the tabs won't fit the screen. The [ScrollView](https://reactnative.dev/docs/scrollview) component is just the right component for the job.
+
+Wrap the tabs in the `AppBar` component's tabs with a `ScrollView` component:
+
+```javascript
+const AppBar = () => {
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        {/* ... */}
+      </ScrollView>
+    </View>
+  );
+};
+```
+
+Setting the [horizontal](https://reactnative.dev/docs/scrollview#horizontal) prop `true` will cause the `ScrollView` component to scroll horizontally once the content won't fit the screen. Note that, you will need to add suitable style properties to the `ScrollView` component so that the tabs will be laid in a _row_ inside the flex container. 
 
 ## Form state management
 
