@@ -484,11 +484,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  return (
-    <View style={styles.container}>
-      {/* ... */}
-    </View>
-  );
+  return <View style={styles.container}>{/* ... */}</View>;
 };
 
 export default AppBar;
@@ -607,15 +603,13 @@ Wrap the tabs in the `AppBar` component's tabs with a `ScrollView` component:
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal>
-        {/* ... */}
-      </ScrollView>
+      <ScrollView horizontal>{/* ... */}</ScrollView>
     </View>
   );
 };
 ```
 
-Setting the [horizontal](https://reactnative.dev/docs/scrollview#horizontal) prop `true` will cause the `ScrollView` component to scroll horizontally once the content won't fit the screen. Note that, you will need to add suitable style properties to the `ScrollView` component so that the tabs will be laid in a _row_ inside the flex container. 
+Setting the [horizontal](https://reactnative.dev/docs/scrollview#horizontal) prop `true` will cause the `ScrollView` component to scroll horizontally once the content won't fit the screen. Note that, you will need to add suitable style properties to the `ScrollView` component so that the tabs will be laid in a _row_ inside the flex container.
 
 ## Form state management
 
@@ -920,6 +914,53 @@ const PlatformSpecificButton = () => {
 ```
 
 Now, the Android bundle of the application will have the component defined in the _Button.android.jsx_ whereas the iOS bundle the one defined in the _Button.ios.jsx_ file.
+
+We earlier stumbled upon an issue with react-router-native library and Expo web browser preview. We can fix this issue by defining environment specific modules for web and native envinronments. Let's get started by installing the _react-router-dom_ library, which we will use in the web environment:
+
+```
+npm install react-router-dom --save-dev
+```
+
+Next, create a file _Router.web.jsx_ in the _components_ directory with the following exports:
+
+```javascript
+import { MemoryRouter } from 'react-router-dom';
+
+export * from 'react-router-dom';
+
+export const Router = MemoryRouter;
+```
+
+And a similar, _Router.native.jsx_ file in the _components_ directory:
+
+```javascript
+import { NativeRouter } from 'react-router-native';
+
+export * from 'react-router-native';
+
+export const Router = NativeRouter;
+```
+
+The _Router.web.jsx_ module will be used in the web builds whereas the _Router.native.jsx_ module in the native builds, that is in the Android and iOS builds.
+
+The final step is to replace the react-router-native imports with the _Router_ imports. For example the _App.js_ file will have the following import:
+
+```javascript
+import React from 'react';
+
+import { Router } from './src/components/Router';
+import Main from './src/components/Main';
+
+const App = () => {
+  return (
+    <Router>
+      <Main />
+    </Router>
+  );
+};
+
+export default App;
+```
 
 ## Exercise 10.8.
 
