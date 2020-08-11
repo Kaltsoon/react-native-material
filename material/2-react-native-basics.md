@@ -915,53 +915,6 @@ const PlatformSpecificButton = () => {
 
 Now, the Android bundle of the application will have the component defined in the _Button.android.jsx_ whereas the iOS bundle the one defined in the _Button.ios.jsx_ file.
 
-We earlier stumbled upon an issue with react-router-native library and Expo web browser preview. We can fix this issue by defining environment-specific modules for web and native environments. Let's get started by installing the _react-router-dom_ library, which we will use in the web environment:
-
-```
-npm install react-router-dom --save-dev
-```
-
-Next, create a file _Router.web.jsx_ in the _components_ directory with the following exports:
-
-```javascript
-import { MemoryRouter } from 'react-router-dom';
-
-export * from 'react-router-dom';
-
-export const Router = MemoryRouter;
-```
-
-And a similar, _Router.native.jsx_ file in the _components_ directory:
-
-```javascript
-import { NativeRouter } from 'react-router-native';
-
-export * from 'react-router-native';
-
-export const Router = NativeRouter;
-```
-
-The _Router.web.jsx_ module will be used in the web builds whereas the _Router.native.jsx_ module in the native builds, that is in the Android and iOS builds.
-
-The final step is to replace the react-router-native imports with the _Router_ imports. For example the _App.js_ file will have the following import:
-
-```javascript
-import React from 'react';
-
-import { Router } from './src/components/Router';
-import Main from './src/components/Main';
-
-const App = () => {
-  return (
-    <Router>
-      <Main />
-    </Router>
-  );
-};
-
-export default App;
-```
-
 ## Exercise 10.8.
 
 Currently the font family of our application is set to _System_ in the theme configuration located in the _theme.js_ file. Instead of the _System_ font, use a platform specific [Sans-serif](https://en.wikipedia.org/wiki/Sans-serif) font. In the Android platform use the _Ubuntu_ font and in the iOS platform use the _Arial_ font. The default font can be _System_.
