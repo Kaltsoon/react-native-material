@@ -915,7 +915,7 @@ const PlatformSpecificButton = () => {
 
 Now, the Android bundle of the application will have the component defined in the _Button.android.jsx_ whereas the iOS bundle the one defined in the _Button.ios.jsx_ file.
 
-We earlier stumbled upon an issue with react-router-native library and Expo web browser preview. We can fix this issue by defining environment specific modules for web and native envinronments. Let's get started by installing the _react-router-dom_ library, which we will use in the web environment:
+We earlier stumbled upon an issue with react-router-native library and Expo web browser preview. We can fix this issue by defining environment-specific modules for web and native environments. Let's get started by installing the _react-router-dom_ library, which we will use in the web environment:
 
 ```
 npm install react-router-dom --save-dev
