@@ -579,6 +579,8 @@ const Main = () => {
 export default Main;
 ```
 
+Note that, using the react-router-native library will break Expo's web browser preview. However, other previews will work just like before.
+
 ## Exercise 10.6.
 
 Create a file _SignIn.jsx_ in the _components_ directory with the following content:
