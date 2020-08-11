@@ -597,7 +597,7 @@ const SignIn = () => {
 export default SignIn;
 ```
 
-Set up a route for this `SignIn` component in the `Main` component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
+Set up a route for this `SignIn` component in the `Main` component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop for desired visual effects on tapping the tab items on android/ios).
 
 As we are adding more tabs to our app bar, it its a good idea to allow horizontal scrolling once the tabs won't fit the screen. The [ScrollView](https://reactnative.dev/docs/scrollview) component is just the right component for the job.
 
