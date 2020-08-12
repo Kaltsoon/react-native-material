@@ -566,7 +566,7 @@ const App = () => {
 export default App;
 ```
 
-Now that the router is in place, let's add our first route to the `Main` componenent in the _Main.jsx_ file:
+Once the router is in place, let's add our first route to the `Main` componenent in the _Main.jsx_ file:
 
 <!-- TODO: highlight -->
 
