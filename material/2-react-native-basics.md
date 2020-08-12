@@ -472,7 +472,7 @@ We will soon need to navigate between different views in our application. That i
 
 ```javascript
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
@@ -595,7 +595,9 @@ export default SignIn;
 
 Set up a route for this `SignIn` component in the `Main` component. Also add a tab with text "Sign in" in to the app bar next to the "Repositories" tab. User should be able to navigate between the two views by pressing the tabs (hint: use the [Link](https://reacttraining.com/react-router/native/api/Link) component and its [component](https://reacttraining.com/react-router/native/api/Link/component-func) prop).
 
-As we are adding more tabs to our app bar, it its a good idea to allow horizontal scrolling once the tabs won't fit the screen. The [ScrollView](https://reactnative.dev/docs/scrollview) component is just the right component for the job.
+## Exercise 10.6.
+
+As we are adding more tabs to our app bar, it is a good idea to allow horizontal scrolling once the tabs won't fit the screen. The [ScrollView](https://reactnative.dev/docs/scrollview) component is just the right component for the job.
 
 Wrap the tabs in the `AppBar` component's tabs with a `ScrollView` component:
 
@@ -609,7 +611,7 @@ const AppBar = () => {
 };
 ```
 
-Setting the [horizontal](https://reactnative.dev/docs/scrollview#horizontal) prop `true` will cause the `ScrollView` component to scroll horizontally once the content won't fit the screen. Note that, you will need to add suitable style properties to the `ScrollView` component so that the tabs will be laid in a _row_ inside the flex container.
+Setting the [horizontal](https://reactnative.dev/docs/scrollview#horizontal) prop `true` will cause the `ScrollView` component to scroll horizontally once the content won't fit the screen. Note that, you will need to add suitable style properties to the `ScrollView` component so that the tabs will be laid in a _row_ inside the flex container. You can make sure that the app bar can be scrolled horizontally by adding tabs until the last tab won't fit the screen. Just remember to remove the extra tabs once the app bar is working as intended.
 
 ## Form state management
 
@@ -625,6 +627,15 @@ Let's see how this actually works by creating a form for calculating the [body m
 import React from 'react';
 import { Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { Formik, useField } from 'formik';
+
+const initialValues = {
+  mass: '',
+  height: '',
+};
+
+const getBodyMassIndex = (mass, height) => {
+  return Math.round(mass / Math.pow(height, 2));
+};
 
 const BodyMassIndexForm = ({ onSubmit }) => {
   const [massField, massMeta, massHelpers] = useField('mass');
@@ -650,15 +661,6 @@ const BodyMassIndexForm = ({ onSubmit }) => {
 };
 
 const BodyMassIndexCalculator = () => {
-  const initialValues = {
-    mass: '',
-    height: '',
-  };
-
-  const getBodyMassIndex = (mass, height) => {
-    return Math.round(mass / Math.pow(height, 2));
-  };
-
   const onSubmit = (values) => {
     const mass = parseFloat(values.mass);
     const height = parseFloat(values.height);
