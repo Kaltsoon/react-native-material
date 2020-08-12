@@ -613,7 +613,7 @@ Setting the [horizontal](https://reactnative.dev/docs/scrollview#horizontal) pro
 
 ## Form state management
 
-Now that we have a placeholder for the sign in view the next step would be to implement the sign form. Before we get to that let's talk about forms in a more wider perspective.
+Now that we have a placeholder for the sign in view the next step would be to implement the sign in form. Before we get to that let's talk about forms in a more wider perspective.
 
 Implementation of forms relies heavily on the state management. Using the React's `useState` hook for the state management might get the job done for smaller forms. However, it will quickly make the state management quite tedious with more complex forms. Luckily there are many good libraries in the React ecosystem that eases the state management of forms. One of these libraries is [Formik](https://jaredpalmer.com/formik/).
 
