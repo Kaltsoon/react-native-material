@@ -516,6 +516,8 @@ With React Native we can use the entire React router's core, including the hooks
 npm install react-router-native
 ```
 
+Note that, using the react-router-native library will break Expo's web browser preview. However, other previews will work just like before.
+
 Next, open the _App.js_ file and add the `NativeRouter` component to the `App` component:
 
 <!-- TODO: highlight -->
@@ -574,8 +576,6 @@ const Main = () => {
 
 export default Main;
 ```
-
-Note that, using the react-router-native library will break Expo's web browser preview. However, other previews will work just like before.
 
 ## Exercise 10.6.
 
