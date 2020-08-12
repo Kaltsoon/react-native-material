@@ -626,15 +626,6 @@ import React from 'react';
 import { Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { Formik, useField } from 'formik';
 
-const initialValues = {
-  mass: '',
-  height: '',
-};
-
-const getBodyMassIndex = (mass, height) => {
-  return Math.round(mass / Math.pow(height, 2));
-};
-
 const BodyMassIndexForm = ({ onSubmit }) => {
   const [massField, massMeta, massHelpers] = useField('mass');
   const [heightField, heightMeta, heightHelpers] = useField('height');
@@ -659,6 +650,15 @@ const BodyMassIndexForm = ({ onSubmit }) => {
 };
 
 const BodyMassIndexCalculator = () => {
+  const initialValues = {
+    mass: '',
+    height: '',
+  };
+
+  const getBodyMassIndex = (mass, height) => {
+    return Math.round(mass / Math.pow(height, 2));
+  };
+
   const onSubmit = (values) => {
     const mass = parseFloat(values.mass);
     const height = parseFloat(values.height);
