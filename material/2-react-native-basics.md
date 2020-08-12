@@ -516,9 +516,36 @@ With React Native we can use the entire React router's core, including the hooks
 npm install react-router-native
 ```
 
-Note that, using the react-router-native library will break Expo's web browser preview. However, other previews will work just like before.
+Using the react-router-native library will break Expo's web browser preview. However, other previews will work just like before. We can fix the issue by extending the Expo's Webpack configuration so that it transpiles the react-router-native library's sources with Babel. To extend the Webpack configuration we need to install the _@expo/webpack-config_ library:
 
-Next, open the _App.js_ file and add the `NativeRouter` component to the `App` component:
+```
+npm install @expo/webpack-config --save-dev
+```
+
+Next, create a _webpack.config.js_ file in the root directory of your project with the following content:
+
+```javascript
+const path = require('path');
+const createExpoWebpackConfigAsync = require('@expo/webpack-config');
+
+module.exports = async function(env, argv) {
+  const config = await createExpoWebpackConfigAsync(env, argv);
+  
+  config.module.rules.push(
+    {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      include: [path.join(__dirname, 'node_modules/react-router-native')],
+    }
+  )
+
+  return config;
+};
+```
+
+Finally, restart Expo's development tools so that our new Webpack configuration will be applied. 
+
+Now that the Expo's web browser preview is fixed, open the _App.js_ file and add the `NativeRouter` component to the `App` component:
 
 <!-- TODO: highlight -->
 
