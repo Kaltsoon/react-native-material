@@ -886,13 +886,13 @@ const FormikTextInput = ({ name, ...props }) => {
 
 ## Exercise 10.7.
 
-Validate the sign-in form so that both username and password fields are required. Note that the `onSubmit` callback implemented in the previous exercise, _should not be called_ if the form validation fails.
+Validate the sign in form so that both username and password fields are required. Note that the `onSubmit` callback implemented in the previous exercise, _should not be called_ if the form validation fails.
 
 The current implementation of the `FormikTextInput` component should display an error message if a touched field has an error. Emphasize this error message by giving the error message a red color.
 
 On top of the red error message, give an invalid field a visual indication of an error by giving it a red border color. Remember that if a field has an error, the `FormikTextInput` component sets the `TextInput` component's `error` prop as `true`. 
 
-Here's what the sign-in form should roughly look like with an invalid field:
+Here's what the sign in form should roughly look like with an invalid field:
 
 ![Application preview](images/8.jpg)
 
