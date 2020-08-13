@@ -795,6 +795,22 @@ const BodyMassIndexForm = ({ onSubmit }) => {
 };
 ```
 
+## Exercise 10.7.
+
+Implement a sign in form to the `SignIn` component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted:
+
+```javascript
+const onSubmit = (values) => {
+  console.log(values);
+};
+```
+
+Remember to utilize the `FormikTextInput` component we implemented earlier. You can use the [secureTextEntry](https://reactnative.dev/docs/textinput#securetextentry) prop in the `TextInput` component to obscure the password input.
+
+The sign in form should look something like this:
+
+![Application preview](images/19.jpg)
+
 ## Form validation
 
 Formik offers two approaches to the form validation: a validation function or a validation schema. Validation function is a function provided for the `Formik` component as the value of the [validate](https://jaredpalmer.com/formik/docs/guides/validation#validate) prop. It receives the from's values as an argument and returns an object containing possible field specific error messages.
@@ -870,19 +886,17 @@ const FormikTextInput = ({ name, ...props }) => {
 
 ## Exercise 10.7.
 
-Implement a sign in form to the `SignIn` component we added earlier in the _SignIn.jsx_ file. The sign in form should include two text fields, one for the username and one for the password. There should also be a button for submitting the form. Validate the sign in form so that both username and password fields are required. You don't need to implement a `onSubmit` callback function, it is enough that the form values are logged using `console.log` when the form is submitted. You can use this simple function as the `onSubmit` callback function:
+Validate the sign-in form so that both username and password fields are required. Note that the `onSubmit` callback implemented in the previous exercise, _should not be called_ if the form validation fails.
 
-```javascript
-const onSubmit = (values) => {
-  console.log(values);
-};
-```
+The current implementation of the `FormikTextInput` component should display an error message if a touched field has an error. Emphasize this error message by giving the error message a red color.
 
-Note that the callback _should not be called_ if the form validation fails. The sign in form should look something like this:
+On top of the red error message, give an invalid field a visual indication of an error by giving it a red border color. Remember that if a field has an error, the `FormikTextInput` component sets the `TextInput` component's `error` prop as `true`. 
+
+Here's what the sign-in form should roughly look like with an invalid field:
 
 ![Application preview](images/8.jpg)
 
-Remember to utilize the `FormikTextInput` component we implemented earlier. You will need to add a red border to the `TextInput` component when the `error` prop is `true`. Also use same the red color in the `FormikTextInput` component's error message. The red color used in the image is `#d73a4a`. You can use the [secureTextEntry](https://reactnative.dev/docs/textinput#securetextentry) prop in the `TextInput` component to obscure the password input.
+The red color used in this implementation is `#d73a4a`.
 
 ## Platform specific code
 
