@@ -1,6 +1,6 @@
 # Communicating with server
 
-So far we have implemented features to our application without any actual server communication. For example, the reviewed repositories list we have implemented uses mock data and the sign-in form doesn't send the user's credentials to any authorization endpoint. In this section, we will learn how to communicate with a server using HTTP requests, how to use Apollo Client in a React Native application, and how to store data in the user's device.
+So far we have implemented features to our application without any actual server communication. For example, the reviewed repositories list we have implemented uses mock data and the sign in form doesn't send the user's credentials to any authorization endpoint. In this section, we will learn how to communicate with a server using HTTP requests, how to use Apollo Client in a React Native application, and how to store data in the user's device.
 
 Soon we will learn how to communicate with a server in our application. Before we get to that, we need a server to communicate with. For this purpose, we have a completed server implementation in the [rate-repository-api](https://github.com/fullstack-hy2020/rate-repository-api) repository. The rate-repository-api server fulfills all our application's API needs during this part. It uses [SQLite](https://www.sqlite.org/index.html) database which doesn't need any setup and provides an Apollo GraphQL API along with a few REST API endpoints.
 
@@ -429,7 +429,7 @@ We can add an item to the storage using the [AsyncStorage.setItem](https://githu
 
 ### Exercise 10.11.
 
-The current implementation of the sign-in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the rate-repository-api server's [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/fullstack-hy2020/rate-repository-api#-getting-started) section of the README.
+The current implementation of the sign in form doesn't do much with the submitted user's credentials. Let's do something about that in this exercise. First, read the rate-repository-api server's [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and test the provided queries in the GraphQL Playground. If the database doesn't have any users, you can populate the database with some seed data. Instructions for this can be found in the [getting started](https://github.com/fullstack-hy2020/rate-repository-api#-getting-started) section of the README.
 
 Once you know how the authorization queries are supposed to work, create a file _useSignIn.js_ file in the _hooks_ directory. In that file implement a `useSignIn` hook that sends the `authorize` mutation using the [useMutation](https://www.apollographql.com/docs/react/api/react-hooks/#usemutation) hook. Note that the `authorize` mutation has a _single_ argument called `credentials`, which is of type `AuthorizeInput`. This [input type](https://graphql.org/graphql-js/mutations-and-input-types) contains `username` and `password` fields.
 
@@ -468,7 +468,7 @@ const SignIn = () => {
 };
 ```
 
-This exercise is completed once you can log the user's _authorize_ mutations result after the sign-in form has been submitted. The mutation result should contain the user's access token.
+This exercise is completed once you can log the user's _authorize_ mutations result after the sign in form has been submitted. The mutation result should contain the user's access token.
 
 ### Exercise 10.12.
 
@@ -626,7 +626,7 @@ apolloClient.resetStore();
 
 ### Exercise 10.14.
 
-The final step in completing the sign-in feature is to implement a sign out feature. The `authorizedUser` query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground and run the following query:
+The final step in completing the sign in feature is to implement a sign out feature. The `authorizedUser` query can be used to check the authorized user's information. If the query's result is `null`, that means that the user is not authorized. Open the GraphQL playground and run the following query:
 
 ```javascript
 {
@@ -639,4 +639,6 @@ The final step in completing the sign-in feature is to implement a sign out feat
 
 You will probably end up with the `null` result. This is because the GraphQL Playground is not authorized, meaning that it doesn't send a valid access token with the request. Revise the [authorization documentation](https://github.com/fullstack-hy2020/rate-repository-api#-authorization) and retrieve an access token using the `authorize` mutation. Use this access token in the _Authorization_ header as instructed in the documentation. Now, run the `authorizedUser` query again and you should be able to see the authorized user's information.
 
-Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if the user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the `authorizedUser` query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook. In addition, pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store. Resetting the Apollo Client's store should also re-execute all active queries which means that the `authorizedUser` query should be re-executed. Note that the order of execution is crucial: access token must be removed from the storage _before_ the Apollo Client's store is reset.
+Open the `AppBar` component in the _AppBar.jsx_ file where you currently have the tabs "Repositories" and "Sign in". Change the tabs so that if the user is signed in the tab "Sign out" is displayed, otherwise show the "Sign in" tab. You can achieve this by using the `authorizedUser` query with the [useQuery](https://www.apollographql.com/docs/react/api/react-hooks/#usequery) hook.
+
+Pressing the "Sign out" tab should remove the user's access token from the storage and reset the Apollo Client's store with the [resetStore](https://www.apollographql.com/docs/react/v2.5/api/apollo-client/#ApolloClient.resetStore) method. Calling the `resetStore` method should automatically re-execute all active queries which means that the `authorizedUser` query should be re-executed. Note that the order of execution is crucial: access token must be removed from the storage _before_ the Apollo Client's store is reset.
