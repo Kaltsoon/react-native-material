@@ -360,9 +360,9 @@ export default {
 };
 ```
 
-Restart Expo development tools to apply the changes and you should see that the value of `Constants.manifest` property has changed and now includes the `extra` property with our application specific configuration.
+Restart Expo development tools to apply the changes and you should see that the value of `Constants.manifest` property has changed and now includes the `extra` property with our application-specific configuration.
 
-Because using hard coded configuration is a bit silly, let's use envinronment variables instead:
+Because using hard coded configuration is a bit silly, let's use an envinronment variable instead:
 
 ```javascript
 export default {
@@ -374,19 +374,21 @@ export default {
 };
 ```
 
-As we have learned, we can set the environment variable value through the command line by defining the variable's name and value before the actual command. For example we can start Expo development tools and set the environment variable `ENV` value as `test` like this:
+As we have learned, we can set the value of an environment variable through the command line by defining the variable's name and value before the actual command. As an example, start Expo development tools and set the environment variable `ENV` as `test` like this:
 
 ```
 EVN=test npm start
 ```
 
-Try it out. If you take a look at the looks, you should see that `Constants.manifest` property has changed. We can also load environment variables from a `.env` file as we have learned in the previous parts. First we need to install the [Dotenv](https://www.npmjs.com/package/dotenv) library:
+If you take a look at the logs, you should see that `Constants.manifest` property has changed.
+
+We can also load environment variables from a `.env` file as we have learned in the previous parts. First, we need to install the [Dotenv](https://www.npmjs.com/package/dotenv) library:
 
 ```
 npm install dotenv
 ```
 
-Next, just add _.env_ file in the root directory of our project:
+Next, just add _.env_ file in the root directory of our project with the following content:
 
 ```
 ENV=development
@@ -408,7 +410,7 @@ export default {
 
 You need to restart Expo development tools to apply the changes you have made to the _.env_ file.
 
-Note that it is _never_ a good idea to put sensitive data into application's configuration. The reason for this is that once a user has downloaded your application, they can, at least in theory, reverse engineer your application and figure out the sensitive data you have stored into the code.
+Note that it is _never_ a good idea to put sensitive data into the application's configuration. The reason for this is that once a user has downloaded your application, they can, at least in theory, reverse engineer your application and figure out the sensitive data you have stored into the code.
 
 ## Exercise 10.10.
 
