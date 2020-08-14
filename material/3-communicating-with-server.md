@@ -252,7 +252,7 @@ The same goes for organizing mutations. The only difference is that we define th
 
 ## Evolving the structure
 
-Once our application grows larger there might times when certain files grow too large to manage. For example, we have component `A` which renders the components `B` and `C`. All these components are defined in a file _A.jsx_ in a _components_ directory. We would like to extract components `B` and `C` into their own files _B.jsx_ and _C.jsx_ without major refactors. We have two options:
+Once our application grows larger there might be times when certain files grow too large to manage. For example, we have component `A` which renders the components `B` and `C`. All these components are defined in a file _A.jsx_ in a _components_ directory. We would like to extract components `B` and `C` into their own files _B.jsx_ and _C.jsx_ without major refactors. We have two options:
 
 1. Create files _B.jsx_ and _C.jsx_ in the _components_ directory. This results in the following structure:
 
