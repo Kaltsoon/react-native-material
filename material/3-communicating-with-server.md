@@ -348,7 +348,7 @@ export default {
 };
 ```
 
-Expo has reserved an [extra](https://docs.expo.io/guides/environment-variables/#using-app-manifest-extra) property in the configuration for any application specific configuration. To see how this works, let's add a `env` variable into our application's configuration:
+Expo has reserved an [extra](https://docs.expo.io/guides/environment-variables/#using-app-manifest-extra) property in the configuration for any application-specific configuration. To see how this works, let's add a `env` variable into our application's configuration:
 
 ```javascript
 export default {
@@ -360,7 +360,7 @@ export default {
 };
 ```
 
-Restart Expo development tools to apply the changes and you should see that the value of `Constants.manifest` property has changed and now includes the `extra` property with our application-specific configuration.
+Restart Expo development tools to apply the changes and you should see that the value of `Constants.manifest` property has changed and now includes the `extra` property containing our application-specific configuration. Now the value of the `env` variable is accessible through the `Constants.manifest.extra.env` property.
 
 Because using hard coded configuration is a bit silly, let's use an envinronment variable instead:
 
@@ -380,7 +380,7 @@ As we have learned, we can set the value of an environment variable through the 
 EVN=test npm start
 ```
 
-If you take a look at the logs, you should see that `Constants.manifest` property has changed.
+If you take a look at the logs, you should see that the `Constants.manifest.extra.env` property has changed.
 
 We can also load environment variables from a `.env` file as we have learned in the previous parts. First, we need to install the [Dotenv](https://www.npmjs.com/package/dotenv) library:
 
@@ -388,7 +388,7 @@ We can also load environment variables from a `.env` file as we have learned in 
 npm install dotenv
 ```
 
-Next, just add _.env_ file in the root directory of our project with the following content:
+Next, add a _.env_ file in the root directory of our project with the following content:
 
 ```
 ENV=development
