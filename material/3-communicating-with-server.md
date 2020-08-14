@@ -296,44 +296,15 @@ The changes in the `useRepositories` hook should not affect the `RepositoryList`
 
 Every application will most likely run in more than one environment. Two obvious candidates for these environments are the development environment and the production environment. Out of these two, the development environment is the one we are running the application right now. Different environments usually have different dependencies, for example, the server we are developing locally might use a local database whereas the server that is deployed to the production environment uses the production database. To make the code environment independent we need to parametrize these dependencies. At the moment we are using one very environment dependant hardcoded value in our application: the URL of the server.
 
-We have previously learned that we can provide running programs with environment variables. These variables can be defined in the command line or using environment configuration files such as _.env_ files and third-party libraries such as Dotenv. Unfortunately, React Native doesn't have direct support for environment variables. However, we can use the [Babel](https://babeljs.io/) compiler to inject desired environment variables _at build time_. These variables can be defined in environment-specific _.env_ files.
+We have previously learned that we can provide running programs with environment variables. These variables can be defined in the command line or using environment configuration files such as _.env_ files and third-party libraries such as _Dotenv_. Unfortunately, React Native doesn't have direct support for environment variables. However, we can access the Expo configuration defined in the _app.json_ file located in the root directory of the project.
 
-Babel preset [react-native-dotenv](https://github.com/zetachang/react-native-dotenv) lets you import environment variables from a _.env_ file in React Native without any native code integration. Start by installing the dependency:
-
-```shell
-npm install react-native-dotenv --save-dev
-```
-
-Once installed, we can use the preset in the Babel compiler by including it in the configuration in the _babel.config.js_ file which is located in the root directory of your project:
-
-```javascript
-module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo', 'module:react-native-dotenv'],
-  };
-};
-```
-
-The way the preset works is that the environment variables are defined in _.env_ files. The _.env_ file contains development environment-related variables and _.env.production_ production environment-related variables. Add a file _.env_ in the root directory of your project with the following content:
-
-```
-ENV=development
-```
-
-Similarly, create a file _.env.production_ with the following content:
-
-```
-ENV=production
-```
-
-These variables can be accessed in the code by importing them from the _react-native-dotenv_ module. Let's try this by logging the value of the `ENV` variable in the `App` component:
+The configuration can be accessed by importing the `Constants` variable from the _expo-constants_ module as be have done a few times before. Once imported, the `Constants.manifest` property will contain the configuration. Let's try this by logging `Constants.manifest` in the `App` component:
 
 ```javascript
 import React from 'react';
 import { NativeRouter } from 'react-router-native';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { ENV } from 'react-native-dotenv';
+import Constants from 'expo-constants';
 
 import Main from './src/components/Main';
 import createApolloClient from './src/utils/apolloClient';
@@ -341,7 +312,7 @@ import createApolloClient from './src/utils/apolloClient';
 const apolloClient = createApolloClient();
 
 const App = () => {
-  console.log(ENV);
+  console.log(Constants.manifest);
 
   return (
     <NativeRouter>
@@ -355,11 +326,93 @@ const App = () => {
 export default App;
 ```
 
-You should see the value of the _ENV_ variable in the logs. You can remove the log message and the import, once you have succesfully logged the variable's value. Note that it is _never_ a good idea to put sensitive data into the React Native's environment variables. The reason for this is that once a user has downloaded your application, they can, at least in theory, reverse engineer your application and figure out the sensitive data you have stored into the code.
+You should now see the configuration in the logs.
+
+The next step is to use the configuration to define environment dependant variables in our application. Let's get started by renaming the _app.json_ file to _app.config.js_. Once the file is renamed, we can use JavaScript inside the configuration file. Change the file contents so that the previous object:
+
+```javascript
+{
+  "expo": {
+    "name": "rate-repository-app",
+    // rest of the configuration...
+  }
+}
+```
+
+Is turned into and export, which contains the contents of the `expo` property:
+
+```javascript
+export default {
+   name: 'rate-repository-app',
+   // rest of the configuration...
+};
+```
+
+Expo has reserved an [extra](https://docs.expo.io/guides/environment-variables/#using-app-manifest-extra) property in the configuration for any application specific configuration. To see how this works, let's add a `env` variable into our application's configuration:
+
+```javascript
+export default {
+   name: 'rate-repository-app',
+   // rest of the configuration...
+   extra: {
+     env: 'development'
+   },
+};
+```
+
+Restart Expo development tools to apply the changes and you should see that the value of `Constants.manifest` property has changed and now includes the `extra` property with our application specific configuration.
+
+Because using hard coded configuration is a bit silly, let's use envinronment variables instead:
+
+```javascript
+export default {
+   name: 'rate-repository-app',
+   // rest of the configuration...
+   extra: {
+     env: process.env.ENV,
+   },
+};
+```
+
+As we have learned, we can set the environment variable value through the command line by defining the variable's name and value before the actual command. For example we can start Expo development tools and set the environment variable `ENV` value as `test` like this:
+
+```
+EVN=test npm start
+```
+
+Try it out. If you take a look at the looks, you should see that `Constants.manifest` property has changed. We can also load environment variables from a `.env` file as we have learned in the previous parts. First we need to install the [Dotenv](https://www.npmjs.com/package/dotenv) library:
+
+```
+npm install dotenv
+```
+
+Next, just add _.env_ file in the root directory of our project:
+
+```
+ENV=development
+```
+
+Finally, import the library in the _app.config.js_ file:
+
+```javascript
+import 'dotenv/config';
+
+export default {
+   name: 'rate-repository-app',
+   // rest of the configuration...
+   extra: {
+     env: process.env.ENV,
+   },
+};
+```
+
+You need to restart Expo development tools to apply the changes you have made to the _.env_ file.
+
+Note that it is _never_ a good idea to put sensitive data into application's configuration. The reason for this is that once a user has downloaded your application, they can, at least in theory, reverse engineer your application and figure out the sensitive data you have stored into the code.
 
 ## Exercise 10.10.
 
-Instead of the hardcoded Apollo Server's URL, use an environment variable when initializing the Apollo Client. You can name the variable for example `APOLLO_URI`. For now, it is enough that you only define the variable in the _development environment_, because we aren't aware of the production URL of the Apollo Server.
+Instead of the hardcoded Apollo Server's URL, use an environment variable defined in the _.env_ file when initializing the Apollo Client. You can name the variable for example `APOLLO_URI`.
 
 ## Storing data in the user's device
 
