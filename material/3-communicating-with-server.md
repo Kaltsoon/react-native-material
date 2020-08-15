@@ -652,7 +652,7 @@ export default App;
 Accessing the storage instance in the `useSignIn` hook is now possible using the React's [useContext](https://reactjs.org/docs/hooks-reference.html#usecontext) hook like this:
 
 ```javascript
-import { useContext } from 'React';
+import { useContext } from 'react';
 // ...
 
 import AuthStorageContext from '../contexts/AuthStorageContext';
