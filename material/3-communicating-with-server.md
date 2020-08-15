@@ -377,7 +377,7 @@ export default {
 As we have learned, we can set the value of an environment variable through the command line by defining the variable's name and value before the actual command. As an example, start Expo development tools and set the environment variable `ENV` as `test` like this:
 
 ```
-EVN=test npm start
+ENV=test npm start
 ```
 
 If you take a look at the logs, you should see that the `Constants.manifest.extra.env` property has changed.
