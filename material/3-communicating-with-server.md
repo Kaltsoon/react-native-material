@@ -298,7 +298,7 @@ Every application will most likely run in more than one environment. Two obvious
 
 We have previously learned that we can provide running programs with environment variables. These variables can be defined in the command line or using environment configuration files such as _.env_ files and third-party libraries such as _Dotenv_. Unfortunately, React Native doesn't have direct support for environment variables. However, we can access the Expo configuration defined in the _app.json_ file at runtime from our JavaScript code. This configuration can be used define and access environment dependant variables.
 
-The configuration can be accessed by importing the `Constants` variable from the _expo-constants_ module as be have done a few times before. Once imported, the `Constants.manifest` property will contain the configuration. Let's try this by logging `Constants.manifest` in the `App` component:
+The configuration can be accessed by importing the `Constants` constant from the _expo-constants_ module as be have done a few times before. Once imported, the `Constants.manifest` property will contain the configuration. Let's try this by logging `Constants.manifest` in the `App` component:
 
 ```javascript
 import React from 'react';
