@@ -362,7 +362,7 @@ export default {
 
 Restart Expo development tools to apply the changes and you should see that the value of `Constants.manifest` property has changed and now includes the `extra` property containing our application-specific configuration. Now the value of the `env` variable is accessible through the `Constants.manifest.extra.env` property.
 
-Because using hard coded configuration is a bit silly, let's use an envinronment variable instead:
+Because using hard coded configuration is a bit silly, let's use an environment variable instead:
 
 ```javascript
 export default {
@@ -456,8 +456,8 @@ class ShoppingCartStorage {
 }
 
 const doShopping = async () => {
-  const shoppinCartA = new ShoppingCartStorage('shoppingCartA');
-  const shoppinCartB = new ShoppingCartStorage('shoppingCartB');
+  const shoppingCartA = new ShoppingCartStorage('shoppingCartA');
+  const shoppingCartB = new ShoppingCartStorage('shoppingCartB');
 
   await shoppingCartA.addProduct('chips');
   await shoppingCartA.addProduct('soda');

@@ -416,7 +416,7 @@ const FlexboxExample = () => {
 Perhaps the most important properties of a flex container are the following:
 
 - [flexDirection](https://css-tricks.com/almanac/properties/f/flex-direction/) property controls the direction in which the flex items are laid out within the container. Possible values for this property are `row`, `row-reverse`, `column` (default value) and `column-reverse`. Flex direction `row` will lay out the flex items from left to right, whereas `column` from top to bottom. `*-reverse` directions will just reverse the order of the flex items.
-- [justifyContent](https://css-tricks.com/almanac/properties/j/justify-content/) property controls the aligment of flex items along the main axis (defined by the `flexDirection` property). Possible values for this property are `flex-start` (default value), `flex-end`, `center`, `space-between`, `space-around` and `space-evenly`.
+- [justifyContent](https://css-tricks.com/almanac/properties/j/justify-content/) property controls the alignment of flex items along the main axis (defined by the `flexDirection` property). Possible values for this property are `flex-start` (default value), `flex-end`, `center`, `space-between`, `space-around` and `space-evenly`.
 - [alignItems](https://css-tricks.com/almanac/properties/a/align-items/) property does the same as `justifyContent` but for the opposite axis. Possible values for this property are `flex-start`, `flex-end`, `center`, `baseline` and `stretch` (default value).
 
 Let's move on to flex items. As mentioned, a flex container can contain one or many flex items. Flex items have properties that control how they behave in respect of other flex items in the same flex container. To make a component a flex item all you have to do is to set it as an immediate child of a flex container:
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   },
   flexItemA: {
     flexGrow: 0,
-    backgrundColor: 'green',
+    backgroundColor: 'green',
   },
   flexItemB: {
     flexGrow: 1,
@@ -455,7 +455,7 @@ const FlexboxExample = () => {
 
 One of the most commonly used properties of flex item is the [flexGrow](https://css-tricks.com/almanac/properties/f/flex-grow/) property. It accepts a unitless value which defines the ability for a flex item to grow if necessary. If every flex items have a `flexGrow` of `1`, they will share all the available space evenly. If a flex item have a `flexGrow` of `0` it will only use the space its content requires and leave rest of the space for other flex items.
 
-Here is a more interactive and concreate example of how to use flexbox to implement a simple card component with header, body and footer: [Flexbox example](https://snack.expo.io/@kalleilv/3d045d).
+Here is a more interactive and concrete example of how to use flexbox to implement a simple card component with header, body and footer: [Flexbox example](https://snack.expo.io/@kalleilv/3d045d).
 
 <!-- TODO: embedded snack
 <div data-snack-id="@kalleilv/flexbox-example" data-snack-platform="web" data-snack-preview="true" data-snack-theme="light" style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:505px;width:100%"></div>
@@ -498,7 +498,7 @@ The background color of the app bar in the image is `#24292e` but you can use an
 
 ### Exercise 10.5.
 
-The current version of the reviewed repositories list looks quite grim. Modify the _RepositoryListItem_ component so that it also displays reporitory author's avatar image. You can implement this by using the [Image](https://reactnative.dev/docs/image) component. Counts, such as number of stars and forks, larger than or equal to 1000 should be displayed in thousands with precision of one decimal and with a "k" suffix. This means that for example fork count of 8439 should be displayed as "8.4k". Also polish the overall look of the component so that the reviewed repositories list looks something like this:
+The current version of the reviewed repositories list looks quite grim. Modify the _RepositoryListItem_ component so that it also displays repository author's avatar image. You can implement this by using the [Image](https://reactnative.dev/docs/image) component. Counts, such as number of stars and forks, larger than or equal to 1000 should be displayed in thousands with precision of one decimal and with a "k" suffix. This means that for example fork count of 8439 should be displayed as "8.4k". Also polish the overall look of the component so that the reviewed repositories list looks something like this:
 
 ![Application preview](images/7.jpg)
 
@@ -530,7 +530,7 @@ const createExpoWebpackConfigAsync = require('@expo/webpack-config');
 
 module.exports = async function(env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
-  
+
   config.module.rules.push(
     {
       test: /\.js$/,
@@ -543,7 +543,7 @@ module.exports = async function(env, argv) {
 };
 ```
 
-Finally, restart Expo's development tools so that our new Webpack configuration will be applied. 
+Finally, restart Expo's development tools so that our new Webpack configuration will be applied.
 
 Now that the Expo's web browser preview is fixed, open the _App.js_ file and add the `NativeRouter` component to the `App` component:
 
@@ -566,7 +566,7 @@ const App = () => {
 export default App;
 ```
 
-Once the router is in place, let's add our first route to the `Main` componenent in the _Main.jsx_ file:
+Once the router is in place, let's add our first route to the `Main` component in the _Main.jsx_ file:
 
 <!-- TODO: highlight -->
 
@@ -707,9 +707,9 @@ const BodyMassIndexCalculator = () => {
 
 This example is not part of our application, so you don't need to actually add this code to the application. You can however try it out for example in [Expo Snack](https://snack.expo.io/). Expo Snack is an online editor for React Native, similar to [JSFiddle](https://jsfiddle.net/) and [CodePen](https://codepen.io/). It is a useful platform for quickly trying out code. You can share Expo Snacks with others using a link or embedding them as a <i>Snack Player</i> in a web site. You might have bumped into Snack Players for example in this material and React Native documentation.
 
-In the example, we define the `Formik` context in the `BodyMassIndexCalculator` component and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errros. Children of the `Formik` component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
+In the example, we define the `Formik` context in the `BodyMassIndexCalculator` component and provided it with initial values and a submit callback. Initial values are provided through the [initialValues](https://jaredpalmer.com/formik/docs/api/formik#initialvalues-values) prop as an object with field names as keys and the corresponding initial values as values. The submit callback is provided through the [onSubmit](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany) prop and it is called when the `handleSubmit` function is called with the condition that there isn't any validation errors. Children of the `Formik` component is a function which is called with [props](https://jaredpalmer.com/formik/docs/api/formik#formik-render-methods-and-props) including state related information and actions such as the `handleSubmit` function.
 
-The `BodyMassIndexForm` component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a posibble error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function. Note that the component that uses the `useField` hook has to be _within the Formik's context_. This means that the component has to be a descendant of the `Formik` component.
+The `BodyMassIndexForm` component contains the state bindings between the context and text inputs. We use the [useField](https://jaredpalmer.com/formik/docs/api/useField) hook to get the value of a field and to change it. _useField_ hooks has one argument which is the name of the field and it returns an array with three values, `[field, meta, helpers]`. The [field object](https://jaredpalmer.com/formik/docs/api/useField#fieldinputpropsvalue) contains the value of the field, the [meta object](https://jaredpalmer.com/formik/docs/api/useField#fieldmetapropsvalue) contains field meta information such as a possible error message and the [helpers object](https://jaredpalmer.com/formik/docs/api/useField#fieldhelperprops) contains different actions for changing the state of field such as the `setValue` function. Note that the component that uses the `useField` hook has to be _within the Formik's context_. This means that the component has to be a descendant of the `Formik` component.
 
 Here is an interactive version of our previous example: [Formik example](https://snack.expo.io/@kalleilv/9e9e0d).
 
@@ -821,7 +821,7 @@ The second approach is the validation schema which is provided for the `Formik` 
 npm install yup
 ```
 
-Next, as an example, let's create validation schema for the body mass index form we implemented earlier. We wan't to validate that both _mass_ and _height_ fields are present and they are numeric. Also the value of _mass_ should be greater or equal to 1 and the value of _height_ should be greater or equal to 0.5. Here is how we define the schema:
+Next, as an example, let's create validation schema for the body mass index form we implemented earlier. We want to validate that both _mass_ and _height_ fields are present and they are numeric. Also the value of _mass_ should be greater or equal to 1 and the value of _height_ should be greater or equal to 0.5. Here is how we define the schema:
 
 <!-- TODO: highlight  -->
 
@@ -859,7 +859,7 @@ const BodyMassIndexCalculator = () => {
 
 The validation is performed by default every time a field's value changes and when the `handleSubmit` function is called. If the validation fails, the function provided for the `onSubmit` prop of the `Formik` component is not called.
 
-The `FormikTextInput` component we previously implemented displayes field's error message if it is present and the field is "touched", meaning that the field has received and lost focus:
+The `FormikTextInput` component we previously implemented displays field's error message if it is present and the field is "touched", meaning that the field has received and lost focus:
 
 ```javascript
 const FormikTextInput = ({ name, ...props }) => {

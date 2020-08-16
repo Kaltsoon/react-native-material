@@ -155,7 +155,7 @@ describe('Greeting', () => {
 });
 ```
 
-The `render` function returns the queries and additional helpers, such as the `debug` function. The [debug](https://callstack.github.io/react-native-testing-library/docs/api#debug) function prints the rendered React tree in a user-friendly format. Use it if you are unsure what the React tree rendered by the `render` function looks like. We acquire the `Text` node tagged with the `testID` prop by using the `getBytestId` function. For all available queries, check the React Native Testing Library's [documentation](https://callstack.github.io/react-native-testing-library/docs/api-queries). The `toHaveTextContent` matcher is used to assert that the node's textual content is correct. The full list of available React Native specific matchers can be found in the [documentation](https://github.com/testing-library/jest-native#matchers) of the jest-native library. Jest's [documentation](https://jestjs.io/docs/en/expect) contains every universal Jest matcher.
+The `render` function returns the queries and additional helpers, such as the `debug` function. The [debug](https://callstack.github.io/react-native-testing-library/docs/api#debug) function prints the rendered React tree in a user-friendly format. Use it if you are unsure what the React tree rendered by the `render` function looks like. We acquire the `Text` node tagged with the `testID` prop by using the `getByTestId` function. For all available queries, check the React Native Testing Library's [documentation](https://callstack.github.io/react-native-testing-library/docs/api-queries). The `toHaveTextContent` matcher is used to assert that the node's textual content is correct. The full list of available React Native specific matchers can be found in the [documentation](https://github.com/testing-library/jest-native#matchers) of the jest-native library. Jest's [documentation](https://jestjs.io/docs/en/expect) contains every universal Jest matcher.
 
 The second very important React Native Testing Library concept is firing events. We can fire an event in a provided node by using the [fireEvent](https://callstack.github.io/react-native-testing-library/docs/api#fireevent) object's methods. This is useful for example typing text into a text field or pressing a button. Here is an example of how to test submitting a simple form:
 
@@ -273,7 +273,7 @@ const RepositoryList = () => {
 export default RepositoryList;
 ```
 
-Now, the `RepositoryList` component contains only the side effects and its implementation is quite simple. We can test the `RepositoListContainer` component by providing it with paginated repository data through the `repositories` prop and checking that the rendered content has the correct information. This can be achieved by tagging the required `RepositoryItem` component's nodes with `testID` props.
+Now, the `RepositoryList` component contains only the side effects and its implementation is quite simple. We can test the `RepositoryListContainer` component by providing it with paginated repository data through the `repositories` prop and checking that the rendered content has the correct information. This can be achieved by tagging the required `RepositoryItem` component's nodes with `testID` props.
 
 ## Exercises 10.15. - 10.16.
 
@@ -874,7 +874,7 @@ const useRepositories = (variables) => {
 
 Make sure you have the `pageInfo` and the `cursor` fields in your `repositories` query as described in the pagination examples. You will also need to include the `after` and `first` arguments for the query.
 
-The `handleFetchMore` function will call the Apollo Client's `fetchMore` function if there are more items to fetch, which is determined by the `hasNextPage` property. We also want to prevent fetching more items if fetching is already in process. In this case, `loading` will be `true`. In the `fetchMore` function we are providing the query with an `after` variable, which receives the latest `endCursor` value. In the `upadateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
+The `handleFetchMore` function will call the Apollo Client's `fetchMore` function if there are more items to fetch, which is determined by the `hasNextPage` property. We also want to prevent fetching more items if fetching is already in process. In this case, `loading` will be `true`. In the `fetchMore` function we are providing the query with an `after` variable, which receives the latest `endCursor` value. In the `updateQuery` we will merge the previous edges with the fetched edges and update the query so that the `pageInfo` contains the latest information.
 
 The final step is to call the `fetchMore` function in the `onEndReach` handler:
 
