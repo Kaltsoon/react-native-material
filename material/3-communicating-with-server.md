@@ -665,6 +665,8 @@ const useSignIn = () => {
 
 Note that accessing a context's value using the `useContext` hook only works if the `useContext` hook is used in a component that is a _descendant_ of the [Context.Provider](https://reactjs.org/docs/context.html#contextprovider) component.
 
+The ability to provide data to component's descendants opens tons of use cases for React Context. To learn more about these use cases, read Kent C. Dodds' enlightening article [How to use React Context effectively](https://kentcdodds.com/blog/how-to-use-react-context-effectively) to find out how to combine the [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) hook with the context to implement state management. You might find a way to use this knowledge in the upcoming exercises.
+
 ## Exercises 10.13. - 10.14.
 
 ### Exercise 10.13.
