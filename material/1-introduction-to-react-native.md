@@ -125,16 +125,16 @@ And finally, let's add a `lint` script to the _package.json_ file to check the l
 
 ```javascript
 {
-  "plugins": ["react"],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true
+  // ...
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "lint": "eslint ./src/**/*.{js,jsx} App.js --no-error-on-unmatched-pattern"
   },
-  "rules": {
-    "react/prop-types": "off",
-    "semi": "error"
-  }
+  // ...
 }
 ```
 
