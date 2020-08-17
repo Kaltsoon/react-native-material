@@ -925,7 +925,7 @@ As with the reviewed repositories list, use a relatively small `first` argument 
 
 ### Exercise 10.24.
 
-Implement a feature which allows user to see their reviews. Once signed in, the user should be allowed to access this view by pressing a "My reviews" tab in the app bar. Implementing an infinite scrolling for the review list is _optional_ in this exercise. Here is what the review list view should roughly look like:
+Implement a feature which allows user to see their reviews. Once signed in, the user should be able to access this view by pressing a "My reviews" tab in the app bar. Implementing an infinite scrolling for the review list is _optional_ in this exercise. Here is what the review list view should roughly look like:
 
 ![Application preview](images/20.jpg)
 
