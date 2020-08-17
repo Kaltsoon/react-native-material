@@ -974,7 +974,9 @@ Now that user can see their reviews, let's add some actions to the reviews. Unde
 
 ![Application preview](images/21.jpg)
 
-Pressing the delete button should be followed by a confirmation alert. If the user confirms the deletion, the review is deleted. Otherwise, the deletion is discarded. You can implement the confirmation using the [Alert](https://reactnative.dev/docs/alert) module. Here is the confirmation alert that should pop out once the user presses the delete button:
+Pressing the delete button should be followed by a confirmation alert. If the user confirms the deletion, the review is deleted. Otherwise, the deletion is discarded. You can implement the confirmation using the [Alert](https://reactnative.dev/docs/alert) module. Note that calling the `Alert.alert` method won't open any window in Expo web preview. Use either Expo mobile app or an emulator to see the what the alert window looks like.
+
+Here is the confirmation alert that should pop out once the user presses the delete button:
 
 ![Application preview](images/22.jpg)
 
