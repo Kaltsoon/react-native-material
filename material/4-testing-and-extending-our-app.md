@@ -884,7 +884,9 @@ export default RepositoryList;
 
 Use a relatively small `first` argument value such as 8 while trying out the infinite scrolling. This way you don't need to review too many repositories. You might face an issue that the `onEndReach` handler is called immediately after the view is loaded. This is most likely because the list contains so few repositories that the end of the list is reached immediately. You can get around this issue by increasing the value of `first` argument. Once you are confident that the infinite scrolling is working, feel free to use a larger value for the `first` argument.
 
-## Exercise 10.23.
+## Exercises 10.23.-10.25.
+
+### Exercise 10.23.
 
 Implement infinite scrolling for the repository's reviews list. The `Repository` type's `reviews` field has the `first` and `after` arguments similar to the `repositories` query. `ReviewConnection` type also has the `pageInfo` field just like the `RepositoryConnection` type. Here's an example query:
 
@@ -920,6 +922,63 @@ Implement infinite scrolling for the repository's reviews list. The `Repository`
 ```
 
 As with the reviewed repositories list, use a relatively small `first` argument value while you are trying out the infinite scrolling. You might need to create a few new users and use them to create a few new reviews to make the reviews list long enough to scroll. Set the value of the `first` argument high enough so that the `onEndReach` handler isn't called immediately after the view is loaded, but low enough so that you can see that more reviews are fetched once you reach the end of the list. Once everything is working as intended you can use a larger value for the `first` argument.
+
+### Exercise 10.24.
+
+Implement a feature which allows user to see their reviews. Once signed in, the user should be allowed to access this view by pressing a "My reviews" tab in the app bar. Implementing an infinite scrolling for the review list is _optional_ in this exercise. Here is what the review list view should roughly look like:
+
+![Application preview](images/20.jpg)
+
+Remember that you can fetch the authorized user from the Apollo Server with the `authorizedUser` query. This query returns a `User` type, which has a field `reviews`. If you have already implemented a reusable `authorizedUser` query in your code, you can customize this query to fetch the `reviews` field conditionally. This can be done using GraphQL's [include](https://graphql.org/learn/queries/#directives) directive.
+
+Let's say that the current query is implemented roughly in the following manner:
+
+```javascript
+const GET_AUTHORIZED_USER = gql`
+  query {
+    authorizedUser {
+      # user fields...
+    }
+  }
+`;
+```
+
+You can provide the query with an `includeReviews` argument an use that with the `include` directive:
+
+```javascript
+const GET_AUTHORIZED_USER = gql`
+  query getAuthorizedUser($includeReviews: Boolean = false) {
+    authorizedUser {
+      # user fields...
+      reviews @include(if $includeReviews) {
+        edges {
+          node {
+            # review fields...
+          }
+          cursor
+        }
+        pageInfo {
+          # page info fields...
+        }
+      }
+    }
+  }
+`;
+```
+
+The `includeReviews` argument has a default value of `false`, because we don't want to cause additional server overhead unless we explicitly want to fetch authorize user's reviews. The principle of the `include` directive is quite simple: if the value of the `if` argument is `true`, include the fields, otherwise omit it.
+
+### Exercise 10.25.
+
+Now that user can see their reviews, let's add some actions to the reviews. Under each review on the review list, there should be two buttons. One button is for viewing the review's repository. Pressing this button should take the user to the single repository review implemented in the previous exercise. The other button is for deleting the repository. Pressing this button should delete the review. Here is what the actions should roughly look like:
+
+![Application preview](images/21.jpg)
+
+Pressing the delete button should be followed by a confirmation alert. If the user confirms the deletion, the review is deleted. Otherwise, the deletion is discarded. You can implement the confirmation using the [Alert](https://reactnative.dev/docs/alert) module. Here is the confirmation alert that should pop out once the user presses the delete button:
+
+![Application preview](images/22.jpg)
+
+You can delete a review using the `deleteReview` mutation. This mutation has a single argument, which is the id of the review to be deleted.
 
 This was the last exercise of this part of the course. It's time to push your code to GitHub and mark all of your finished exercises to the [exercise submission system](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
 
