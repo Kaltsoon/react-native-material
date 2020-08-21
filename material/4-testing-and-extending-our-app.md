@@ -902,7 +902,7 @@ const GET_AUTHORIZED_USER = gql`
 `;
 ```
 
-The `includeReviews` argument has a default value of `false`, because we don't want to cause additional server overhead unless we explicitly want to fetch authorize user's reviews. The principle of the `include` directive is quite simple: if the value of the `if` argument is `true`, include the fields, otherwise omit it.
+The `includeReviews` argument has a default value of `false`, because we don't want to cause additional server overhead unless we explicitly want to fetch authorize user's reviews. The principle of the `include` directive is quite simple: if the value of the `if` argument is `true`, include the field, otherwise omit it.
 
 ### Exercise 10.25.
 
