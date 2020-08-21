@@ -567,6 +567,11 @@ You probably face an issue that the text input component loses focus after each 
 ```javascript
 export class RepositoryListContainer extends React.Component {
   renderHeader = () => {
+    // this.props contains the component's props
+    const props = this.props;
+    
+    // ...
+  
     return (
       <RepositoryListHeader
       // ...
