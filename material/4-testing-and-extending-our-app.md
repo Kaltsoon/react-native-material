@@ -886,7 +886,7 @@ const GET_AUTHORIZED_USER = gql`
   query getAuthorizedUser($includeReviews: Boolean = false) {
     authorizedUser {
       # user fields...
-      reviews @include(if $includeReviews) {
+      reviews @include(if: $includeReviews) {
         edges {
           node {
             # review fields...
